@@ -51,25 +51,25 @@
 
 
 
-<meta name="description" content="Cocos2d-x游戏接入安卓第三方SDK1.概述U3D游戏和Cocos2dx手游都会接入不同渠道的支付方式，本文以360渠道接入作为演示。
+<meta name="description" content="Cocos2d-x游戏接入安卓第三方SDK1.概述U3D游戏和Cocos2dx手游都会接入不同渠道的支付方式，本文运用jni知识以360渠道接入作为演示。
 2.环境OS: win10IDE: EclipseAdnroid NDK:r10ecocos2d-x-3.9
 3.创建Cocos2d-x工程运行命令
-cocos new -p com.ohj.cocos2dx360 -l cpp -d Cocos2dx360">
+cocos new -p com.ohj.cocos2dx360 -l cpp -d Coco">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Cocos2d-x接入第三方SDK">
 <meta property="og:url" content="http://yoursite.com/2016/01/11/Cocos2d-x接入第三方SDK/index.html">
 <meta property="og:site_name" content="C君's Blog">
-<meta property="og:description" content="Cocos2d-x游戏接入安卓第三方SDK1.概述U3D游戏和Cocos2dx手游都会接入不同渠道的支付方式，本文以360渠道接入作为演示。
+<meta property="og:description" content="Cocos2d-x游戏接入安卓第三方SDK1.概述U3D游戏和Cocos2dx手游都会接入不同渠道的支付方式，本文运用jni知识以360渠道接入作为演示。
 2.环境OS: win10IDE: EclipseAdnroid NDK:r10ecocos2d-x-3.9
 3.创建Cocos2d-x工程运行命令
-cocos new -p com.ohj.cocos2dx360 -l cpp -d Cocos2dx360">
-<meta property="og:updated_time" content="2016-01-11T08:24:41.657Z">
+cocos new -p com.ohj.cocos2dx360 -l cpp -d Coco">
+<meta property="og:updated_time" content="2016-01-11T09:52:22.250Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cocos2d-x接入第三方SDK">
-<meta name="twitter:description" content="Cocos2d-x游戏接入安卓第三方SDK1.概述U3D游戏和Cocos2dx手游都会接入不同渠道的支付方式，本文以360渠道接入作为演示。
+<meta name="twitter:description" content="Cocos2d-x游戏接入安卓第三方SDK1.概述U3D游戏和Cocos2dx手游都会接入不同渠道的支付方式，本文运用jni知识以360渠道接入作为演示。
 2.环境OS: win10IDE: EclipseAdnroid NDK:r10ecocos2d-x-3.9
 3.创建Cocos2d-x工程运行命令
-cocos new -p com.ohj.cocos2dx360 -l cpp -d Cocos2dx360">
+cocos new -p com.ohj.cocos2dx360 -l cpp -d Coco">
 
 
 
@@ -241,7 +241,7 @@ cocos new -p com.ohj.cocos2dx360 -l cpp -d Cocos2dx360">
       
 
       
-        <span itemprop="articleBody"><h1 id="Cocos2d-x_u6E38_u620F_u63A5_u5165_u5B89_u5353_u7B2C_u4E09_u65B9SDK"><a href="#Cocos2d-x_u6E38_u620F_u63A5_u5165_u5B89_u5353_u7B2C_u4E09_u65B9SDK" class="headerlink" title="Cocos2d-x游戏接入安卓第三方SDK"></a>Cocos2d-x游戏接入安卓第三方SDK</h1><h2 id="1-_u6982_u8FF0"><a href="#1-_u6982_u8FF0" class="headerlink" title="1.概述"></a>1.概述</h2><p>U3D游戏和Cocos2dx手游都会接入不同渠道的支付方式，本文以360渠道接入作为演示。</p>
+        <span itemprop="articleBody"><h1 id="Cocos2d-x_u6E38_u620F_u63A5_u5165_u5B89_u5353_u7B2C_u4E09_u65B9SDK"><a href="#Cocos2d-x_u6E38_u620F_u63A5_u5165_u5B89_u5353_u7B2C_u4E09_u65B9SDK" class="headerlink" title="Cocos2d-x游戏接入安卓第三方SDK"></a>Cocos2d-x游戏接入安卓第三方SDK</h1><h2 id="1-_u6982_u8FF0"><a href="#1-_u6982_u8FF0" class="headerlink" title="1.概述"></a>1.概述</h2><p>U3D游戏和Cocos2dx手游都会接入不同渠道的支付方式，本文运用jni知识以360渠道接入作为演示。</p>
 <h2 id="2-_u73AF_u5883"><a href="#2-_u73AF_u5883" class="headerlink" title="2.环境"></a>2.环境</h2><p>OS: win10<br>IDE: Eclipse<br>Adnroid NDK:r10e<br>cocos2d-x-3.9</p>
 <h2 id="3-_u521B_u5EFACocos2d-x_u5DE5_u7A0B"><a href="#3-_u521B_u5EFACocos2d-x_u5DE5_u7A0B" class="headerlink" title="3.创建Cocos2d-x工程"></a>3.创建Cocos2d-x工程</h2><p>运行命令</p>
 <pre><code>cocos new -p com.ohj.cocos2dx360 -l cpp -d Cocos2dx360SDK
@@ -342,6 +342,8 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
                ../../Classes/SDK360.cpp \
                ../../Classes/HelloWorldScene.cpp
 </code></pre><p>修改过c++文件都要重新编译一下.so文件<br>执行build_native.py 编译成功后你就可以run运行起来了。</p>
+<p>ps: 调用360支付也同样道理.</p>
+<p><a href="https://github.com/gdmec07120731/Cocos2dx360SDK" target="_blank" rel="external">Demo下载。</a></p>
 </span>
       
     </div>
