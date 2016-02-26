@@ -267,7 +267,8 @@
               v -&gt; {
          //dosomething
 });
-</code></pre><h1 id="2_u3001AndroidStudio_u600E_u4E48_u914D_u7F6ELambda"><a href="#2_u3001AndroidStudio_u600E_u4E48_u914D_u7F6ELambda" class="headerlink" title="2、AndroidStudio怎么配置Lambda"></a>2、AndroidStudio怎么配置Lambda</h1><h1 id="1-_u5728build-gradle_28Moudle_3Aapp_29"><a href="#1-_u5728build-gradle_28Moudle_3Aapp_29" class="headerlink" title="1.在build.gradle(Moudle:app)"></a>1.在build.gradle(Moudle:app)</h1><pre><code>apply plugin:&apos;me.tatarka.retrolambda&apos;
+</code></pre><h1 id="2_u3001AndroidStudio_u600E_u4E48_u914D_u7F6ELambda"><a href="#2_u3001AndroidStudio_u600E_u4E48_u914D_u7F6ELambda" class="headerlink" title="2、AndroidStudio怎么配置Lambda"></a>2、AndroidStudio怎么配置Lambda</h1><p>   在build.gradle(Moudle:app) </p>
+<pre><code>apply plugin:&apos;me.tatarka.retrolambda&apos;
 
 android{
    compileOptions{
@@ -275,7 +276,8 @@ android{
       targetCompatibility org.gradle.api.JavaVersion.VERSION_1_8
    }
 }
-</code></pre><h2 id="2-_u5728build-gradle_28Project_3A_u9879_u76EE_u540D_29"><a href="#2-_u5728build-gradle_28Project_3A_u9879_u76EE_u540D_29" class="headerlink" title="2.在build.gradle(Project:项目名)"></a>2.在build.gradle(Project:项目名)</h2><pre><code>buildscript {
+</code></pre><p>在build.gradle(Project:项目名)  </p>
+<pre><code>buildscript {
 
 dependencies {
     classpath &apos;com.android.tools.build:gradle:2.0.0-beta6&apos;
@@ -362,7 +364,7 @@ dependencies {
 
           <div class="site-state-item site-state-tags">
             
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">標籤</span>
               
           </div>
