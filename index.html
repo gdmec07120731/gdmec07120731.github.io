@@ -118,7 +118,7 @@
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle">如果暴力不是为了杀戮那将毫无意义</p>
+  <p class="site-subtitle">Thanks for your watching and subscribing</p>
 </div>
 
 <div class="site-nav-toggle">
@@ -152,6 +152,16 @@
               <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
             
             歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            關於
           </a>
         </li>
       
@@ -254,7 +264,7 @@
         
           <span itemprop="articleBody">
             
-              <p>#1、什么是Lambda #<br>Java 8的一个大亮点是引入Lambda表达式，使用它设计的代码会更加简洁。当开发者在编写Lambda表达式时，也会随之被编译成一个函数式接口。下面这个例子就是使用Lambda语法来代替匿名的内部类，代码不仅简洁，而且还可读。_来源百度百科</p>
+              <h4 id="1_u3001_u4EC0_u4E48_u662FLambda"><a href="#1_u3001_u4EC0_u4E48_u662FLambda" class="headerlink" title="1、什么是Lambda"></a>1、什么是Lambda</h4><p>Java 8的一个大亮点是引入Lambda表达式，使用它设计的代码会更加简洁。当开发者在编写Lambda表达式时，也会随之被编译成一个函数式接口。下面这个例子就是使用Lambda语法来代替匿名的内部类，代码不仅简洁，而且还可读。_来源百度百科</p>
 <p>使用Lambda前</p>
 <pre><code>button.setOnClickListener(new View.OnClickListener() {
      @Override
@@ -267,7 +277,7 @@
               v -&gt; {
          //dosomething
 });
-</code></pre><h1 id="2_u3001AndroidStudio_u600E_u4E48_u914D_u7F6ELambda"><a href="#2_u3001AndroidStudio_u600E_u4E48_u914D_u7F6ELambda" class="headerlink" title="2、AndroidStudio怎么配置Lambda"></a>2、AndroidStudio怎么配置Lambda</h1><p>   在build.gradle(Moudle:app) </p>
+</code></pre><h4 id="2_u3001AndroidStudio_u600E_u4E48_u914D_u7F6ELambda"><a href="#2_u3001AndroidStudio_u600E_u4E48_u914D_u7F6ELambda" class="headerlink" title="2、AndroidStudio怎么配置Lambda"></a>2、AndroidStudio怎么配置Lambda</h4><p>   在build.gradle(Moudle:app) </p>
 <pre><code>apply plugin:&apos;me.tatarka.retrolambda&apos;
 
 android{
@@ -287,6 +297,289 @@ dependencies {
 
 }
 </code></pre><p>以上配置完毕。</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/01/11/Cocos2d-x接入第三方SDK/" itemprop="url">
+                  Cocos2d-x接入第三方SDK
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            發表於
+            <time itemprop="dateCreated" datetime="2016-01-11T00:00:00+08:00" content="2016-01-11">
+              2016-01-11
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/11/Cocos2d-x接入第三方SDK/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/11/Cocos2d-x接入第三方SDK/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h3 id="Cocos2d-x_u6E38_u620F_u63A5_u5165_u5B89_u5353_u7B2C_u4E09_u65B9SDK"><a href="#Cocos2d-x_u6E38_u620F_u63A5_u5165_u5B89_u5353_u7B2C_u4E09_u65B9SDK" class="headerlink" title="Cocos2d-x游戏接入安卓第三方SDK"></a>Cocos2d-x游戏接入安卓第三方SDK</h3><h4 id="1-_u6982_u8FF0"><a href="#1-_u6982_u8FF0" class="headerlink" title="1.概述"></a>1.概述</h4><p>U3D游戏和Cocos2dx手游都会接入不同渠道的支付方式，本文运用jni知识以360渠道接入作为演示。</p>
+<h4 id="2-_u73AF_u5883"><a href="#2-_u73AF_u5883" class="headerlink" title="2.环境"></a>2.环境</h4><p>OS: win10<br>IDE: Eclipse<br>Adnroid NDK:r10e<br>cocos2d-x-3.9</p>
+<h4 id="3-_u521B_u5EFACocos2d-x_u5DE5_u7A0B"><a href="#3-_u521B_u5EFACocos2d-x_u5DE5_u7A0B" class="headerlink" title="3.创建Cocos2d-x工程"></a>3.创建Cocos2d-x工程</h4><p>运行命令</p>
+<pre><code>cocos new -p com.ohj.cocos2dx360 -l cpp -d Cocos2dx360SDK
+</code></pre><p>然后进入Cocos2dx360SDK-MyCppGame-proj.android执行build_native.py 生成.so文件</p>
+<p>编译成功后你会在libs-armeabi看到libcocos2dcpp.so </p>
+<p>最后导入Eclipse，是导入2个工程 ，分别是MyCppGame和库libcocos2dx。（导入EC时注意不要复制工程项目到工作区间）</p>
+<h4 id="4-_u5F00_u59CB_u914D_u7F6E360SDK"><a href="#4-_u5F00_u59CB_u914D_u7F6E360SDK" class="headerlink" title="4.开始配置360SDK"></a>4.开始配置360SDK</h4><p>导入assets、lib文件，配置好AndroidManifest.xml </p>
+<p>在AppActivity.java 的OnCreate初始化</p>
+<pre><code>@Override
+protected void onCreate(Bundle savedInstanceState) {
+    // TODO Auto-generated method stub
+    super.onCreate(savedInstanceState);
+
+    mContext = this;
+    Matrix.init(this);
+
+}
+</code></pre><p>接着创建静态登录方法，直接调用360的登录方法</p>
+<pre><code>public static void  login360(){
+
+    Intent intent = getLoginIntent();
+    IDispatcherCallback callback = mLoginCallback;
+    Matrix.execute(mContext, intent, callback);
+
+}
+</code></pre><h4 id="5-jni_u8C03_u7528_u767B_u5F55_u65B9_u6CD5"><a href="#5-jni_u8C03_u7528_u767B_u5F55_u65B9_u6CD5" class="headerlink" title="5.jni调用登录方法"></a>5.jni调用登录方法</h4><p>在classes下创建SDK360.h 和SDK.cpp</p>
+<p>SDK360.h 代码如下</p>
+<pre><code> #ifndef __SDK360_H__
+ #define __SDK360_H__
+
+ #include &quot;cocos2d.h&quot;
+
+ #include &lt;string&gt;  
+ using namespace cocos2d;
+ using namespace std;
+ class SDK360
+ {
+  public:
+  SDK360();
+  virtual ~SDK360();
+  static SDK360*  getInstance();
+  void login();
+ };
+
+
+#endif // __SDK360_H__
+</code></pre><p>SDK360.cpp 代码如下</p>
+<pre><code> #include &quot;SDK360.h&quot;
+ #include &lt;string&gt;  
+ #include &lt;jni.h&gt;
+ #include &quot;cocos2d.h&quot;
+ #include &quot;platform/android/jni/JniHelper.h&quot;
+
+ using namespace std;
+ static SDK360* mInstance=NULL;
+ SDK360::SDK360()
+ {
+ }
+ SDK360::~SDK360()
+ {
+ }
+ SDK360* SDK360::getInstance()
+ {
+if(NULL==mInstance)
+{
+mInstance=new SDK360();
+}
+return mInstance;
+ }
+
+void SDK360::login()
+{
+
+#if(CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID)
+JniMethodInfo minfo;
+bool isHave=JniHelper::getStaticMethodInfo(minfo,&quot;org/cocos2dx/cpp/AppActivity&quot;,&quot;login360&quot;,&quot;()V&quot;);
+if(!isHave){
+
+}else{
+ minfo.env-&gt;CallStaticVoidMethod(minfo.classID,minfo.methodID);
+ minfo.env-&gt;DeleteLocalRef(minfo.classID);
+
+}
+#endif
+
+}
+</code></pre><p>我们会在原工程右下角调用登录方法，需要修改HelloWorldScence.cpp</p>
+<pre><code> #include &quot;SDK360.h&quot;
+ ...
+
+void HelloWorld::menuCloseCallback(Ref* pSender)
+{
+ SDK360::getInstance()-&gt;login();
+}
+</code></pre><p> 最后在工程目录下jni-Android.mk 调用刚写好的SDK360.cpp</p>
+<pre><code>LOCAL_SRC_FILES := hellocpp/main.cpp \
+               ../../Classes/AppDelegate.cpp \
+               ../../Classes/SDK360.cpp \
+               ../../Classes/HelloWorldScene.cpp
+</code></pre><p>修改过c++文件都要重新编译一下.so文件<br>执行build_native.py 编译成功后你就可以run运行起来了。</p>
+<p>ps: 调用360支付也同样道理.</p>
+<p><a href="https://github.com/gdmec07120731/Cocos2dx360SDK" target="_blank" rel="external">Demo下载。</a></p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/12/10/VirtualBox无法运行/" itemprop="url">
+                  VirtualBox出现VERR _INTNET _FLT _IF _NOT _FOUND
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            發表於
+            <time itemprop="dateCreated" datetime="2015-12-10T09:39:47+08:00" content="2015-12-10">
+              2015-12-10
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/10/VirtualBox无法运行/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/10/VirtualBox无法运行/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h3 id="u89E3_u51B3win10_u5347_u7EA7TH2_u540E_VirtualBox_u51FA_u73B0VERR__INTNET__FLT__IF__NOT__FOUND_u95EE_u9898"><a href="#u89E3_u51B3win10_u5347_u7EA7TH2_u540E_VirtualBox_u51FA_u73B0VERR__INTNET__FLT__IF__NOT__FOUND_u95EE_u9898" class="headerlink" title="解决win10升级TH2后 VirtualBox出现VERR _INTNET _FLT _IF _NOT _FOUND问题"></a>解决win10升级TH2后 VirtualBox出现VERR _INTNET _FLT _IF _NOT _FOUND问题</h3><p>出自</p>
+<p><a href="http://tieba.baidu.com/p/4177034202" title="genymotion吧" target="_blank" rel="external"> http://tieba.baidu.com/p/4177034202 </a></p>
+<p><a href="http://superuser.com/questions/1002160/failed-to-start-virtual-device-in-oracle-virtual-box" target="_blank" rel="external">http://superuser.com/questions/1002160/failed-to-start-virtual-device-in-oracle-virtual-box</a></p>
+<h4 id="u95EE_u9898_u63CF_u8FF0"><a href="#u95EE_u9898_u63CF_u8FF0" class="headerlink" title="问题描述"></a>问题描述</h4><p>win10升级TH2后virtualbox无法正常运行，virtualbox关键错误VERR _INTNET _FLT _IF _NOT _FOUND</p>
+<h4 id="u89E3_u51B3_u529E_u6CD5"><a href="#u89E3_u51B3_u529E_u6CD5" class="headerlink" title="解决办法"></a>解决办法</h4><p>打开 网络和共享中心-更改适配器设置-选择VirtualBox Host-Only Network-右击属性</p>
+<p><strong>把VirtualBox NDIS6 Bridged Networking Driver 选择上就OK可以运行genymotion了</strong></p>
 
             
           </span>
@@ -364,7 +657,7 @@ dependencies {
 
           <div class="site-state-item site-state-tags">
             
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">標籤</span>
               
           </div>
