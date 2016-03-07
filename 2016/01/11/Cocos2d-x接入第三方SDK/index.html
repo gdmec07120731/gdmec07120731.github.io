@@ -63,7 +63,7 @@ cocos new -p com.ohj.cocos2dx360 -l cpp -d Coco">
 2.环境OS: win10IDE: EclipseAdnroid NDK:r10ecocos2d-x-3.9
 3.创建Cocos2d-x工程运行命令
 cocos new -p com.ohj.cocos2dx360 -l cpp -d Coco">
-<meta property="og:updated_time" content="2016-03-06T10:21:10.044Z">
+<meta property="og:updated_time" content="2016-03-07T04:35:45.157Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cocos2d-x接入第三方SDK">
 <meta name="twitter:description" content="Cocos2d-x游戏接入安卓第三方SDK1.概述U3D游戏和Cocos2dx手游都会接入不同渠道的支付方式，本文运用jni知识以360渠道接入作为演示。
@@ -260,98 +260,14 @@ cocos new -p com.ohj.cocos2dx360 -l cpp -d Coco">
 <p>最后导入Eclipse，是导入2个工程 ，分别是MyCppGame和库libcocos2dx。（导入EC时注意不要复制工程项目到工作区间）</p>
 <h4 id="4-_u5F00_u59CB_u914D_u7F6E360SDK"><a href="#4-_u5F00_u59CB_u914D_u7F6E360SDK" class="headerlink" title="4.开始配置360SDK"></a>4.开始配置360SDK</h4><p>导入assets、lib文件，配置好AndroidManifest.xml </p>
 <p>在AppActivity.java 的OnCreate初始化</p>
-<pre><code>@Override
-protected void onCreate(Bundle savedInstanceState) {
-    // TODO Auto-generated method stub
-    super.onCreate(savedInstanceState);
-
-    mContext = this;
-    Matrix.init(this);
-
-}
-</code></pre><p>接着创建静态登录方法，直接调用360的登录方法</p>
-<pre><code>public static void  login360(){
-
-    Intent intent = getLoginIntent();
-    IDispatcherCallback callback = mLoginCallback;
-    Matrix.execute(mContext, intent, callback);
-
-}
-</code></pre><h4 id="5-jni_u8C03_u7528_u767B_u5F55_u65B9_u6CD5"><a href="#5-jni_u8C03_u7528_u767B_u5F55_u65B9_u6CD5" class="headerlink" title="5.jni调用登录方法"></a>5.jni调用登录方法</h4><p>在classes下创建SDK360.h 和SDK.cpp</p>
-<p>SDK360.h 代码如下</p>
-<pre><code> #ifndef __SDK360_H__
- #define __SDK360_H__
-
- #include &quot;cocos2d.h&quot;
-
- #include &lt;string&gt;  
- using namespace cocos2d;
- using namespace std;
- class SDK360
- {
-  public:
-  SDK360();
-  virtual ~SDK360();
-  static SDK360*  getInstance();
-  void login();
- };
-
-
-#endif // __SDK360_H__
-</code></pre><p>SDK360.cpp 代码如下</p>
-<pre><code> #include &quot;SDK360.h&quot;
- #include &lt;string&gt;  
- #include &lt;jni.h&gt;
- #include &quot;cocos2d.h&quot;
- #include &quot;platform/android/jni/JniHelper.h&quot;
-
- using namespace std;
- static SDK360* mInstance=NULL;
- SDK360::SDK360()
- {
- }
- SDK360::~SDK360()
- {
- }
- SDK360* SDK360::getInstance()
- {
-if(NULL==mInstance)
-{
-mInstance=new SDK360();
-}
-return mInstance;
- }
-
-void SDK360::login()
-{
-
-#if(CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID)
-JniMethodInfo minfo;
-bool isHave=JniHelper::getStaticMethodInfo(minfo,&quot;org/cocos2dx/cpp/AppActivity&quot;,&quot;login360&quot;,&quot;()V&quot;);
-if(!isHave){
-
-}else{
- minfo.env-&gt;CallStaticVoidMethod(minfo.classID,minfo.methodID);
- minfo.env-&gt;DeleteLocalRef(minfo.classID);
-
-}
-#endif
-
-}
-</code></pre><p>我们会在原工程右下角调用登录方法，需要修改HelloWorldScence.cpp</p>
-<pre><code> #include &quot;SDK360.h&quot;
- ...
-
-void HelloWorld::menuCloseCallback(Ref* pSender)
-{
- SDK360::getInstance()-&gt;login();
-}
-</code></pre><p> 最后在工程目录下jni-Android.mk 调用刚写好的SDK360.cpp</p>
-<pre><code>LOCAL_SRC_FILES := hellocpp/main.cpp \
-               ../../Classes/AppDelegate.cpp \
-               ../../Classes/SDK360.cpp \
-               ../../Classes/HelloWorldScene.cpp
-</code></pre><p>修改过c++文件都要重新编译一下.so文件<br>执行build_native.py 编译成功后你就可以run运行起来了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">   <span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">	<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">	<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">	</span><br><span class="line">	mContext = <span class="keyword">this</span>;</span><br><span class="line">	Matrix.init(<span class="keyword">this</span>);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接着创建静态登录方法，直接调用360的登录方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span>  <span class="title">login360</span><span class="params">()</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	Intent intent = getLoginIntent();</span><br><span class="line">	IDispatcherCallback callback = mLoginCallback;</span><br><span class="line">	Matrix.execute(mContext, intent, callback);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="5-jni_u8C03_u7528_u767B_u5F55_u65B9_u6CD5"><a href="#5-jni_u8C03_u7528_u767B_u5F55_u65B9_u6CD5" class="headerlink" title="5.jni调用登录方法"></a>5.jni调用登录方法</h4><p>在classes下创建SDK360.h 和SDK.cpp</p>
+<p>SDK360.h 代码如下<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">  <span class="preprocessor">#<span class="keyword">ifndef</span> __SDK360_H__</span></span><br><span class="line">  <span class="preprocessor">#<span class="keyword">define</span> __SDK360_H__</span></span><br><span class="line"></span><br><span class="line">  <span class="preprocessor">#<span class="keyword">include</span> <span class="string">"cocos2d.h"</span></span></span><br><span class="line"></span><br><span class="line">  <span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span>  </span></span><br><span class="line">  <span class="keyword">using</span> <span class="keyword">namespace</span> cocos2d;</span><br><span class="line">  <span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line">  <span class="keyword">class</span> SDK360</span><br><span class="line">  &#123;</span><br><span class="line">   <span class="keyword">public</span>:</span><br><span class="line">   SDK360();</span><br><span class="line">   <span class="keyword">virtual</span> ~SDK360();</span><br><span class="line"><span class="function"><span class="keyword">static</span> SDK360*  <span class="title">getInstance</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">login</span><span class="params">()</span></span>;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="preprocessor">#<span class="keyword">endif</span> <span class="comment">// __SDK360_H__</span></span></span><br></pre></td></tr></table></figure></p>
+<p>SDK360.cpp 代码如下<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">    <span class="preprocessor">#<span class="keyword">include</span> <span class="string">"SDK360.h"</span></span></span><br><span class="line">    <span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span>  </span></span><br><span class="line">    <span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;jni.h&gt;</span></span></span><br><span class="line">    <span class="preprocessor">#<span class="keyword">include</span> <span class="string">"cocos2d.h"</span></span></span><br><span class="line">    <span class="preprocessor">#<span class="keyword">include</span> <span class="string">"platform/android/jni/JniHelper.h"</span></span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line">    <span class="keyword">static</span> SDK360* mInstance=<span class="literal">NULL</span>;</span><br><span class="line">    SDK360::SDK360()</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    SDK360::~SDK360()</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    SDK360* SDK360::getInstance()</span><br><span class="line">    &#123;</span><br><span class="line"><span class="keyword">if</span>(<span class="literal">NULL</span>==mInstance)</span><br><span class="line">&#123;</span><br><span class="line">mInstance=<span class="keyword">new</span> SDK360();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> mInstance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">void</span> SDK360::login()</span><br><span class="line">   &#123;</span><br><span class="line"></span><br><span class="line">   <span class="preprocessor">#<span class="keyword">if</span>(CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID)</span></span><br><span class="line">   JniMethodInfo minfo;</span><br><span class="line">   <span class="keyword">bool</span> isHave=JniHelper::getStaticMethodInfo(minfo,<span class="string">"org/cocos2dx/cpp/AppActivity"</span>,<span class="string">"login360"</span>,<span class="string">"()V"</span>);</span><br><span class="line"><span class="keyword">if</span>(!isHave)&#123;</span><br><span class="line">	</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line"> minfo.env-&gt;CallStaticVoidMethod(minfo.classID,minfo.methodID);</span><br><span class="line"> minfo.env-&gt;DeleteLocalRef(minfo.classID);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">   <span class="preprocessor">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们会在原工程右下角调用登录方法，需要修改HelloWorldScence.cpp<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">"SDK360.h"</span></span></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line"> <span class="keyword">void</span> HelloWorld::menuCloseCallback(Ref* pSender)</span><br><span class="line"> &#123;</span><br><span class="line">  SDK360::getInstance()-&gt;login();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p> 最后在工程目录下jni-Android.mk 调用刚写好的SDK360.cpp<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_SRC_FILES := hellocpp/main.cpp \</span><br><span class="line">               ../../Classes/AppDelegate.cpp \</span><br><span class="line">               ../../Classes/SDK360.cpp \</span><br><span class="line">               ../../Classes/HelloWorldScene.cpp</span><br></pre></td></tr></table></figure></p>
+<p>修改过c++文件都要重新编译一下.so文件<br>执行build_native.py 编译成功后你就可以run运行起来了。</p>
 <p>ps: 调用360支付也同样道理.</p>
 <p><a href="https://github.com/gdmec07120731/Cocos2dx360SDK" target="_blank" rel="external">Demo下载。</a></p>
 </span>

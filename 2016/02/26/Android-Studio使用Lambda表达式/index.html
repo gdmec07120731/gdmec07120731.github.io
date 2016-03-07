@@ -52,21 +52,18 @@
 
 
 <meta name="description" content="1、什么是LambdaJava 8的一个大亮点是引入Lambda表达式，使用它设计的代码会更加简洁。当开发者在编写Lambda表达式时，也会随之被编译成一个函数式接口。下面这个例子就是使用Lambda语法来代替匿名的内部类，代码不仅简洁，而且还可读。_来源百度百科
-使用Lambda前
-button.setOnClickListener(new View.OnClickListener() {">
+使用Lambda前1234567button.setOnClickListener(new View.OnClickListener(">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android Studio如何配置Lambda">
 <meta property="og:url" content="http://yoursite.com/2016/02/26/Android-Studio使用Lambda表达式/index.html">
 <meta property="og:site_name" content="C君's Blog">
 <meta property="og:description" content="1、什么是LambdaJava 8的一个大亮点是引入Lambda表达式，使用它设计的代码会更加简洁。当开发者在编写Lambda表达式时，也会随之被编译成一个函数式接口。下面这个例子就是使用Lambda语法来代替匿名的内部类，代码不仅简洁，而且还可读。_来源百度百科
-使用Lambda前
-button.setOnClickListener(new View.OnClickListener() {">
-<meta property="og:updated_time" content="2016-03-06T10:21:49.878Z">
+使用Lambda前1234567button.setOnClickListener(new View.OnClickListener(">
+<meta property="og:updated_time" content="2016-03-07T04:39:09.082Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android Studio如何配置Lambda">
 <meta name="twitter:description" content="1、什么是LambdaJava 8的一个大亮点是引入Lambda表达式，使用它设计的代码会更加简洁。当开发者在编写Lambda表达式时，也会随之被编译成一个函数式接口。下面这个例子就是使用Lambda语法来代替匿名的内部类，代码不仅简洁，而且还可读。_来源百度百科
-使用Lambda前
-button.setOnClickListener(new View.OnClickListener() {">
+使用Lambda前1234567button.setOnClickListener(new View.OnClickListener(">
 
 
 
@@ -249,38 +246,13 @@ button.setOnClickListener(new View.OnClickListener() {">
 
       
         <span itemprop="articleBody"><h4 id="1_u3001_u4EC0_u4E48_u662FLambda"><a href="#1_u3001_u4EC0_u4E48_u662FLambda" class="headerlink" title="1、什么是Lambda"></a>1、什么是Lambda</h4><p>Java 8的一个大亮点是引入Lambda表达式，使用它设计的代码会更加简洁。当开发者在编写Lambda表达式时，也会随之被编译成一个函数式接口。下面这个例子就是使用Lambda语法来代替匿名的内部类，代码不仅简洁，而且还可读。_来源百度百科</p>
-<p>使用Lambda前</p>
-<pre><code>button.setOnClickListener(new View.OnClickListener() {
-     @Override
-     public void onClick(View v) {
-          //dosomething
-     }
- });
-</code></pre><p>使用lambda后</p>
-<pre><code>button.setOnClickListener(
-              v -&gt; {
-         //dosomething
-});
-</code></pre><h4 id="2_u3001AndroidStudio_u600E_u4E48_u914D_u7F6ELambda"><a href="#2_u3001AndroidStudio_u600E_u4E48_u914D_u7F6ELambda" class="headerlink" title="2、AndroidStudio怎么配置Lambda"></a>2、AndroidStudio怎么配置Lambda</h4><p>   在build.gradle(Moudle:app) </p>
-<pre><code>apply plugin:&apos;me.tatarka.retrolambda&apos;
-
-android{
-   compileOptions{
-      sourceCompatibility org.gradle.api.JavaVersion.VERSION_1_8
-      targetCompatibility org.gradle.api.JavaVersion.VERSION_1_8
-   }
-}
-</code></pre><p>在build.gradle(Project:项目名)  </p>
-<pre><code>buildscript {
-
-dependencies {
-    classpath &apos;com.android.tools.build:gradle:2.0.0-beta6&apos;
-    classpath &apos;me.tatarka:gradle-retrolambda:3.2.4&apos;
-
-}
-
-}
-</code></pre><p>以上配置完毕。</p>
+<p>使用Lambda前<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">button.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">     <span class="annotation">@Override</span></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">          <span class="comment">//dosomething</span></span><br><span class="line">     &#125;</span><br><span class="line"> &#125;);</span><br></pre></td></tr></table></figure></p>
+<p>使用lambda后<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">button.setOnClickListener(</span><br><span class="line">              v -&gt; &#123;</span><br><span class="line">         <span class="comment">//dosomething</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<h4 id="2_u3001AndroidStudio_u600E_u4E48_u914D_u7F6ELambda"><a href="#2_u3001AndroidStudio_u600E_u4E48_u914D_u7F6ELambda" class="headerlink" title="2、AndroidStudio怎么配置Lambda"></a>2、AndroidStudio怎么配置Lambda</h4><p>   在build.gradle(Moudle:app) </p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">apply <span class="string">plugin:</span><span class="string">'me.tatarka.retrolambda'</span></span><br><span class="line">  </span><br><span class="line">android&#123;</span><br><span class="line">   compileOptions&#123;</span><br><span class="line">      sourceCompatibility org.gradle.api.JavaVersion.VERSION_1_8</span><br><span class="line">      targetCompatibility org.gradle.api.JavaVersion.VERSION_1_8</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在build.gradle(Project:项目名)  </p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">    classpath <span class="string">'com.android.tools.build:gradle:2.0.0-beta6'</span></span><br><span class="line">    classpath <span class="string">'me.tatarka:gradle-retrolambda:3.2.4'</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上配置完毕。</p>
 </span>
       
     </div>
