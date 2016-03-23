@@ -35,7 +35,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="shadowsock," />
+  <meta name="keywords" content="Dagger2," />
 
 
 
@@ -51,28 +51,22 @@
 
 
 
-<meta name="description" content="在window上的科学上网方法一 ：影梭ShadowSocks1、下载shadowsocks软件
-百度网盘下载链接
-2、打开shadowsocks 输入shadowsocks账号
-ps ：免费账号获取方式 打开链接 进入ishadowsocks （每6小时更换一次密码 中午12点左右换一次的）
-方法二 ：蓝灯LanternLantern是一个免费的应用程序。它能帮助你随时随地快速、可靠、安全地访问">
+<meta name="description" content="本文摘要自http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html目前安卓开发最新技术用到Retrofit网络请求框架，Rxjava异步处理，OkHttp网络请求，加上Gson解析，MVP项目架构，Lambda语法，Dagger2依赖注入，ButterKnife控件的依赖等
+
+什么是Dagger2Dagger2是Da">
 <meta property="og:type" content="article">
-<meta property="og:title" content="如何科学上网">
-<meta property="og:url" content="http://yoursite.com/2016/02/24/如何科学上网/index.html">
+<meta property="og:title" content="Dagger2 笔记">
+<meta property="og:url" content="http://yoursite.com/2016/03/23/Dagger2-笔记/index.html">
 <meta property="og:site_name" content="C君's Blog">
-<meta property="og:description" content="在window上的科学上网方法一 ：影梭ShadowSocks1、下载shadowsocks软件
-百度网盘下载链接
-2、打开shadowsocks 输入shadowsocks账号
-ps ：免费账号获取方式 打开链接 进入ishadowsocks （每6小时更换一次密码 中午12点左右换一次的）
-方法二 ：蓝灯LanternLantern是一个免费的应用程序。它能帮助你随时随地快速、可靠、安全地访问">
-<meta property="og:updated_time" content="2016-03-06T10:23:46.777Z">
+<meta property="og:description" content="本文摘要自http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html目前安卓开发最新技术用到Retrofit网络请求框架，Rxjava异步处理，OkHttp网络请求，加上Gson解析，MVP项目架构，Lambda语法，Dagger2依赖注入，ButterKnife控件的依赖等
+
+什么是Dagger2Dagger2是Da">
+<meta property="og:updated_time" content="2016-03-23T06:00:56.242Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="如何科学上网">
-<meta name="twitter:description" content="在window上的科学上网方法一 ：影梭ShadowSocks1、下载shadowsocks软件
-百度网盘下载链接
-2、打开shadowsocks 输入shadowsocks账号
-ps ：免费账号获取方式 打开链接 进入ishadowsocks （每6小时更换一次密码 中午12点左右换一次的）
-方法二 ：蓝灯LanternLantern是一个免费的应用程序。它能帮助你随时随地快速、可靠、安全地访问">
+<meta name="twitter:title" content="Dagger2 笔记">
+<meta name="twitter:description" content="本文摘要自http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html目前安卓开发最新技术用到Retrofit网络请求框架，Rxjava异步处理，OkHttp网络请求，加上Gson解析，MVP项目架构，Lambda语法，Dagger2依赖注入，ButterKnife控件的依赖等
+
+什么是Dagger2Dagger2是Da">
 
 
 
@@ -84,7 +78,7 @@ ps ：免费账号获取方式 打开链接 进入ishadowsocks （每6小时更�
   };
 </script>
 
-  <title> 如何科学上网 | C君's Blog </title>
+  <title> Dagger2 笔记 | C君's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
@@ -214,7 +208,7 @@ ps ：免费账号获取方式 打开链接 进入ishadowsocks （每6小时更�
             
             
               
-                如何科学上网
+                Dagger2 笔记
               
             
           </h1>
@@ -223,8 +217,8 @@ ps ：免费账号获取方式 打开链接 进入ishadowsocks （每6小时更�
         <div class="post-meta">
           <span class="post-time">
             發表於
-            <time itemprop="dateCreated" datetime="2016-02-24T11:33:51+08:00" content="2016-02-24">
-              2016-02-24
+            <time itemprop="dateCreated" datetime="2016-03-23T11:39:14+08:00" content="2016-03-23">
+              2016-03-23
             </time>
           </span>
 
@@ -234,8 +228,8 @@ ps ：免费账号获取方式 打开链接 进入ishadowsocks （每6小时更�
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/02/24/如何科学上网/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/02/24/如何科学上网/" itemprop="commentsCount"></span>
+                <a href="/2016/03/23/Dagger2-笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/23/Dagger2-笔记/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -254,13 +248,22 @@ ps ：免费账号获取方式 打开链接 进入ishadowsocks （每6小时更�
       
 
       
-        <span itemprop="articleBody"><h3 id="u5728window_u4E0A_u7684_u79D1_u5B66_u4E0A_u7F51"><a href="#u5728window_u4E0A_u7684_u79D1_u5B66_u4E0A_u7F51" class="headerlink" title="在window上的科学上网"></a>在window上的科学上网</h3><h4 id="u65B9_u6CD5_u4E00__uFF1A_u5F71_u68ADShadowSocks"><a href="#u65B9_u6CD5_u4E00__uFF1A_u5F71_u68ADShadowSocks" class="headerlink" title="方法一 ：影梭ShadowSocks"></a>方法一 ：影梭ShadowSocks</h4><p>1、下载shadowsocks软件</p>
-<p>百度网盘<a href="http://pan.baidu.com/s/1bsrCZW" target="_blank" rel="external">下载链接</a></p>
-<p>2、打开shadowsocks 输入shadowsocks账号</p>
-<p>ps ：免费账号获取方式 打开<a href="http://www.ishadowsocks.com/" title="ishadowsocks" target="_blank" rel="external">链接</a> 进入ishadowsocks （每6小时更换一次密码 中午12点左右换一次的）</p>
-<h4 id="u65B9_u6CD5_u4E8C__uFF1A_u84DD_u706FLantern"><a href="#u65B9_u6CD5_u4E8C__uFF1A_u84DD_u706FLantern" class="headerlink" title="方法二 ：蓝灯Lantern"></a>方法二 ：蓝灯Lantern</h4><p>Lantern是一个免费的应用程序。它能帮助你随时随地快速、可靠、安全地访问互联网。</p>
-<p>蓝灯官网（需翻墙）<a href="https://getlantern.org/" target="_blank" rel="external"> https://getlantern.org/</a><br>蓝灯github <a href="https://github.com/getlantern/lantern" target="_blank" rel="external">https://github.com/getlantern/lantern</a></p>
-<p>下载window版本安装后无需配置就可以直接科学上网 <a href="https://raw.githubusercontent.com/getlantern/lantern-binaries/master/lantern-installer-beta.exe" target="_blank" rel="external">https://raw.githubusercontent.com/getlantern/lantern-binaries/master/lantern-installer-beta.exe</a></p>
+        <span itemprop="articleBody"><blockquote>
+<p>本文摘要自<a href="http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html" target="_blank" rel="external">http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html</a><br>目前安卓开发最新技术用到Retrofit网络请求框架，Rxjava异步处理，OkHttp网络请求，加上Gson解析，MVP项目架构，Lambda语法，Dagger2依赖注入，ButterKnife控件的依赖等</p>
+</blockquote>
+<h3 id="u4EC0_u4E48_u662FDagger2"><a href="#u4EC0_u4E48_u662FDagger2" class="headerlink" title="什么是Dagger2"></a>什么是Dagger2</h3><p><a href="https://github.com/google/dagger/" target="_blank" rel="external">Dagger2</a>是Dagger1的分支，由谷歌公司接手开发，目前的版本是2.0。Dagger2是受到AutoValue项目的启发。 刚开始，Dagger2解决问题的基本思想是：利用生成和写的代码混合达到看似所有的产生和提供依赖的代码都是手写的样子。</p>
+<h3 id="u4F9D_u8D56_u6CE8_u5165_u597D_u5904"><a href="#u4F9D_u8D56_u6CE8_u5165_u597D_u5904" class="headerlink" title="依赖注入好处"></a>依赖注入好处</h3><p>依赖注入好处就是大大方便解耦，方便修改代码，为什么要用Dagger2利用编译期的注解处理来生成依赖注入的代码，尽可能的减少了反射的使用，提供app性能。</p>
+<h3 id="Dagger2__u4F7F_u7528"><a href="#Dagger2__u4F7F_u7528" class="headerlink" title="Dagger2 使用"></a>Dagger2 使用</h3><p>在AndroidStudio 使用<br>在build:gradle(Moudle:app)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">    apply plugin: <span class="string">'com.neenbedankt.android-apt'</span> </span><br><span class="line"></span><br><span class="line">    dependencies &#123;</span><br><span class="line">           compile <span class="string">'com.google.dagger:dagger:2.1'</span> <span class="comment">// dagger2</span></span><br><span class="line">           apt <span class="string">'com.google.dagger:dagger-compiler:2.1'</span> <span class="comment">// dagger2</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在build:gradle(Project:项目名)<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">     dependencies &#123;</span><br><span class="line">            classpath <span class="string">'com.android.tools.build:gradle:2.1.0-alpha3'</span></span><br><span class="line">            classpath <span class="string">'com.neenbedankt.gradle.plugins:android-apt:1.8'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>以上配置完毕</p>
+<h3 id="Dagger2__u5173_u952E_u8BCD"><a href="#Dagger2__u5173_u952E_u8BCD" class="headerlink" title="Dagger2 关键词"></a>Dagger2 关键词</h3><p> <strong><em>@Inject</em></strong>  通常需要依赖的地方使用这个注解，换句话来说它告诉dagger这个类或者字段需要依赖，这样子 dagger就会造这个类的实例来满足依赖。<br>例如在MainActivity类里 实例化 GitHubService ,下面就可以直接使用mGitHubService。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Inject</span></span><br><span class="line">GitHubService mGitHubService;</span><br></pre></td></tr></table></figure></p>
+<p> <strong><em>@Module</em></strong>  Modules类里面的方法专门提供依赖，所以我们定义一个类用@Module注解，这样Dagger构建类的实例的时候，就知道从哪里找到需要的依赖，module的一个重要特征是他们设计为分区并结合使用，比如在Modules包下 有MainModule ,ApiModule或者DBModule这些类都注解了@Module<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApiModule</span> </span>&#123;</span><br></pre></td></tr></table></figure></p>
+<p><strong><em>@Provides</em></strong>  我们为在Module类中 定义的方法使用这个注解 ，来告诉dagger我们构造对象并且提供这些方法依赖<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApiModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Provides</span></span><br><span class="line">    <span class="annotation">@Singleton</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> GitHubService <span class="title">provideGitHubService</span><span class="params">()</span> </span>&#123;</span><br></pre></td></tr></table></figure></p>
+<p><strong><em>@Component</em></strong>  @Component从根本上来说是一个注解器，也就是说@Inject和@Module的桥梁，它的主要作用就是连接这两个部分，@Component可以提供所有定义了类型的实例，比如：我们必须用@Component注解一个接口，然后列出所有的@Module组成改组件，如果缺失任何一块都会在编译的时候报错，所有的组件都可以通过他的@Module知道依赖范围<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Singleton</span></span><br><span class="line"><span class="annotation">@Component</span>(modules = &#123;MainModule.class, ApiModule.class&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DemoComponent</span> <span class="keyword">extends</span> <span class="title">DemoGraph</span> </span>&#123;</span><br></pre></td></tr></table></figure></p>
+<p>例子中定义DemoComponent接口 用@Component注解所有的@Module类</p>
+<p><strong><em>@Scope</em></strong> Dagger可以通过自定义注解来限定注解作用域，这是一个非常强大的特点，，因为就如前面说的一样，没必要让每个对象都去了解如何管理他们的实例，在Scope例子中，我们自定义@PerActivity注解一个类，所以这个对象存活时间就和activity一样，简单来说就是我们定义所有范围的粒度（@Perfragment,@preUser等）</p>
+<p><strong><em>@Qualifier</em></strong> 当类的类型不足以鉴别一个依赖的时候，我们就可以用这个注解来标示，例如：我们会用不同类型的Context 所以我们就可以定义 Qualifier注解@ForApplication 和@ForActivity<br>这样当注入一个Context的时候，我们就可以告诉dagger我们想要哪种类型的Context</p>
 </span>
       
     </div>
@@ -269,7 +272,7 @@ ps ：免费账号获取方式 打开链接 进入ishadowsocks （每6小时更�
       
         <div class="post-tags">
           
-            <a href="/tags/shadowsock/" rel="tag">#shadowsock</a>
+            <a href="/tags/Dagger2/" rel="tag">#Dagger2</a>
           
         </div>
       
@@ -278,17 +281,13 @@ ps ：免费账号获取方式 打开链接 进入ishadowsocks （每6小时更�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/01/11/Cocos2d-x接入第三方SDK/" rel="next" title="Cocos2d-x接入第三方SDK">
-                <i class="fa fa-chevron-left"></i> Cocos2d-x接入第三方SDK
+              <a href="/2016/02/26/Android-Studio使用Lambda表达式/" rel="next" title="Android Studio如何配置Lambda">
+                <i class="fa fa-chevron-left"></i> Android Studio如何配置Lambda
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/02/26/Android-Studio使用Lambda表达式/" rel="prev" title="Android Studio如何配置Lambda">
-                Android Studio如何配置Lambda <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -315,8 +314,8 @@ ps ：免费账号获取方式 打开链接 进入ishadowsocks （每6小时更�
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/02/24/如何科学上网/"
-           data-title="如何科学上网" data-url="http://yoursite.com/2016/02/24/如何科学上网/">
+      <div class="ds-thread" data-thread-key="2016/03/23/Dagger2-笔记/"
+           data-title="Dagger2 笔记" data-url="http://yoursite.com/2016/03/23/Dagger2-笔记/">
       </div>
     
   </div>
@@ -416,7 +415,7 @@ ps ：免费账号获取方式 打开链接 进入ishadowsocks （每6小时更�
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u5728window_u4E0A_u7684_u79D1_u5B66_u4E0A_u7F51"><span class="nav-number">1.</span> <span class="nav-text">在window上的科学上网</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#u65B9_u6CD5_u4E00__uFF1A_u5F71_u68ADShadowSocks"><span class="nav-number">1.1.</span> <span class="nav-text">方法一 ：影梭ShadowSocks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u65B9_u6CD5_u4E8C__uFF1A_u84DD_u706FLantern"><span class="nav-number">1.2.</span> <span class="nav-text">方法二 ：蓝灯Lantern</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u4EC0_u4E48_u662FDagger2"><span class="nav-number">1.</span> <span class="nav-text">什么是Dagger2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u4F9D_u8D56_u6CE8_u5165_u597D_u5904"><span class="nav-number">2.</span> <span class="nav-text">依赖注入好处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dagger2__u4F7F_u7528"><span class="nav-number">3.</span> <span class="nav-text">Dagger2 使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dagger2__u5173_u952E_u8BCD"><span class="nav-number">4.</span> <span class="nav-text">Dagger2 关键词</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
