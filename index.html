@@ -325,9 +325,42 @@ productFlavors.all { flavor -&gt;
 }
 
 }
-</code></pre><h2 id="3-_u5728Terminal_u8FD0_u884C_u547D_u4EE4"><a href="#3-_u5728Terminal_u8FD0_u884C_u547D_u4EE4" class="headerlink" title="3.在Terminal运行命令"></a>3.在Terminal运行命令</h2><p>先运行</p>
+</code></pre><p>ps：signingConfigs这个方法一定要写在buildTypes方法前，不然不能通过clean。</p>
+<h2 id="3-_u4FEE_u6539apk_u540D"><a href="#3-_u4FEE_u6539apk_u540D" class="headerlink" title="3.修改apk名"></a>3.修改apk名</h2><p>如果要打包出app_v1.0_1_20160101_xiaomi.apk这样子的包名<br>在build.gradle</p>
+<pre><code>android{
+  ...
+ applicationVariants.all { variant -&gt;
+    variant.outputs.each { output -&gt;
+        // 重命名产出的apk文件
+        def outputFile = output.outputFile
+        if (outputFile != null &amp;&amp; outputFile.name.endsWith(&apos;.apk&apos;)) {
+            File outputDirectory = new File(outputFile.parent);
+            def fileName
+            if (variant.buildType.name == &quot;release&quot;) {
+                fileName = &quot;app_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${packageTime()}_${variant.productFlavors[0].name}.apk&quot;
+            } else {
+                fileName = &quot;app_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${packageTime()}_debug.apk&quot;
+            }
+            output.outputFile = new File(outputDirectory, fileName)
+        }
+
+        // 删除unaligned apk
+        if (output.zipAlign != null) {
+            output.zipAlign.doLast {
+                output.zipAlign.inputFile.delete()
+            }
+        }
+    }
+  }
+}
+//在android外层
+def packageTime() {
+return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&quot;))
+
+}
+</code></pre><h2 id="4-_u5728Terminal_u8FD0_u884C_u547D_u4EE4"><a href="#4-_u5728Terminal_u8FD0_u884C_u547D_u4EE4" class="headerlink" title="4.在Terminal运行命令"></a>4.在Terminal运行命令</h2><p>先运行，clean项目</p>
 <pre><code>gradlew clean 
-</code></pre><p>成功后再运行</p>
+</code></pre><p>成功后再运行，开始正式打包</p>
 <pre><code>gradlew assembleRelease
 </code></pre>
           
