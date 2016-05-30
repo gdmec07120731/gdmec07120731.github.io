@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="U8SDK," />
+  <meta name="keywords" content="Hexo, World" />
 
 
 
@@ -57,22 +57,37 @@
 
 
 
-<meta name="description" content="什么是U8SDK集成各个渠道比如（uc,小米，360）的sdk ，一次接入，打包出不同渠道的APK，大大减少游戏接入渠道的繁琐操作。
-统一的接入框架，各个SDK的接入 一键打包工具(python)，统一的登录验证中心支付中心，多个平台（unity,coco2dx）的支持.
-工作原理初始化时根据不同渠道U8Server自定义U8id,U8key分配给U8SDKU8SDK抽象层实现各个渠道的登录，获取">
+<meta name="description" content="Gradle多渠道打包
+前言，多渠道打包的作用在于统计哪个app市场最多用户量下载量，推广效果最好。
+
+编译工具：AndroidStudio 2.2preview 1gradle版本: gradle-2.10
+打包原理：通过修改Androidmanifest.xml 自定义meta值来统计不同市场。
+
+下面是总结的打包流程：
+1. 在Androidmanifest.xml中Application标">
 <meta property="og:type" content="article">
-<meta property="og:title" content="U8SDK开发笔记">
-<meta property="og:url" content="http://yoursite.com/2016/03/28/U8SDK开发笔记/index.html">
+<meta property="og:title" content="gradle多渠道打包">
+<meta property="og:url" content="http://yoursite.com/2016/05/30/gradle多渠道打包/index.html">
 <meta property="og:site_name" content="C君's Blog">
-<meta property="og:description" content="什么是U8SDK集成各个渠道比如（uc,小米，360）的sdk ，一次接入，打包出不同渠道的APK，大大减少游戏接入渠道的繁琐操作。
-统一的接入框架，各个SDK的接入 一键打包工具(python)，统一的登录验证中心支付中心，多个平台（unity,coco2dx）的支持.
-工作原理初始化时根据不同渠道U8Server自定义U8id,U8key分配给U8SDKU8SDK抽象层实现各个渠道的登录，获取">
-<meta property="og:updated_time" content="2016-04-05T01:07:28.681Z">
+<meta property="og:description" content="Gradle多渠道打包
+前言，多渠道打包的作用在于统计哪个app市场最多用户量下载量，推广效果最好。
+
+编译工具：AndroidStudio 2.2preview 1gradle版本: gradle-2.10
+打包原理：通过修改Androidmanifest.xml 自定义meta值来统计不同市场。
+
+下面是总结的打包流程：
+1. 在Androidmanifest.xml中Application标">
+<meta property="og:updated_time" content="2016-05-30T13:02:43.648Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="U8SDK开发笔记">
-<meta name="twitter:description" content="什么是U8SDK集成各个渠道比如（uc,小米，360）的sdk ，一次接入，打包出不同渠道的APK，大大减少游戏接入渠道的繁琐操作。
-统一的接入框架，各个SDK的接入 一键打包工具(python)，统一的登录验证中心支付中心，多个平台（unity,coco2dx）的支持.
-工作原理初始化时根据不同渠道U8Server自定义U8id,U8key分配给U8SDKU8SDK抽象层实现各个渠道的登录，获取">
+<meta name="twitter:title" content="gradle多渠道打包">
+<meta name="twitter:description" content="Gradle多渠道打包
+前言，多渠道打包的作用在于统计哪个app市场最多用户量下载量，推广效果最好。
+
+编译工具：AndroidStudio 2.2preview 1gradle版本: gradle-2.10
+打包原理：通过修改Androidmanifest.xml 自定义meta值来统计不同市场。
+
+下面是总结的打包流程：
+1. 在Androidmanifest.xml中Application标">
 
 
 
@@ -90,7 +105,7 @@
   };
 </script>
 
-  <title> U8SDK开发笔记 | C君's Blog </title>
+  <title> gradle多渠道打包 | C君's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
@@ -220,7 +235,7 @@
             
             
               
-                U8SDK开发笔记
+                gradle多渠道打包
               
             
           </h1>
@@ -232,8 +247,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-03-28T10:53:17+08:00" content="2016-03-28">
-              2016-03-28
+            <time itemprop="dateCreated" datetime="2016-05-30T20:32:15+08:00" content="2016-05-30">
+              2016-05-30
             </time>
           </span>
 
@@ -243,8 +258,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/03/28/U8SDK开发笔记/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/28/U8SDK开发笔记/" itemprop="commentsCount"></span>
+                <a href="/2016/05/30/gradle多渠道打包/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/30/gradle多渠道打包/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -266,12 +281,70 @@
       
 
       
-        <h2 id="u4EC0_u4E48_u662FU8SDK"><a href="#u4EC0_u4E48_u662FU8SDK" class="headerlink" title="什么是U8SDK"></a>什么是U8SDK</h2><p>集成各个渠道比如（uc,小米，360）的sdk ，一次接入，打包出不同渠道的APK，大大减少游戏接入渠道的繁琐操作。</p>
-<p>统一的接入框架，<br>各个SDK的接入<br> 一键打包工具(python)，<br>统一的登录验证中心支付中心，<br>多个平台（unity,coco2dx）的支持.</p>
-<h2 id="u5DE5_u4F5C_u539F_u7406"><a href="#u5DE5_u4F5C_u539F_u7406" class="headerlink" title="工作原理"></a>工作原理</h2><p>初始化时根据不同渠道U8Server自定义U8id,U8key分配给U8SDK<br>U8SDK抽象层实现各个渠道的登录，获取登录信息后 u8server登录验证返回验证结果，返回给游戏。<br>U8SDK调用各个渠道的支付后，渠道支付首先通知U8server,U8server再通知游戏服务器。</p>
-<p>打包工具用到的jar等<br>aapt.exe,android.jar,apktool.jar,baksmail.jar,dx.bat,zipalign.exe</p>
-<h2 id="u5DE5_u4F5C_u6D41_u7A0B"><a href="#u5DE5_u4F5C_u6D41_u7A0B" class="headerlink" title="工作流程"></a>工作流程</h2><p>游戏母包接入U8sdk,反编译母包，复制各个渠道sdk的res，assets，资源到母包，各个渠道.dx转smali后复制到母包，合并AndroidManifest.xml权限，Service,Activity等。修改包名（.activity，.service），合并资源后重新生成R文件，回编译母包，签名母包。</p>
+        <h1 id="Gradle_u591A_u6E20_u9053_u6253_u5305"><a href="#Gradle_u591A_u6E20_u9053_u6253_u5305" class="headerlink" title="Gradle多渠道打包"></a>Gradle多渠道打包</h1><blockquote>
+<p>前言，多渠道打包的作用在于统计哪个app市场最多用户量下载量，推广效果最好。</p>
+</blockquote>
+<p>编译工具：AndroidStudio 2.2preview 1<br>gradle版本: gradle-2.10</p>
+<p>打包原理：通过修改Androidmanifest.xml 自定义meta值来统计不同市场。</p>
+<hr>
+<p>下面是总结的打包流程：</p>
+<h2 id="1-__u5728Androidmanifest-xml_u4E2DApplication_u6807_u7B7E_u4E0B"><a href="#1-__u5728Androidmanifest-xml_u4E2DApplication_u6807_u7B7E_u4E0B" class="headerlink" title="1. 在Androidmanifest.xml中Application标签下"></a>1. 在Androidmanifest.xml中Application标签下</h2><p>新增meta标签，name根据你的统计方式来定义，你可以用你app名（PPJUN_CHANNEL）<br>，如果你用友盟的统计name就要用UMENG_CHANNEL了。</p>
+<p>自家自定义</p>
+<pre><code>&lt;meta-data
+android:name=&quot;PPJUN_CHANNEL&quot;
+android:value=&quot;{UMENG_CHANNEL_ID}&quot;/&gt;
+</code></pre><p>友盟统计</p>
+<pre><code>&lt;meta-data
+  android:name=&quot;UMENG_APPKEY&quot;
+  android:value=&quot;123&quot;/&gt;
 
+&lt;meta-data
+  android:name=&quot;UMENG_CHANNEL&quot;
+  android:value=&quot;{UMENG_CHANNEL_ID}&quot;/&gt;
+</code></pre><h2 id="2-__u8BBE_u7F6Ebuild-gradle"><a href="#2-__u8BBE_u7F6Ebuild-gradle" class="headerlink" title="2. 设置build.gradle"></a>2. 设置build.gradle</h2><p>在app的build.gradle设置</p>
+<pre><code>android{
+   ...
+   //配置签名信息
+   signingConfigs {
+    release {
+        keyAlias &apos;ppjun&apos;
+        keyPassword &apos;ppjun123&apos;
+        storeFile file(&apos;C:/Users/Rabbit/Desktop/umeng_message201603291611_v2.8.0/LabelView/app/ppjun.jks&apos;)
+        storePassword &apos;ppjun123&apos;
+
+    }
+}
+
+   //配置签名apk优化
+   buildTypes {
+    release {
+        zipAlignEnabled true
+        minifyEnabled true
+        shrinkResources true
+        proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;
+        signingConfig signingConfigs.release
+    }
+}
+
+   //配置渠道号
+   productFlavors {
+    baidu {}
+    google {}
+    wandoujia {}
+    xiaomi {}
+
+}
+   //关联渠道号和Androidmani.xml
+productFlavors.all { flavor -&gt;
+    flavor.manifestPlaceholders = [UMENG_CHANNEL_ID: flavor.name]
+}
+
+}
+</code></pre><h2 id="3-_u5728Terminal_u8FD0_u884C_u547D_u4EE4"><a href="#3-_u5728Terminal_u8FD0_u884C_u547D_u4EE4" class="headerlink" title="3.在Terminal运行命令"></a>3.在Terminal运行命令</h2><p>先运行</p>
+<pre><code>gradlew clean 
+</code></pre><p>成功后再运行</p>
+<pre><code>gradlew assembleRelease
+</code></pre>
       
     </div>
 
@@ -283,28 +356,18 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/U8SDK/" rel="tag">#U8SDK</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/23/Dagger2-笔记/" rel="next" title="Dagger2 笔记">
-                <i class="fa fa-chevron-left"></i> Dagger2 笔记
+              <a href="/2016/03/28/U8SDK开发笔记/" rel="next" title="U8SDK开发笔记">
+                <i class="fa fa-chevron-left"></i> U8SDK开发笔记
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/05/30/gradle多渠道打包/" rel="prev" title="gradle多渠道打包">
-                gradle多渠道打包 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -330,8 +393,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/03/28/U8SDK开发笔记/"
-           data-title="U8SDK开发笔记" data-url="http://yoursite.com/2016/03/28/U8SDK开发笔记/">
+      <div class="ds-thread" data-thread-key="2016/05/30/gradle多渠道打包/"
+           data-title="gradle多渠道打包" data-url="http://yoursite.com/2016/05/30/gradle多渠道打包/">
       </div>
     
   </div>
@@ -438,7 +501,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#u4EC0_u4E48_u662FU8SDK"><span class="nav-number">1.</span> <span class="nav-text">什么是U8SDK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u5DE5_u4F5C_u539F_u7406"><span class="nav-number">2.</span> <span class="nav-text">工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u5DE5_u4F5C_u6D41_u7A0B"><span class="nav-number">3.</span> <span class="nav-text">工作流程</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Gradle_u591A_u6E20_u9053_u6253_u5305"><span class="nav-number">1.</span> <span class="nav-text">Gradle多渠道打包</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-__u5728Androidmanifest-xml_u4E2DApplication_u6807_u7B7E_u4E0B"><span class="nav-number">1.1.</span> <span class="nav-text">1. 在Androidmanifest.xml中Application标签下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-__u8BBE_u7F6Ebuild-gradle"><span class="nav-number">1.2.</span> <span class="nav-text">2. 设置build.gradle</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-_u5728Terminal_u8FD0_u884C_u547D_u4EE4"><span class="nav-number">1.3.</span> <span class="nav-text">3.在Terminal运行命令</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
