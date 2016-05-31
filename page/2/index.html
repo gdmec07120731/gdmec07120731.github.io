@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Dagger2," />
+  <meta name="keywords" content="Hexo, World" />
 
 
 
@@ -57,22 +57,15 @@
 
 
 
-<meta name="description" content="本文摘要自http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html目前安卓开发最新技术用到Retrofit网络请求框架，Rxjava异步处理，OkHttp网络请求，加上Gson解析，MVP项目架构，Lambda语法，Dagger2依赖注入，ButterKnife控件的依赖等
-
-什么是Dagger2Dagger2是Da">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Dagger2 笔记">
-<meta property="og:url" content="http://www.lanyimi.com/2016/03/23/Dagger2-笔记/index.html">
+<meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ppjun's Blog">
+<meta property="og:url" content="http://www.lanyimi.com/page/2/index.html">
 <meta property="og:site_name" content="ppjun's Blog">
-<meta property="og:description" content="本文摘要自http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html目前安卓开发最新技术用到Retrofit网络请求框架，Rxjava异步处理，OkHttp网络请求，加上Gson解析，MVP项目架构，Lambda语法，Dagger2依赖注入，ButterKnife控件的依赖等
-
-什么是Dagger2Dagger2是Da">
-<meta property="og:updated_time" content="2016-03-23T11:04:47.407Z">
+<meta property="og:description">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Dagger2 笔记">
-<meta name="twitter:description" content="本文摘要自http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html目前安卓开发最新技术用到Retrofit网络请求框架，Rxjava异步处理，OkHttp网络请求，加上Gson解析，MVP项目架构，Lambda语法，Dagger2依赖注入，ButterKnife控件的依赖等
-
-什么是Dagger2Dagger2是Da">
+<meta name="twitter:title" content="ppjun's Blog">
+<meta name="twitter:description">
 
 
 
@@ -90,7 +83,7 @@
   };
 </script>
 
-  <title> Dagger2 笔记 | ppjun's Blog </title>
+  <title> ppjun's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
@@ -121,7 +114,9 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container one-collumn sidebar-position-left 
+   page-home 
+ ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -198,9 +193,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
   
@@ -220,7 +215,110 @@
             
             
               
-                Dagger2 笔记
+                
+                <a class="post-title-link" href="/2016/03/28/U8SDK开发笔记/" itemprop="url">
+                  U8SDK开发笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Postado em</span>
+            <time itemprop="dateCreated" datetime="2016-03-28T10:53:17+08:00" content="2016-03-28">
+              2016-03-28
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/03/28/U8SDK开发笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/28/U8SDK开发笔记/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="u4EC0_u4E48_u662FU8SDK"><a href="#u4EC0_u4E48_u662FU8SDK" class="headerlink" title="什么是U8SDK"></a>什么是U8SDK</h2><p>集成各个渠道比如（uc,小米，360）的sdk ，一次接入，打包出不同渠道的APK，大大减少游戏接入渠道的繁琐操作。</p>
+<p>统一的接入框架，<br>各个SDK的接入<br> 一键打包工具(python)，<br>统一的登录验证中心支付中心，<br>多个平台（unity,coco2dx）的支持.</p>
+<h2 id="u5DE5_u4F5C_u539F_u7406"><a href="#u5DE5_u4F5C_u539F_u7406" class="headerlink" title="工作原理"></a>工作原理</h2><p>初始化时根据不同渠道U8Server自定义U8id,U8key分配给U8SDK<br>U8SDK抽象层实现各个渠道的登录，获取登录信息后 u8server登录验证返回验证结果，返回给游戏。<br>U8SDK调用各个渠道的支付后，渠道支付首先通知U8server,U8server再通知游戏服务器。</p>
+<p>打包工具用到的jar等<br>aapt.exe,android.jar,apktool.jar,baksmail.jar,dx.bat,zipalign.exe</p>
+<h2 id="u5DE5_u4F5C_u6D41_u7A0B"><a href="#u5DE5_u4F5C_u6D41_u7A0B" class="headerlink" title="工作流程"></a>工作流程</h2><p>游戏母包接入U8sdk,反编译母包，复制各个渠道sdk的res，assets，资源到母包，各个渠道.dx转smali后复制到母包，合并AndroidManifest.xml权限，Service,Activity等。修改包名（.activity，.service），合并资源后重新生成R文件，回编译母包，签名母包。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/03/23/Dagger2-笔记/" itemprop="url">
+                  Dagger2 笔记
+                </a>
               
             
           </h1>
@@ -266,7 +364,9 @@
       
 
       
-        <blockquote>
+        
+          
+            <blockquote>
 <p>本文摘要自<a href="http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html" target="_blank" rel="external">http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html</a><br>目前安卓开发最新技术用到Retrofit网络请求框架，Rxjava异步处理，OkHttp网络请求，加上Gson解析，MVP项目架构，Lambda语法，Dagger2依赖注入，ButterKnife控件的依赖等</p>
 </blockquote>
 <h3 id="u4EC0_u4E48_u662FDagger2"><a href="#u4EC0_u4E48_u662FDagger2" class="headerlink" title="什么是Dagger2"></a>什么是Dagger2</h3><p><a href="https://github.com/google/dagger/" target="_blank" rel="external">Dagger2</a>是Dagger1的分支，由谷歌公司接手开发，目前的版本是2.0。Dagger2是受到AutoValue项目的启发。 刚开始，Dagger2解决问题的基本思想是：利用生成和写的代码混合达到看似所有的产生和提供依赖的代码都是手写的样子。</p>
@@ -287,55 +387,36 @@
 <hr>
 <p><strong><em>@Qualifier</em></strong> 当类的类型不足以鉴别一个依赖的时候，我们就可以用这个注解来标示，例如：我们会用不同类型的Context 所以我们就可以定义 Qualifier注解@ForApplication 和@ForActivity<br>这样当注入一个Context的时候，我们就可以告诉dagger我们想要哪种类型的Context</p>
 
+          
+        
       
     </div>
 
     <div>
       
-        
-      
     </div>
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/Dagger2/" rel="tag">#Dagger2</a>
-          
-        </div>
+
       
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/02/26/Android-Studio使用Lambda表达式/" rel="next" title="Android Studio如何配置Lambda">
-                <i class="fa fa-chevron-left"></i> Android Studio如何配置Lambda
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/03/28/U8SDK开发笔记/" rel="prev" title="U8SDK开发笔记">
-                U8SDK开发笔记 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
       
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -343,14 +424,6 @@
 
 
           
-  <div class="comments" id="comments">
-    
-      <div class="ds-thread" data-thread-key="2016/03/23/Dagger2-笔记/"
-           data-title="Dagger2 笔记" data-url="http://www.lanyimi.com/2016/03/23/Dagger2-笔记/">
-      </div>
-    
-  </div>
-
 
         </div>
         
@@ -370,17 +443,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Tabela de Conteúdo
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            Visão Geral
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel ">
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://tp2.sinaimg.cn/1856098257/180/40040512434/1"
@@ -443,23 +507,6 @@
 
       </section>
 
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc-indicator-top post-toc-indicator">
-            <i class="fa fa-angle-double-up"></i>
-          </div>
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u4EC0_u4E48_u662FDagger2"><span class="nav-number">1.</span> <span class="nav-text">什么是Dagger2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u4F9D_u8D56_u6CE8_u5165_u597D_u5904"><span class="nav-number">2.</span> <span class="nav-text">依赖注入好处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dagger2__u4F7F_u7528"><span class="nav-number">3.</span> <span class="nav-text">Dagger2 使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dagger2__u5173_u952E_u8BCD"><span class="nav-number">4.</span> <span class="nav-text">Dagger2 关键词</span></a></li></ol></div>
-            
-          </div>
-          <div class="post-toc-indicator-bottom post-toc-indicator">
-            <i class="fa fa-angle-double-down"></i>
-          </div>
-        </section>
       
 
     </div>
@@ -551,167 +598,6 @@
 
 
   
-  
-<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
-
-<script type="text/javascript" id="sidebar.toc.highlight">
-  $(document).ready(function () {
-    var tocSelector = '.post-toc';
-    var $tocSelector = $(tocSelector);
-    var activeCurrentSelector = '.active-current';
-
-    $tocSelector
-      .on('activate.bs.scrollspy', function () {
-        var $currentActiveElement = $(tocSelector + ' .active').last();
-
-        removeCurrentActiveClass();
-        $currentActiveElement.addClass('active-current');
-
-        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
-      })
-      .on('clear.bs.scrollspy', function () {
-        removeCurrentActiveClass();
-      });
-
-    function removeCurrentActiveClass () {
-      $(tocSelector + ' ' + activeCurrentSelector)
-        .removeClass(activeCurrentSelector.substring(1));
-    }
-
-    function processTOC () {
-      getTOCMaxHeight();
-      toggleTOCOverflowIndicators();
-    }
-
-    function getTOCMaxHeight () {
-      var height = $('.sidebar').height() -
-                   $tocSelector.position().top -
-                   $('.post-toc-indicator-bottom').height();
-
-      $tocSelector.css('height', height);
-
-      return height;
-    }
-
-    function toggleTOCOverflowIndicators () {
-      tocOverflowIndicator(
-        '.post-toc-indicator-top',
-        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
-      );
-
-      tocOverflowIndicator(
-        '.post-toc-indicator-bottom',
-        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
-      )
-    }
-
-    $(document).on('sidebar.motion.complete', function () {
-      processTOC();
-    });
-
-    $('body').scrollspy({ target: tocSelector });
-    $(window).on('resize', function () {
-      if ( $('.sidebar').hasClass('sidebar-active') ) {
-        processTOC();
-      }
-    });
-
-    onScroll($tocSelector);
-
-    function onScroll (element) {
-      element.on('mousewheel DOMMouseScroll', function (event) {
-          var oe = event.originalEvent;
-          var delta = oe.wheelDelta || -oe.detail;
-
-          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
-          event.preventDefault();
-
-          toggleTOCOverflowIndicators();
-      });
-    }
-
-    function tocOverflowIndicator (indicator, action) {
-      var $indicator = $(indicator);
-      var opacity = action === 'show' ? 1 : 0;
-      $indicator.velocity ?
-        $indicator.velocity('stop').velocity({
-          opacity: opacity
-        }, { duration: 100 }) :
-        $indicator.stop().animate({
-          opacity: opacity
-        }, 100);
-    }
-
-  });
-</script>
-
-<script type="text/javascript" id="sidebar.nav">
-  $(document).ready(function () {
-    var html = $('html');
-    var TAB_ANIMATE_DURATION = 200;
-    var hasVelocity = $.isFunction(html.velocity);
-
-    $('.sidebar-nav li').on('click', function () {
-      var item = $(this);
-      var activeTabClassName = 'sidebar-nav-active';
-      var activePanelClassName = 'sidebar-panel-active';
-      if (item.hasClass(activeTabClassName)) {
-        return;
-      }
-
-      var currentTarget = $('.' + activePanelClassName);
-      var target = $('.' + item.data('target'));
-
-      hasVelocity ?
-        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
-          target
-            .velocity('stop')
-            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
-            .addClass(activePanelClassName);
-        }) :
-        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
-          currentTarget.hide();
-          target
-            .stop()
-            .css({'opacity': 0, 'display': 'block'})
-            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
-              currentTarget.removeClass(activePanelClassName);
-              target.addClass(activePanelClassName);
-            });
-        });
-
-      item.siblings().removeClass(activeTabClassName);
-      item.addClass(activeTabClassName);
-    });
-
-    $('.post-toc a').on('click', function (e) {
-      e.preventDefault();
-      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
-      var offset = $(targetSelector).offset().top;
-      hasVelocity ?
-        html.velocity('stop').velocity('scroll', {
-          offset: offset  + 'px',
-          mobileHA: false
-        }) :
-        $('html, body').stop().animate({
-          scrollTop: offset
-        }, 500);
-    });
-
-    // Expand sidebar on post detail page by default, when post has a toc.
-    NexT.motion.middleWares.sidebar = function () {
-      var $tocContent = $('.post-toc-content');
-
-      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
-        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
-          NexT.utils.displaySidebar();
-        }
-      }
-    };
-  });
-</script>
-
-
 
   
 

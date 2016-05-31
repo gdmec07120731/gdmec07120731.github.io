@@ -59,12 +59,12 @@
 
 <meta name="description">
 <meta property="og:type" content="website">
-<meta property="og:title" content="ppjun君's Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="ppjun君's Blog">
+<meta property="og:title" content="ppjun's Blog">
+<meta property="og:url" content="http://www.lanyimi.com/index.html">
+<meta property="og:site_name" content="ppjun's Blog">
 <meta property="og:description">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ppjun君's Blog">
+<meta name="twitter:title" content="ppjun's Blog">
 <meta name="twitter:description">
 
 
@@ -78,15 +78,15 @@
     motion: true,
     duoshuo: {
       userId: 0,
-      author: '博主'
+      author: 'Author'
     }
   };
 </script>
 
-  <title> ppjun君's Blog </title>
+  <title> ppjun's Blog </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
 
@@ -126,7 +126,7 @@
   <div class="custom-logo-site-title">
     <a href="/"  class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <span class="site-title">ppjun君's Blog</span>
+      <span class="site-title">ppjun's Blog</span>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -153,7 +153,7 @@
             
               <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
             
-            首頁
+            Home
           </a>
         </li>
       
@@ -163,7 +163,7 @@
             
               <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
             
-            歸檔
+            Arquivos
           </a>
         </li>
       
@@ -173,7 +173,7 @@
             
               <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
             
-            關於
+            Sobre
           </a>
         </li>
       
@@ -229,7 +229,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">Postado em</span>
             <time itemprop="dateCreated" datetime="2016-05-31T14:44:33+08:00" content="2016-05-31">
               2016-05-31
             </time>
@@ -325,7 +325,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">Postado em</span>
             <time itemprop="dateCreated" datetime="2016-05-30T20:32:15+08:00" content="2016-05-30">
               2016-05-30
             </time>
@@ -482,646 +482,13 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/28/U8SDK开发笔记/" itemprop="url">
-                  U8SDK开发笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-03-28T10:53:17+08:00" content="2016-03-28">
-              2016-03-28
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/03/28/U8SDK开发笔记/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/28/U8SDK开发笔记/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="u4EC0_u4E48_u662FU8SDK"><a href="#u4EC0_u4E48_u662FU8SDK" class="headerlink" title="什么是U8SDK"></a>什么是U8SDK</h2><p>集成各个渠道比如（uc,小米，360）的sdk ，一次接入，打包出不同渠道的APK，大大减少游戏接入渠道的繁琐操作。</p>
-<p>统一的接入框架，<br>各个SDK的接入<br> 一键打包工具(python)，<br>统一的登录验证中心支付中心，<br>多个平台（unity,coco2dx）的支持.</p>
-<h2 id="u5DE5_u4F5C_u539F_u7406"><a href="#u5DE5_u4F5C_u539F_u7406" class="headerlink" title="工作原理"></a>工作原理</h2><p>初始化时根据不同渠道U8Server自定义U8id,U8key分配给U8SDK<br>U8SDK抽象层实现各个渠道的登录，获取登录信息后 u8server登录验证返回验证结果，返回给游戏。<br>U8SDK调用各个渠道的支付后，渠道支付首先通知U8server,U8server再通知游戏服务器。</p>
-<p>打包工具用到的jar等<br>aapt.exe,android.jar,apktool.jar,baksmail.jar,dx.bat,zipalign.exe</p>
-<h2 id="u5DE5_u4F5C_u6D41_u7A0B"><a href="#u5DE5_u4F5C_u6D41_u7A0B" class="headerlink" title="工作流程"></a>工作流程</h2><p>游戏母包接入U8sdk,反编译母包，复制各个渠道sdk的res，assets，资源到母包，各个渠道.dx转smali后复制到母包，合并AndroidManifest.xml权限，Service,Activity等。修改包名（.activity，.service），合并资源后重新生成R文件，回编译母包，签名母包。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/23/Dagger2-笔记/" itemprop="url">
-                  Dagger2 笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-03-23T11:39:14+08:00" content="2016-03-23">
-              2016-03-23
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/03/23/Dagger2-笔记/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/23/Dagger2-笔记/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>本文摘要自<a href="http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html" target="_blank" rel="external">http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html</a><br>目前安卓开发最新技术用到Retrofit网络请求框架，Rxjava异步处理，OkHttp网络请求，加上Gson解析，MVP项目架构，Lambda语法，Dagger2依赖注入，ButterKnife控件的依赖等</p>
-</blockquote>
-<h3 id="u4EC0_u4E48_u662FDagger2"><a href="#u4EC0_u4E48_u662FDagger2" class="headerlink" title="什么是Dagger2"></a>什么是Dagger2</h3><p><a href="https://github.com/google/dagger/" target="_blank" rel="external">Dagger2</a>是Dagger1的分支，由谷歌公司接手开发，目前的版本是2.0。Dagger2是受到AutoValue项目的启发。 刚开始，Dagger2解决问题的基本思想是：利用生成和写的代码混合达到看似所有的产生和提供依赖的代码都是手写的样子。</p>
-<h3 id="u4F9D_u8D56_u6CE8_u5165_u597D_u5904"><a href="#u4F9D_u8D56_u6CE8_u5165_u597D_u5904" class="headerlink" title="依赖注入好处"></a>依赖注入好处</h3><p>依赖注入好处就是大大方便解耦，方便修改代码，为什么要用Dagger2利用编译期的注解处理来生成依赖注入的代码，尽可能的减少了反射的使用，提高app性能。</p>
-<h3 id="Dagger2__u4F7F_u7528"><a href="#Dagger2__u4F7F_u7528" class="headerlink" title="Dagger2 使用"></a>Dagger2 使用</h3><p>在AndroidStudio 使用<br>在build:gradle(Moudle:app)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">    apply plugin: <span class="string">'com.neenbedankt.android-apt'</span> </span><br><span class="line"></span><br><span class="line">    dependencies &#123;</span><br><span class="line">           compile <span class="string">'com.google.dagger:dagger:2.1'</span> <span class="comment">// dagger2</span></span><br><span class="line">           apt <span class="string">'com.google.dagger:dagger-compiler:2.1'</span> <span class="comment">// dagger2</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在build:gradle(Project:项目名)<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">     dependencies &#123;</span><br><span class="line">            classpath <span class="string">'com.android.tools.build:gradle:2.1.0-alpha3'</span></span><br><span class="line">            classpath <span class="string">'com.neenbedankt.gradle.plugins:android-apt:1.8'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>以上配置完毕</p>
-<h3 id="Dagger2__u5173_u952E_u8BCD"><a href="#Dagger2__u5173_u952E_u8BCD" class="headerlink" title="Dagger2 关键词"></a>Dagger2 关键词</h3><p> <strong><em>@Inject</em></strong>  通常需要依赖的地方使用这个注解，换句话来说它告诉dagger这个类或者字段需要依赖，这样子 dagger就会造这个类的实例来满足依赖。例如在MainActivity类里 实例化 GitHubService ,下面就可以直接使用mGitHubService。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Inject</span></span><br><span class="line">GitHubService mGitHubService;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p> <strong><em>@Module</em></strong>  Modules类里面的方法专门提供依赖，所以我们定义一个类用@Module注解，这样Dagger构建类的实例的时候，就知道从哪里找到需要的依赖，module的一个重要特征是他们设计为分区并结合使用，比如在Modules包下 有MainModule ,ApiModule或者DBModule这些类都注解了@Module<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApiModule</span> </span>&#123;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p><strong><em>@Provides</em></strong>  我们为在Module类中 定义的方法使用这个注解 ，来告诉dagger我们构造对象并且提供这些方法依赖<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApiModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Provides</span></span><br><span class="line">    <span class="annotation">@Singleton</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> GitHubService <span class="title">provideGitHubService</span><span class="params">()</span> </span>&#123;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p><strong><em>@Component</em></strong>  @Component从根本上来说是一个注解器，也就是说@Inject和@Module的桥梁，它的主要作用就是连接这两个部分，@Component可以提供所有定义了类型的实例，比如：我们必须用@Component注解一个接口，然后列出所有的@Module组成改组件，如果缺失任何一块都会在编译的时候报错，所有的组件都可以通过他的@Module知道依赖范围。例子中定义DemoComponent接口 用@Component注解所有的@Module类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Singleton</span></span><br><span class="line"><span class="annotation">@Component</span>(modules = &#123;MainModule.class, ApiModule.class&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DemoComponent</span> <span class="keyword">extends</span> <span class="title">DemoGraph</span> </span>&#123;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p><strong><em>@Scope</em></strong> Dagger可以通过自定义注解来限定注解作用域，这是一个非常强大的特点，，因为就如前面说的一样，没必要让每个对象都去了解如何管理他们的实例，在Scope例子中，我们自定义@PerActivity注解一个类，所以这个对象存活时间就和activity一样，简单来说就是我们定义所有范围的粒度（@Perfragment,@preUser等）</p>
-<hr>
-<p><strong><em>@Qualifier</em></strong> 当类的类型不足以鉴别一个依赖的时候，我们就可以用这个注解来标示，例如：我们会用不同类型的Context 所以我们就可以定义 Qualifier注解@ForApplication 和@ForActivity<br>这样当注入一个Context的时候，我们就可以告诉dagger我们想要哪种类型的Context</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/02/26/Android-Studio使用Lambda表达式/" itemprop="url">
-                  Android Studio如何配置Lambda
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-02-26T17:51:51+08:00" content="2016-02-26">
-              2016-02-26
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/02/26/Android-Studio使用Lambda表达式/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/02/26/Android-Studio使用Lambda表达式/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="1_u3001_u4EC0_u4E48_u662FLambda"><a href="#1_u3001_u4EC0_u4E48_u662FLambda" class="headerlink" title="1、什么是Lambda"></a>1、什么是Lambda</h4><p>Java 8的一个大亮点是引入Lambda表达式，使用它设计的代码会更加简洁。当开发者在编写Lambda表达式时，也会随之被编译成一个函数式接口。下面这个例子就是使用Lambda语法来代替匿名的内部类，代码不仅简洁，而且还可读。_来源百度百科</p>
-<p>使用Lambda前<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">button.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">     <span class="annotation">@Override</span></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">          <span class="comment">//dosomething</span></span><br><span class="line">     &#125;</span><br><span class="line"> &#125;);</span><br></pre></td></tr></table></figure></p>
-<p>使用lambda后<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">button.setOnClickListener(</span><br><span class="line">              v -&gt; &#123;</span><br><span class="line">         <span class="comment">//dosomething</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<h4 id="2_u3001AndroidStudio_u600E_u4E48_u914D_u7F6ELambda"><a href="#2_u3001AndroidStudio_u600E_u4E48_u914D_u7F6ELambda" class="headerlink" title="2、AndroidStudio怎么配置Lambda"></a>2、AndroidStudio怎么配置Lambda</h4><p>   在build.gradle(Moudle:app) </p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">apply <span class="string">plugin:</span><span class="string">'me.tatarka.retrolambda'</span></span><br><span class="line">  </span><br><span class="line">android&#123;</span><br><span class="line">   compileOptions&#123;</span><br><span class="line">      sourceCompatibility org.gradle.api.JavaVersion.VERSION_1_8</span><br><span class="line">      targetCompatibility org.gradle.api.JavaVersion.VERSION_1_8</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在build.gradle(Project:项目名)  </p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">    classpath <span class="string">'com.android.tools.build:gradle:2.0.0-beta6'</span></span><br><span class="line">    classpath <span class="string">'me.tatarka:gradle-retrolambda:3.2.4'</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>以上配置完毕。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/02/24/如何科学上网/" itemprop="url">
-                  如何科学上网
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-02-24T11:33:51+08:00" content="2016-02-24">
-              2016-02-24
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/02/24/如何科学上网/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/02/24/如何科学上网/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="u5728window_u4E0A_u7684_u79D1_u5B66_u4E0A_u7F51"><a href="#u5728window_u4E0A_u7684_u79D1_u5B66_u4E0A_u7F51" class="headerlink" title="在window上的科学上网"></a>在window上的科学上网</h3><h4 id="u65B9_u6CD5_u4E00__uFF1A_u5F71_u68ADShadowSocks"><a href="#u65B9_u6CD5_u4E00__uFF1A_u5F71_u68ADShadowSocks" class="headerlink" title="方法一 ：影梭ShadowSocks"></a>方法一 ：影梭ShadowSocks</h4><p>1、下载shadowsocks软件</p>
-<p>百度网盘<a href="http://pan.baidu.com/s/1bsrCZW" target="_blank" rel="external">下载链接</a></p>
-<p>2、打开shadowsocks 输入shadowsocks账号</p>
-<p>ps ：免费账号获取方式 打开<a href="http://www.ishadowsocks.com/" title="ishadowsocks" target="_blank" rel="external">链接</a> 进入ishadowsocks （每6小时更换一次密码 中午12点左右换一次的）</p>
-<h4 id="u65B9_u6CD5_u4E8C__uFF1A_u84DD_u706FLantern"><a href="#u65B9_u6CD5_u4E8C__uFF1A_u84DD_u706FLantern" class="headerlink" title="方法二 ：蓝灯Lantern"></a>方法二 ：蓝灯Lantern</h4><p>Lantern是一个免费的应用程序。它能帮助你随时随地快速、可靠、安全地访问互联网。</p>
-<p>蓝灯官网（需翻墙）<a href="https://getlantern.org/" target="_blank" rel="external"> https://getlantern.org/</a><br>蓝灯github <a href="https://github.com/getlantern/lantern" target="_blank" rel="external">https://github.com/getlantern/lantern</a></p>
-<p>下载window版本安装后无需配置就可以直接科学上网 <a href="https://raw.githubusercontent.com/getlantern/lantern-binaries/master/lantern-installer-beta.exe" target="_blank" rel="external">https://raw.githubusercontent.com/getlantern/lantern-binaries/master/lantern-installer-beta.exe</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/11/Cocos2d-x接入第三方SDK/" itemprop="url">
-                  Cocos2d-x接入第三方SDK
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-01-11T00:00:00+08:00" content="2016-01-11">
-              2016-01-11
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/01/11/Cocos2d-x接入第三方SDK/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/11/Cocos2d-x接入第三方SDK/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Cocos2d-x_u6E38_u620F_u63A5_u5165_u5B89_u5353_u7B2C_u4E09_u65B9SDK"><a href="#Cocos2d-x_u6E38_u620F_u63A5_u5165_u5B89_u5353_u7B2C_u4E09_u65B9SDK" class="headerlink" title="Cocos2d-x游戏接入安卓第三方SDK"></a>Cocos2d-x游戏接入安卓第三方SDK</h3><h4 id="1-_u6982_u8FF0"><a href="#1-_u6982_u8FF0" class="headerlink" title="1.概述"></a>1.概述</h4><p>U3D游戏和Cocos2dx手游都会接入不同渠道的支付方式，本文运用jni知识以360渠道接入作为演示。</p>
-<h4 id="2-_u73AF_u5883"><a href="#2-_u73AF_u5883" class="headerlink" title="2.环境"></a>2.环境</h4><p>OS: win10<br>IDE: Eclipse<br>Adnroid NDK:r10e<br>cocos2d-x-3.9</p>
-<h4 id="3-_u521B_u5EFACocos2d-x_u5DE5_u7A0B"><a href="#3-_u521B_u5EFACocos2d-x_u5DE5_u7A0B" class="headerlink" title="3.创建Cocos2d-x工程"></a>3.创建Cocos2d-x工程</h4><p>运行命令</p>
-<pre><code>cocos new -p com.ohj.cocos2dx360 -l cpp -d Cocos2dx360SDK
-</code></pre><p>然后进入Cocos2dx360SDK-MyCppGame-proj.android执行build_native.py 生成.so文件</p>
-<p>编译成功后你会在libs-armeabi看到libcocos2dcpp.so </p>
-<p>最后导入Eclipse，是导入2个工程 ，分别是MyCppGame和库libcocos2dx。（导入EC时注意不要复制工程项目到工作区间）</p>
-<h4 id="4-_u5F00_u59CB_u914D_u7F6E360SDK"><a href="#4-_u5F00_u59CB_u914D_u7F6E360SDK" class="headerlink" title="4.开始配置360SDK"></a>4.开始配置360SDK</h4><p>导入assets、lib文件，配置好AndroidManifest.xml </p>
-<p>在AppActivity.java 的OnCreate初始化</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">   <span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">	<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">	<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">	</span><br><span class="line">	mContext = <span class="keyword">this</span>;</span><br><span class="line">	Matrix.init(<span class="keyword">this</span>);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>接着创建静态登录方法，直接调用360的登录方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span>  <span class="title">login360</span><span class="params">()</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	Intent intent = getLoginIntent();</span><br><span class="line">	IDispatcherCallback callback = mLoginCallback;</span><br><span class="line">	Matrix.execute(mContext, intent, callback);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="5-jni_u8C03_u7528_u767B_u5F55_u65B9_u6CD5"><a href="#5-jni_u8C03_u7528_u767B_u5F55_u65B9_u6CD5" class="headerlink" title="5.jni调用登录方法"></a>5.jni调用登录方法</h4><p>在classes下创建SDK360.h 和SDK.cpp</p>
-<p>SDK360.h 代码如下<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">  <span class="preprocessor">#<span class="keyword">ifndef</span> __SDK360_H__</span></span><br><span class="line">  <span class="preprocessor">#<span class="keyword">define</span> __SDK360_H__</span></span><br><span class="line"></span><br><span class="line">  <span class="preprocessor">#<span class="keyword">include</span> <span class="string">"cocos2d.h"</span></span></span><br><span class="line"></span><br><span class="line">  <span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span>  </span></span><br><span class="line">  <span class="keyword">using</span> <span class="keyword">namespace</span> cocos2d;</span><br><span class="line">  <span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line">  <span class="keyword">class</span> SDK360</span><br><span class="line">  &#123;</span><br><span class="line">   <span class="keyword">public</span>:</span><br><span class="line">   SDK360();</span><br><span class="line">   <span class="keyword">virtual</span> ~SDK360();</span><br><span class="line"><span class="function"><span class="keyword">static</span> SDK360*  <span class="title">getInstance</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">login</span><span class="params">()</span></span>;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="preprocessor">#<span class="keyword">endif</span> <span class="comment">// __SDK360_H__</span></span></span><br></pre></td></tr></table></figure></p>
-<p>SDK360.cpp 代码如下<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">    <span class="preprocessor">#<span class="keyword">include</span> <span class="string">"SDK360.h"</span></span></span><br><span class="line">    <span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span>  </span></span><br><span class="line">    <span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;jni.h&gt;</span></span></span><br><span class="line">    <span class="preprocessor">#<span class="keyword">include</span> <span class="string">"cocos2d.h"</span></span></span><br><span class="line">    <span class="preprocessor">#<span class="keyword">include</span> <span class="string">"platform/android/jni/JniHelper.h"</span></span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line">    <span class="keyword">static</span> SDK360* mInstance=<span class="literal">NULL</span>;</span><br><span class="line">    SDK360::SDK360()</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    SDK360::~SDK360()</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    SDK360* SDK360::getInstance()</span><br><span class="line">    &#123;</span><br><span class="line"><span class="keyword">if</span>(<span class="literal">NULL</span>==mInstance)</span><br><span class="line">&#123;</span><br><span class="line">mInstance=<span class="keyword">new</span> SDK360();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> mInstance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">void</span> SDK360::login()</span><br><span class="line">   &#123;</span><br><span class="line"></span><br><span class="line">   <span class="preprocessor">#<span class="keyword">if</span>(CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID)</span></span><br><span class="line">   JniMethodInfo minfo;</span><br><span class="line">   <span class="keyword">bool</span> isHave=JniHelper::getStaticMethodInfo(minfo,<span class="string">"org/cocos2dx/cpp/AppActivity"</span>,<span class="string">"login360"</span>,<span class="string">"()V"</span>);</span><br><span class="line"><span class="keyword">if</span>(!isHave)&#123;</span><br><span class="line">	</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line"> minfo.env-&gt;CallStaticVoidMethod(minfo.classID,minfo.methodID);</span><br><span class="line"> minfo.env-&gt;DeleteLocalRef(minfo.classID);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">   <span class="preprocessor">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
-<p>我们会在原工程右下角调用登录方法，需要修改HelloWorldScence.cpp</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">"SDK360.h"</span></span></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line"> <span class="keyword">void</span> HelloWorld::menuCloseCallback(Ref* pSender)</span><br><span class="line"> &#123;</span><br><span class="line">  SDK360::getInstance()-&gt;login();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p> 最后在工程目录下jni-Android.mk 调用刚写好的SDK360.cpp</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_SRC_FILES := hellocpp/main.cpp \</span><br><span class="line">               ../../Classes/AppDelegate.cpp \</span><br><span class="line">               ../../Classes/SDK360.cpp \</span><br><span class="line">               ../../Classes/HelloWorldScene.cpp</span><br></pre></td></tr></table></figure>
-<p>修改过c++文件都要重新编译一下.so文件<br>执行build_native.py 编译成功后你就可以run运行起来了。</p>
-<p>ps: 调用360支付也同样道理.</p>
-<p><a href="https://github.com/gdmec07120731/Cocos2dx360SDK" target="_blank" rel="external">Demo下载。</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/12/10/VirtualBox无法运行/" itemprop="url">
-                  VirtualBox出现VERR _INTNET _FLT _IF _NOT _FOUND
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-12-10T09:39:47+08:00" content="2015-12-10">
-              2015-12-10
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/12/10/VirtualBox无法运行/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/10/VirtualBox无法运行/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="u89E3_u51B3win10_u5347_u7EA7TH2_u540E_VirtualBox_u51FA_u73B0VERR__INTNET__FLT__IF__NOT__FOUND_u95EE_u9898"><a href="#u89E3_u51B3win10_u5347_u7EA7TH2_u540E_VirtualBox_u51FA_u73B0VERR__INTNET__FLT__IF__NOT__FOUND_u95EE_u9898" class="headerlink" title="解决win10升级TH2后 VirtualBox出现VERR _INTNET _FLT _IF _NOT _FOUND问题"></a>解决win10升级TH2后 VirtualBox出现VERR _INTNET _FLT _IF _NOT _FOUND问题</h3><p>出自</p>
-<p><a href="http://tieba.baidu.com/p/4177034202" title="genymotion吧" target="_blank" rel="external"> http://tieba.baidu.com/p/4177034202 </a></p>
-<p><a href="http://superuser.com/questions/1002160/failed-to-start-virtual-device-in-oracle-virtual-box" target="_blank" rel="external">http://superuser.com/questions/1002160/failed-to-start-virtual-device-in-oracle-virtual-box</a></p>
-<h4 id="u95EE_u9898_u63CF_u8FF0"><a href="#u95EE_u9898_u63CF_u8FF0" class="headerlink" title="问题描述"></a>问题描述</h4><p>win10升级TH2后virtualbox无法正常运行，virtualbox关键错误VERR _INTNET _FLT _IF _NOT _FOUND</p>
-<h4 id="u89E3_u51B3_u529E_u6CD5"><a href="#u89E3_u51B3_u529E_u6CD5" class="headerlink" title="解决办法"></a>解决办法</h4><p>打开 网络和共享中心-更改适配器设置-选择VirtualBox Host-Only Network-右击属性</p>
-<p><strong>把VirtualBox NDIS6 Bridged Networking Driver 选择上就OK可以运行genymotion了</strong></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1161,7 +528,7 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
           <div class="site-state-item site-state-posts">
             <a href="/archives">
               <span class="site-state-item-count">8</span>
-              <span class="site-state-item-name">文章</span>
+              <span class="site-state-item-name">publicações</span>
             </a>
           </div>
 
@@ -1171,7 +538,7 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
             <div class="site-state-item site-state-tags">
               
                 <span class="site-state-item-count">6</span>
-                <span class="site-state-item-name">標籤</span>
+                <span class="site-state-item-name">tags</span>
               
             </div>
           
@@ -1235,11 +602,11 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
 </div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+  Desenvolvido com amor com <a class="theme-link" href="http://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  主題 -
+  Tema -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Pisces
   </a>
