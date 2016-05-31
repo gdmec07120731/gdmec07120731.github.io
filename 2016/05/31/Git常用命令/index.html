@@ -57,37 +57,16 @@
 
 
 
-<meta name="description" content="Gradle多渠道打包
-前言，多渠道打包的作用在于统计哪个app市场最多用户量下载量，推广效果最好。
-
-编译工具：AndroidStudio 2.2preview 1gradle版本: gradle-2.10
-打包原理：通过修改Androidmanifest.xml 自定义meta值来统计不同市场。
-
-下面是总结的打包流程：
-1. 在Androidmanifest.xml中Application标">
+<meta name="description" content="在window上的git命令git init 新建.git到当前文件夹git status 查看当前项目文件夹有没有添加到githubgit clone xxx.git 克隆项目到本地git add . 添加全部文件到缓存区git commit -m “注释”  添加注释git log 查看注释git push origin master 提交项目代码到master分支上git tag xx 给当">
 <meta property="og:type" content="article">
-<meta property="og:title" content="gradle多渠道打包">
-<meta property="og:url" content="http://yoursite.com/2016/05/30/gradle多渠道打包/index.html">
+<meta property="og:title" content="Git常用命令">
+<meta property="og:url" content="http://yoursite.com/2016/05/31/Git常用命令/index.html">
 <meta property="og:site_name" content="ppjun君's Blog">
-<meta property="og:description" content="Gradle多渠道打包
-前言，多渠道打包的作用在于统计哪个app市场最多用户量下载量，推广效果最好。
-
-编译工具：AndroidStudio 2.2preview 1gradle版本: gradle-2.10
-打包原理：通过修改Androidmanifest.xml 自定义meta值来统计不同市场。
-
-下面是总结的打包流程：
-1. 在Androidmanifest.xml中Application标">
-<meta property="og:updated_time" content="2016-05-30T15:49:05.825Z">
+<meta property="og:description" content="在window上的git命令git init 新建.git到当前文件夹git status 查看当前项目文件夹有没有添加到githubgit clone xxx.git 克隆项目到本地git add . 添加全部文件到缓存区git commit -m “注释”  添加注释git log 查看注释git push origin master 提交项目代码到master分支上git tag xx 给当">
+<meta property="og:updated_time" content="2016-05-31T06:56:34.360Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="gradle多渠道打包">
-<meta name="twitter:description" content="Gradle多渠道打包
-前言，多渠道打包的作用在于统计哪个app市场最多用户量下载量，推广效果最好。
-
-编译工具：AndroidStudio 2.2preview 1gradle版本: gradle-2.10
-打包原理：通过修改Androidmanifest.xml 自定义meta值来统计不同市场。
-
-下面是总结的打包流程：
-1. 在Androidmanifest.xml中Application标">
+<meta name="twitter:title" content="Git常用命令">
+<meta name="twitter:description" content="在window上的git命令git init 新建.git到当前文件夹git status 查看当前项目文件夹有没有添加到githubgit clone xxx.git 克隆项目到本地git add . 添加全部文件到缓存区git commit -m “注释”  添加注释git log 查看注释git push origin master 提交项目代码到master分支上git tag xx 给当">
 
 
 
@@ -105,7 +84,7 @@
   };
 </script>
 
-  <title> gradle多渠道打包 | ppjun君's Blog </title>
+  <title> Git常用命令 | ppjun君's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
@@ -235,7 +214,7 @@
             
             
               
-                gradle多渠道打包
+                Git常用命令
               
             
           </h1>
@@ -247,8 +226,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-05-30T20:32:15+08:00" content="2016-05-30">
-              2016-05-30
+            <time itemprop="dateCreated" datetime="2016-05-31T14:44:33+08:00" content="2016-05-31">
+              2016-05-31
             </time>
           </span>
 
@@ -258,8 +237,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/05/30/gradle多渠道打包/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/30/gradle多渠道打包/" itemprop="commentsCount"></span>
+                <a href="/2016/05/31/Git常用命令/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/31/Git常用命令/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -281,103 +260,8 @@
       
 
       
-        <h1 id="Gradle_u591A_u6E20_u9053_u6253_u5305"><a href="#Gradle_u591A_u6E20_u9053_u6253_u5305" class="headerlink" title="Gradle多渠道打包"></a>Gradle多渠道打包</h1><blockquote>
-<p>前言，多渠道打包的作用在于统计哪个app市场最多用户量下载量，推广效果最好。</p>
-</blockquote>
-<p>编译工具：AndroidStudio 2.2preview 1<br>gradle版本: gradle-2.10</p>
-<p>打包原理：通过修改Androidmanifest.xml 自定义meta值来统计不同市场。</p>
-<hr>
-<p>下面是总结的打包流程：</p>
-<h2 id="1-__u5728Androidmanifest-xml_u4E2DApplication_u6807_u7B7E_u4E0B"><a href="#1-__u5728Androidmanifest-xml_u4E2DApplication_u6807_u7B7E_u4E0B" class="headerlink" title="1. 在Androidmanifest.xml中Application标签下"></a>1. 在Androidmanifest.xml中Application标签下</h2><p>新增meta标签，name根据你的统计方式来定义，你可以用你app名（PPJUN_CHANNEL）<br>，如果你用友盟的统计name就要用UMENG_CHANNEL了。</p>
-<p>自家自定义</p>
-<pre><code>&lt;meta-data
-android:name=&quot;PPJUN_CHANNEL&quot;
-android:value=&quot;{UMENG_CHANNEL_ID}&quot;/&gt;
-</code></pre><p>友盟统计</p>
-<pre><code>&lt;meta-data
-  android:name=&quot;UMENG_APPKEY&quot;
-  android:value=&quot;123&quot;/&gt;
+        <h2 id="u5728window_u4E0A_u7684git_u547D_u4EE4"><a href="#u5728window_u4E0A_u7684git_u547D_u4EE4" class="headerlink" title="在window上的git命令"></a>在window上的git命令</h2><p>git init 新建.git到当前文件夹<br>git status 查看当前项目文件夹有没有添加到github<br>git clone xxx.git 克隆项目到本地<br>git add . 添加全部文件到缓存区<br>git commit -m “注释”  添加注释<br>git log 查看注释<br>git push origin master 提交项目代码到master分支上<br>git tag xx 给当前分支创建一个tag 以后就能退回到这个tag的代码了<br>git branch 查看当前分支 *master指向master分支<br>git branch a 创建 a分支<br>git checkout a 转到a分支<br>git branch -b a 创建并转到a分支<br>git branch -d a 删除a分支<br>git branch -D a 在没有合并分支代码到master代码，或者无法删除分支时，强制删除分支a<br>git merga 合并代码先转到master分支，再git merga a 的分支代码到master分支代码<br>git checkout tagname 让分支代码回到tag是tagname那时候的代码`</p>
 
-&lt;meta-data
-  android:name=&quot;UMENG_CHANNEL&quot;
-  android:value=&quot;{UMENG_CHANNEL_ID}&quot;/&gt;
-</code></pre><h2 id="2-__u8BBE_u7F6Ebuild-gradle"><a href="#2-__u8BBE_u7F6Ebuild-gradle" class="headerlink" title="2. 设置build.gradle"></a>2. 设置build.gradle</h2><p>在app的build.gradle设置</p>
-<pre><code>android{
-   ...
-   //配置签名信息
-   signingConfigs {
-    release {
-        keyAlias &apos;ppjun&apos;
-        keyPassword &apos;ppjun123&apos;
-        storeFile file(&apos;C:/Users/Rabbit/Desktop/umeng_message201603291611_v2.8.0/LabelView/app/ppjun.jks&apos;)
-        storePassword &apos;ppjun123&apos;
-
-    }
-}
-
-   //配置签名apk优化
-   buildTypes {
-    release {
-        zipAlignEnabled true
-        minifyEnabled true
-        shrinkResources true
-        proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;
-        signingConfig signingConfigs.release
-    }
-}
-
-   //配置渠道号
-   productFlavors {
-    baidu {}
-    google {}
-    wandoujia {}
-    xiaomi {}
-
-}
-   //关联渠道号和Androidmani.xml
-productFlavors.all { flavor -&gt;
-    flavor.manifestPlaceholders = [UMENG_CHANNEL_ID: flavor.name]
-}
-
-}
-</code></pre><p>ps：signingConfigs这个方法一定要写在buildTypes方法前，不然不能通过clean。</p>
-<h2 id="3-_u4FEE_u6539apk_u540D"><a href="#3-_u4FEE_u6539apk_u540D" class="headerlink" title="3.修改apk名"></a>3.修改apk名</h2><p>如果要打包出app_v1.0_1_20160101_xiaomi.apk这样子的包名<br>在build.gradle</p>
-<pre><code>android{
-  ...
- applicationVariants.all { variant -&gt;
-    variant.outputs.each { output -&gt;
-        // 重命名产出的apk文件
-        def outputFile = output.outputFile
-        if (outputFile != null &amp;&amp; outputFile.name.endsWith(&apos;.apk&apos;)) {
-            File outputDirectory = new File(outputFile.parent);
-            def fileName
-            if (variant.buildType.name == &quot;release&quot;) {
-                fileName = &quot;app_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${packageTime()}_${variant.productFlavors[0].name}.apk&quot;
-            } else {
-                fileName = &quot;app_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${packageTime()}_debug.apk&quot;
-            }
-            output.outputFile = new File(outputDirectory, fileName)
-        }
-
-        // 删除unaligned apk
-        if (output.zipAlign != null) {
-            output.zipAlign.doLast {
-                output.zipAlign.inputFile.delete()
-            }
-        }
-    }
-  }
-}
-//在android外层
-def packageTime() {
-return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&quot;))
-
-}
-</code></pre><h2 id="4-_u5728Terminal_u8FD0_u884C_u547D_u4EE4"><a href="#4-_u5728Terminal_u8FD0_u884C_u547D_u4EE4" class="headerlink" title="4.在Terminal运行命令"></a>4.在Terminal运行命令</h2><p>先运行，clean项目</p>
-<pre><code>gradlew clean 
-</code></pre><p>成功后再运行，开始正式打包</p>
-<pre><code>gradlew assembleRelease
-</code></pre>
       
     </div>
 
@@ -394,17 +278,13 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/28/U8SDK开发笔记/" rel="next" title="U8SDK开发笔记">
-                <i class="fa fa-chevron-left"></i> U8SDK开发笔记
+              <a href="/2016/05/30/gradle多渠道打包/" rel="next" title="gradle多渠道打包">
+                <i class="fa fa-chevron-left"></i> gradle多渠道打包
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/05/31/Git常用命令/" rel="prev" title="Git常用命令">
-                Git常用命令 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -430,8 +310,8 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/05/30/gradle多渠道打包/"
-           data-title="gradle多渠道打包" data-url="http://yoursite.com/2016/05/30/gradle多渠道打包/">
+      <div class="ds-thread" data-thread-key="2016/05/31/Git常用命令/"
+           data-title="Git常用命令" data-url="http://yoursite.com/2016/05/31/Git常用命令/">
       </div>
     
   </div>
@@ -538,7 +418,7 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Gradle_u591A_u6E20_u9053_u6253_u5305"><span class="nav-number">1.</span> <span class="nav-text">Gradle多渠道打包</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-__u5728Androidmanifest-xml_u4E2DApplication_u6807_u7B7E_u4E0B"><span class="nav-number">1.1.</span> <span class="nav-text">1. 在Androidmanifest.xml中Application标签下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-__u8BBE_u7F6Ebuild-gradle"><span class="nav-number">1.2.</span> <span class="nav-text">2. 设置build.gradle</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-_u4FEE_u6539apk_u540D"><span class="nav-number">1.3.</span> <span class="nav-text">3.修改apk名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-_u5728Terminal_u8FD0_u884C_u547D_u4EE4"><span class="nav-number">1.4.</span> <span class="nav-text">4.在Terminal运行命令</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#u5728window_u4E0A_u7684git_u547D_u4EE4"><span class="nav-number">1.</span> <span class="nav-text">在window上的git命令</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
