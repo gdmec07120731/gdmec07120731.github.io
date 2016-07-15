@@ -216,6 +216,119 @@
             
               
                 
+                <a class="post-title-link" href="/2016/07/15/Java反射/" itemprop="url">
+                  Java反射
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-07-15T11:28:51+08:00" content="2016-07-15">
+              2016-07-15
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/15/Java反射/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/15/Java反射/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>Java反射</p>
+<p><a href="http://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&amp;mid=2650236432&amp;idx=1&amp;sn=1da63ff74cb6082ffe3df5f344f9f5f1&amp;scene=0#wechat_redirect" target="_blank" rel="external">http://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&amp;mid=2650236432&amp;idx=1&amp;sn=1da63ff74cb6082ffe3df5f344f9f5f1&amp;scene=0#wechat_redirect</a></p>
+</blockquote>
+<h1 id="Java_u53CD_u5C04"><a href="#Java_u53CD_u5C04" class="headerlink" title="Java反射"></a>Java反射</h1><h2 id="u52A8_u6001_u8BED_u8A00"><a href="#u52A8_u6001_u8BED_u8A00" class="headerlink" title="动态语言"></a>动态语言</h2><p>程序运行时，通过代码能改变程序结构或变量类型的语言，一般为动态语言。例如Perl,Python,Ruby是动态语言，反之c++,java,C#是静态语言。java有个特点能在运行时加载，编译期间完全未知的class。就是java程序运行时可以加载未知名称的class，获取类的构造方法，类属性，类方法。</p>
+<h2 id="java_u53CD_u5C04"><a href="#java_u53CD_u5C04" class="headerlink" title="java反射"></a>java反射</h2><p>要让java程序运行，就要让java类被java虚拟机加载，java不被虚拟机加载，就不能正常运行。正常情况下，我们运行的所有程序在编译期间已经把那个类加载好了。<strong>java反射就是在程序编译期间不加载用到的类，而在程序运行的时候才加载这个类</strong>。使用的是在编译期并不知道的类。</p>
+<h2 id="u53CD_u5C04_u7684_u4F5C_u7528"><a href="#u53CD_u5C04_u7684_u4F5C_u7528" class="headerlink" title="反射的作用"></a>反射的作用</h2><p>如果AB两个程序员合作，A写程序时用到B写的类，如果B没写A用到的类，A的代码就不能通过编译了，此时用到java反射机制，就可以让A在获取不到B写的类是，来让自己代码通过编译，就是在运行时才加载用到类。</p>
+<h2 id="u53CD_u5C04_u7684_u5B9E_u8D28"><a href="#u53CD_u5C04_u7684_u5B9E_u8D28" class="headerlink" title="反射的实质"></a>反射的实质</h2><p> java反射会将代码解析成java类，要使用java反射就要用到Class（大写C）这个类，当一个java类被加载,java虚拟机就会自动生成一个Class对象，通过Class对象我们就能获取加载到java虚拟机当前Class对象的构造方法，类方法，类属性。<strong>在运行期间拿到这个类的构造方法类属性和类方法</strong></p>
+<h2 id="u53CD_u5C04_u7684_u4F7F_u7528"><a href="#u53CD_u5C04_u7684_u4F7F_u7528" class="headerlink" title="反射的使用"></a>反射的使用</h2><p>获取本apk的类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Class clazz=ClassLoader.getSystemClassLoader().loadClass(<span class="string">"com.ppjun.Test"</span>);<span class="comment">//通过系统的   ClassLoader来加载Class，返回Class对象</span></span><br><span class="line"></span><br><span class="line">Coustructor constructor=clazz.getConstructor(String.class);<span class="comment">//获取构造函数，参数是String类型</span></span><br><span class="line"></span><br><span class="line"> Object obj=constructor.newInstance(<span class="string">"ppjun"</span>); <span class="comment">//往构造函数传入参数ppjun</span></span><br><span class="line"></span><br><span class="line">Method method=clazz.getMethod(<span class="string">"display"</span>,<span class="keyword">null</span>);<span class="comment">//获取clazz对象叫display的方法，没有返回值</span></span><br><span class="line"></span><br><span class="line">method.invoke(obj,<span class="keyword">null</span>);<span class="comment">//执行display的方法，会输出ppjun`</span></span><br></pre></td></tr></table></figure>
+<p>反射也可以在A.apk 调用B.apk的方法</p>
+<p>首先在A.apk写一个类Share</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Share</span></span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">(String s)</span></span>&#123;</span><br><span class="line"></span><br><span class="line"> Log.i(<span class="string">"display"</span>,<span class="string">"from A.apk"</span>)&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后再AndroidManifest的MainActivity的<intent-filter>声明</intent-filter></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;action android:name=<span class="string">"com.ppjun"</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>来扑抓这个activity</p>
+<p>在B.apk</p>
+<p>调用以下方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getFromRemote</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">   Intent intent=<span class="keyword">new</span> Intent(<span class="string">"com.ppjun"</span>);</span><br><span class="line"></span><br><span class="line">   PackageManager pm=getPackageManager();</span><br><span class="line"></span><br><span class="line">   List&lt;ResolveInfo&gt; resolveInfos=pm.queryIntentActivities(intent,<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">   ResolveInfo resolveInfo=resolveInfos.get(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">   ActivityInfo activityInfo=resolveInfo.activityInfo;</span><br><span class="line"></span><br><span class="line">   String packageName=activityInfo.packageName;</span><br><span class="line"></span><br><span class="line">   String dexPath=activityInfo.applicationInfo.sourceDir;</span><br><span class="line"></span><br><span class="line">   String dexOutputDir=getApplicationInfo().dataDir;</span><br><span class="line"></span><br><span class="line">   String nativeLibraryDir=activityInfo.applicationInfo.nativeLibraryDir;</span><br><span class="line"></span><br><span class="line">   ClassLoader classLoader=getClassLoader();</span><br><span class="line"></span><br><span class="line">   DexClassLoader dc1=<span class="keyword">new</span> DexClassLoader(dexPath,dexOutputDir,nativeLibraryDir,classLoader);</span><br><span class="line"></span><br><span class="line">   <span class="keyword">try</span>&#123;</span><br><span class="line"></span><br><span class="line">   Class&lt;?&gt; clazz=dcl.loadClass(packageName+<span class="string">".Share"</span>);</span><br><span class="line"></span><br><span class="line">   Constructor&lt;?&gt; constructor=clazz.getConstructor();</span><br><span class="line"></span><br><span class="line">    Object o=constructor.newInstance();</span><br><span class="line"></span><br><span class="line">   Method display=clazz.getMethod(<span class="string">"display"</span>,String.class);</span><br><span class="line"></span><br><span class="line">   display.invoke(o,<span class="string">"ppjun"</span>)</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line"></span><br><span class="line">   e.printStackTrace();</span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/05/31/Git常用命令/" itemprop="url">
                   Git常用命令
                 </a>
@@ -266,8 +379,46 @@
       
         
           
-            <h2 id="u5728window_u4E0A_u7684git_u547D_u4EE4"><a href="#u5728window_u4E0A_u7684git_u547D_u4EE4" class="headerlink" title="在window上的git命令"></a>在window上的git命令</h2><p>git init 新建.git到当前文件夹<br>git status 查看当前项目文件夹有没有添加到github<br>git clone xxx.git 克隆项目到本地<br>git add . 添加全部文件到缓存区<br>git commit -m “注释”  添加注释<br>git log 查看注释<br>git push origin master 提交项目代码到master分支上<br>git tag xx 给当前分支创建一个tag 以后就能退回到这个tag的代码了<br>git branch 查看当前分支 *master指向master分支<br>git branch a 创建 a分支<br>git checkout a 转到a分支<br>git branch -b a 创建并转到a分支<br>git branch -d a 删除a分支<br>git branch -D a 在没有合并分支代码到master代码，或者无法删除分支时，强制删除分支a<br>git merga 合并代码先转到master分支，再git merga a 的分支代码到master分支代码<br>git checkout tagname 让分支代码回到tag是tagname那时候的代码`</p>
+            <h4 id="u5728window_u4E0A_u7684git_u547D_u4EE4"><a href="#u5728window_u4E0A_u7684git_u547D_u4EE4" class="headerlink" title="在window上的git命令"></a>在window上的git命令</h4><p>git init 新建.git到当前文件夹</p>
+<p>git status 查看当前项目文件夹有没有添加到github</p>
+<p>git clone xxx.git 克隆项目到本地</p>
+<p>git add . 添加全部文件到缓存区</p>
+<p>git commit -m “注释”  添加注释</p>
+<p>git log 查看注释</p>
+<p>git push origin master 提交项目代码到master分支上</p>
+<p>git tag xx 给当前分支创建一个tag 以后就能退回到这个tag的代码了</p>
+<p>git branch 查看当前分支 *master指向master分支</p>
+<p>git branch a 创建 a分支</p>
+<p>git checkout a 转到a分支</p>
+<p>git branch -b a 创建并转到a分支</p>
+<p>git branch -d a 删除a分支<br>git branch -D a 在没有合并分支代码到master代码，或者无法删除分支时，强制删除分支a</p>
+<p>git merga 合并代码先转到master分支，再git merga a 的分支代码到master分支代码 </p>
+<p>git checkout tagname 让分支代码回到tag是tagname那时候的代码`</p>
+<h4 id="u7528SSH_u8FDC_u7A0B_u63D0_u4EA4_u4EE3_u7801"><a href="#u7528SSH_u8FDC_u7A0B_u63D0_u4EA4_u4EE3_u7801" class="headerlink" title="用SSH远程提交代码"></a>用SSH远程提交代码</h4><p>打开git bash<br>输入ssh</p>
+<pre><code>Rc3@ppjun MINGW64 ~/Desktop
 
+ $ ssh
+
+ usage: ssh [-1246AaCfGgKkMNnqsTtVvXxYy] [-b bind_address] [-c cipher_spec]
+       [-D [bind_address:]port] [-E log_file] [-e escape_char]
+       [-F configfile] [-I pkcs11] [-i identity_file]
+       [-L address] [-l login_name] [-m mac_spec]
+       [-O ctl_cmd] [-o option] [-p port]
+       [-Q cipher | cipher-auth | mac | kex | key]
+       [-R address] [-S ctl_path] [-W host:port]
+       [-w local_tun[:remote_tun]] [user@]hostname [command]``
+</code></pre><p>这是代表你已安装ssh。</p>
+<p>输入命令ssh-keygen -t rsa生成ssh密钥，连续按三个Enter</p>
+<pre><code>Rc3@ppjun MINGW64 ~/Desktop
+$ ssh-keygen -t rsa
+Generating public/private rsa key pair.
+Enter file in which to save the key (/c/Users/Rabbit/.ssh/id_rsa):
+</code></pre><p>打开C:\Users\Rabbit.ssh 找到id_rsa.pub<br>复制里面的<a href="https://github.com/settings/keys" target="_blank" rel="external">https://github.com/settings/keys</a>  点击 new SSH key的key里面-保存。</p>
+<p>最后输入ssh -T git@github.com，结果如下代表你添加好SSH到你git上面了。</p>
+<pre><code>Rc3@ppjun MINGW64 ~/Desktop
+$  ssh -T git@github.com
+Hi gdmec07120731! You&apos;ve successfully authenticated, but GitHub does not provide shell access.
+</code></pre>
           
         
       
@@ -800,108 +951,6 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/02/24/如何科学上网/" itemprop="url">
-                  如何科学上网
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-02-24T11:33:51+08:00" content="2016-02-24">
-              2016-02-24
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/02/24/如何科学上网/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/02/24/如何科学上网/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="u5728window_u4E0A_u7684_u79D1_u5B66_u4E0A_u7F51"><a href="#u5728window_u4E0A_u7684_u79D1_u5B66_u4E0A_u7F51" class="headerlink" title="在window上的科学上网"></a>在window上的科学上网</h3><h4 id="u65B9_u6CD5_u4E00__uFF1A_u5F71_u68ADShadowSocks"><a href="#u65B9_u6CD5_u4E00__uFF1A_u5F71_u68ADShadowSocks" class="headerlink" title="方法一 ：影梭ShadowSocks"></a>方法一 ：影梭ShadowSocks</h4><p>1、下载shadowsocks软件</p>
-<p>百度网盘<a href="http://pan.baidu.com/s/1bsrCZW" target="_blank" rel="external">下载链接</a></p>
-<p>2、打开shadowsocks 输入shadowsocks账号</p>
-<p>ps ：免费账号获取方式 打开<a href="http://www.ishadowsocks.com/" title="ishadowsocks" target="_blank" rel="external">链接</a> 进入ishadowsocks （每6小时更换一次密码 中午12点左右换一次的）</p>
-<h4 id="u65B9_u6CD5_u4E8C__uFF1A_u84DD_u706FLantern"><a href="#u65B9_u6CD5_u4E8C__uFF1A_u84DD_u706FLantern" class="headerlink" title="方法二 ：蓝灯Lantern"></a>方法二 ：蓝灯Lantern</h4><p>Lantern是一个免费的应用程序。它能帮助你随时随地快速、可靠、安全地访问互联网。</p>
-<p>蓝灯官网（需翻墙）<a href="https://getlantern.org/" target="_blank" rel="external"> https://getlantern.org/</a><br>蓝灯github <a href="https://github.com/getlantern/lantern" target="_blank" rel="external">https://github.com/getlantern/lantern</a></p>
-<p>下载window版本安装后无需配置就可以直接科学上网 <a href="https://raw.githubusercontent.com/getlantern/lantern-binaries/master/lantern-installer-beta.exe" target="_blank" rel="external">https://raw.githubusercontent.com/getlantern/lantern-binaries/master/lantern-installer-beta.exe</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -947,7 +996,7 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -957,7 +1006,7 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
           
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">標籤</span>
               
             </div>

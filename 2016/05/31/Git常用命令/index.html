@@ -57,16 +57,37 @@
 
 
 
-<meta name="description" content="在window上的git命令git init 新建.git到当前文件夹git status 查看当前项目文件夹有没有添加到githubgit clone xxx.git 克隆项目到本地git add . 添加全部文件到缓存区git commit -m “注释”  添加注释git log 查看注释git push origin master 提交项目代码到master分支上git tag xx 给当">
+<meta name="description" content="在window上的git命令git init 新建.git到当前文件夹
+git status 查看当前项目文件夹有没有添加到github
+git clone xxx.git 克隆项目到本地
+git add . 添加全部文件到缓存区
+git commit -m “注释”  添加注释
+git log 查看注释
+git push origin master 提交项目代码到master分支上
+git ta">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git常用命令">
 <meta property="og:url" content="http://www.lanyimi.com/2016/05/31/Git常用命令/index.html">
 <meta property="og:site_name" content="ppjun's blog">
-<meta property="og:description" content="在window上的git命令git init 新建.git到当前文件夹git status 查看当前项目文件夹有没有添加到githubgit clone xxx.git 克隆项目到本地git add . 添加全部文件到缓存区git commit -m “注释”  添加注释git log 查看注释git push origin master 提交项目代码到master分支上git tag xx 给当">
-<meta property="og:updated_time" content="2016-05-31T06:56:34.360Z">
+<meta property="og:description" content="在window上的git命令git init 新建.git到当前文件夹
+git status 查看当前项目文件夹有没有添加到github
+git clone xxx.git 克隆项目到本地
+git add . 添加全部文件到缓存区
+git commit -m “注释”  添加注释
+git log 查看注释
+git push origin master 提交项目代码到master分支上
+git ta">
+<meta property="og:updated_time" content="2016-06-07T02:07:22.558Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git常用命令">
-<meta name="twitter:description" content="在window上的git命令git init 新建.git到当前文件夹git status 查看当前项目文件夹有没有添加到githubgit clone xxx.git 克隆项目到本地git add . 添加全部文件到缓存区git commit -m “注释”  添加注释git log 查看注释git push origin master 提交项目代码到master分支上git tag xx 给当">
+<meta name="twitter:description" content="在window上的git命令git init 新建.git到当前文件夹
+git status 查看当前项目文件夹有没有添加到github
+git clone xxx.git 克隆项目到本地
+git add . 添加全部文件到缓存区
+git commit -m “注释”  添加注释
+git log 查看注释
+git push origin master 提交项目代码到master分支上
+git ta">
 
 
 
@@ -260,8 +281,46 @@
       
 
       
-        <h2 id="u5728window_u4E0A_u7684git_u547D_u4EE4"><a href="#u5728window_u4E0A_u7684git_u547D_u4EE4" class="headerlink" title="在window上的git命令"></a>在window上的git命令</h2><p>git init 新建.git到当前文件夹<br>git status 查看当前项目文件夹有没有添加到github<br>git clone xxx.git 克隆项目到本地<br>git add . 添加全部文件到缓存区<br>git commit -m “注释”  添加注释<br>git log 查看注释<br>git push origin master 提交项目代码到master分支上<br>git tag xx 给当前分支创建一个tag 以后就能退回到这个tag的代码了<br>git branch 查看当前分支 *master指向master分支<br>git branch a 创建 a分支<br>git checkout a 转到a分支<br>git branch -b a 创建并转到a分支<br>git branch -d a 删除a分支<br>git branch -D a 在没有合并分支代码到master代码，或者无法删除分支时，强制删除分支a<br>git merga 合并代码先转到master分支，再git merga a 的分支代码到master分支代码<br>git checkout tagname 让分支代码回到tag是tagname那时候的代码`</p>
+        <h4 id="u5728window_u4E0A_u7684git_u547D_u4EE4"><a href="#u5728window_u4E0A_u7684git_u547D_u4EE4" class="headerlink" title="在window上的git命令"></a>在window上的git命令</h4><p>git init 新建.git到当前文件夹</p>
+<p>git status 查看当前项目文件夹有没有添加到github</p>
+<p>git clone xxx.git 克隆项目到本地</p>
+<p>git add . 添加全部文件到缓存区</p>
+<p>git commit -m “注释”  添加注释</p>
+<p>git log 查看注释</p>
+<p>git push origin master 提交项目代码到master分支上</p>
+<p>git tag xx 给当前分支创建一个tag 以后就能退回到这个tag的代码了</p>
+<p>git branch 查看当前分支 *master指向master分支</p>
+<p>git branch a 创建 a分支</p>
+<p>git checkout a 转到a分支</p>
+<p>git branch -b a 创建并转到a分支</p>
+<p>git branch -d a 删除a分支<br>git branch -D a 在没有合并分支代码到master代码，或者无法删除分支时，强制删除分支a</p>
+<p>git merga 合并代码先转到master分支，再git merga a 的分支代码到master分支代码 </p>
+<p>git checkout tagname 让分支代码回到tag是tagname那时候的代码`</p>
+<h4 id="u7528SSH_u8FDC_u7A0B_u63D0_u4EA4_u4EE3_u7801"><a href="#u7528SSH_u8FDC_u7A0B_u63D0_u4EA4_u4EE3_u7801" class="headerlink" title="用SSH远程提交代码"></a>用SSH远程提交代码</h4><p>打开git bash<br>输入ssh</p>
+<pre><code>Rc3@ppjun MINGW64 ~/Desktop
 
+ $ ssh
+
+ usage: ssh [-1246AaCfGgKkMNnqsTtVvXxYy] [-b bind_address] [-c cipher_spec]
+       [-D [bind_address:]port] [-E log_file] [-e escape_char]
+       [-F configfile] [-I pkcs11] [-i identity_file]
+       [-L address] [-l login_name] [-m mac_spec]
+       [-O ctl_cmd] [-o option] [-p port]
+       [-Q cipher | cipher-auth | mac | kex | key]
+       [-R address] [-S ctl_path] [-W host:port]
+       [-w local_tun[:remote_tun]] [user@]hostname [command]``
+</code></pre><p>这是代表你已安装ssh。</p>
+<p>输入命令ssh-keygen -t rsa生成ssh密钥，连续按三个Enter</p>
+<pre><code>Rc3@ppjun MINGW64 ~/Desktop
+$ ssh-keygen -t rsa
+Generating public/private rsa key pair.
+Enter file in which to save the key (/c/Users/Rabbit/.ssh/id_rsa):
+</code></pre><p>打开C:\Users\Rabbit.ssh 找到id_rsa.pub<br>复制里面的<a href="https://github.com/settings/keys" target="_blank" rel="external">https://github.com/settings/keys</a>  点击 new SSH key的key里面-保存。</p>
+<p>最后输入ssh -T git@github.com，结果如下代表你添加好SSH到你git上面了。</p>
+<pre><code>Rc3@ppjun MINGW64 ~/Desktop
+$  ssh -T git@github.com
+Hi gdmec07120731! You&apos;ve successfully authenticated, but GitHub does not provide shell access.
+</code></pre>
       
     </div>
 
@@ -285,6 +344,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/15/Java反射/" rel="prev" title="Java反射">
+                Java反射 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -356,7 +419,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -366,7 +429,7 @@
           
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">標籤</span>
               
             </div>
@@ -418,7 +481,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#u5728window_u4E0A_u7684git_u547D_u4EE4"><span class="nav-number">1.</span> <span class="nav-text">在window上的git命令</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#u5728window_u4E0A_u7684git_u547D_u4EE4"><span class="nav-number">1.</span> <span class="nav-text">在window上的git命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u7528SSH_u8FDC_u7A0B_u63D0_u4EA4_u4EE3_u7801"><span class="nav-number">2.</span> <span class="nav-text">用SSH远程提交代码</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
