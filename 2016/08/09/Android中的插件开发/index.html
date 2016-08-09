@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="U8SDK," />
+  <meta name="keywords" content="插件开发," />
 
 
 
@@ -57,22 +57,25 @@
 
 
 
-<meta name="description" content="什么是U8SDK集成各个渠道比如（uc,小米，360）的sdk ，一次接入，打包出不同渠道的APK，大大减少游戏接入渠道的繁琐操作。
-统一的接入框架，各个SDK的接入 一键打包工具(python)，统一的登录验证中心支付中心，多个平台（unity,coco2dx）的支持.
-工作原理初始化时根据不同渠道U8Server自定义U8id,U8key分配给U8SDKU8SDK抽象层实现各个渠道的登录，获取">
+<meta name="description" content="插件化的好处就是满足各类用户的特定需求，动态加载内容。好像锤子桌面里面有很多主题，如主题ABCD有的人喜欢安装A，有的人喜欢安装C这时候就用到插件开发，又比如qq有很多皮肤，有的是商务皮肤，有的是可爱皮肤，有的是运动皮肤，根据个人爱好下载不同的皮肤。
+
+想获取已安装的app的apk，路径就在data/app/包名/~1/base.apk  qq就是这样子发送已安装的apk
+以加载apk为例子插件可">
 <meta property="og:type" content="article">
-<meta property="og:title" content="U8SDK开发笔记">
-<meta property="og:url" content="http://www.lanyimi.com/2016/03/28/U8SDK开发笔记/index.html">
+<meta property="og:title" content="Android中的插件开发">
+<meta property="og:url" content="http://www.lanyimi.com/2016/08/09/Android中的插件开发/index.html">
 <meta property="og:site_name" content="ppjun's blog">
-<meta property="og:description" content="什么是U8SDK集成各个渠道比如（uc,小米，360）的sdk ，一次接入，打包出不同渠道的APK，大大减少游戏接入渠道的繁琐操作。
-统一的接入框架，各个SDK的接入 一键打包工具(python)，统一的登录验证中心支付中心，多个平台（unity,coco2dx）的支持.
-工作原理初始化时根据不同渠道U8Server自定义U8id,U8key分配给U8SDKU8SDK抽象层实现各个渠道的登录，获取">
-<meta property="og:updated_time" content="2016-04-05T01:07:28.681Z">
+<meta property="og:description" content="插件化的好处就是满足各类用户的特定需求，动态加载内容。好像锤子桌面里面有很多主题，如主题ABCD有的人喜欢安装A，有的人喜欢安装C这时候就用到插件开发，又比如qq有很多皮肤，有的是商务皮肤，有的是可爱皮肤，有的是运动皮肤，根据个人爱好下载不同的皮肤。
+
+想获取已安装的app的apk，路径就在data/app/包名/~1/base.apk  qq就是这样子发送已安装的apk
+以加载apk为例子插件可">
+<meta property="og:updated_time" content="2016-08-09T09:02:08.443Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="U8SDK开发笔记">
-<meta name="twitter:description" content="什么是U8SDK集成各个渠道比如（uc,小米，360）的sdk ，一次接入，打包出不同渠道的APK，大大减少游戏接入渠道的繁琐操作。
-统一的接入框架，各个SDK的接入 一键打包工具(python)，统一的登录验证中心支付中心，多个平台（unity,coco2dx）的支持.
-工作原理初始化时根据不同渠道U8Server自定义U8id,U8key分配给U8SDKU8SDK抽象层实现各个渠道的登录，获取">
+<meta name="twitter:title" content="Android中的插件开发">
+<meta name="twitter:description" content="插件化的好处就是满足各类用户的特定需求，动态加载内容。好像锤子桌面里面有很多主题，如主题ABCD有的人喜欢安装A，有的人喜欢安装C这时候就用到插件开发，又比如qq有很多皮肤，有的是商务皮肤，有的是可爱皮肤，有的是运动皮肤，根据个人爱好下载不同的皮肤。
+
+想获取已安装的app的apk，路径就在data/app/包名/~1/base.apk  qq就是这样子发送已安装的apk
+以加载apk为例子插件可">
 
 
 
@@ -90,7 +93,7 @@
   };
 </script>
 
-  <title> U8SDK开发笔记 | ppjun's blog </title>
+  <title> Android中的插件开发 | ppjun's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
@@ -220,7 +223,7 @@
             
             
               
-                U8SDK开发笔记
+                Android中的插件开发
               
             
           </h1>
@@ -232,8 +235,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-03-28T10:53:17+08:00" content="2016-03-28">
-              2016-03-28
+            <time itemprop="dateCreated" datetime="2016-08-09T16:57:38+08:00" content="2016-08-09">
+              2016-08-09
             </time>
           </span>
 
@@ -243,8 +246,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/03/28/U8SDK开发笔记/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/28/U8SDK开发笔记/" itemprop="commentsCount"></span>
+                <a href="/2016/08/09/Android中的插件开发/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/09/Android中的插件开发/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -266,11 +269,18 @@
       
 
       
-        <h2 id="u4EC0_u4E48_u662FU8SDK"><a href="#u4EC0_u4E48_u662FU8SDK" class="headerlink" title="什么是U8SDK"></a>什么是U8SDK</h2><p>集成各个渠道比如（uc,小米，360）的sdk ，一次接入，打包出不同渠道的APK，大大减少游戏接入渠道的繁琐操作。</p>
-<p>统一的接入框架，<br>各个SDK的接入<br> 一键打包工具(python)，<br>统一的登录验证中心支付中心，<br>多个平台（unity,coco2dx）的支持.</p>
-<h2 id="u5DE5_u4F5C_u539F_u7406"><a href="#u5DE5_u4F5C_u539F_u7406" class="headerlink" title="工作原理"></a>工作原理</h2><p>初始化时根据不同渠道U8Server自定义U8id,U8key分配给U8SDK<br>U8SDK抽象层实现各个渠道的登录，获取登录信息后 u8server登录验证返回验证结果，返回给游戏。<br>U8SDK调用各个渠道的支付后，渠道支付首先通知U8server,U8server再通知游戏服务器。</p>
-<p>打包工具用到的jar等<br>aapt.exe,android.jar,apktool.jar,baksmail.jar,dx.bat,zipalign.exe</p>
-<h2 id="u5DE5_u4F5C_u6D41_u7A0B"><a href="#u5DE5_u4F5C_u6D41_u7A0B" class="headerlink" title="工作流程"></a>工作流程</h2><p>游戏母包接入U8sdk,反编译母包，复制各个渠道sdk的res，assets，资源到母包，各个渠道.dx转smali后复制到母包，合并AndroidManifest.xml权限，Service,Activity等。修改包名（.activity，.service），合并资源后重新生成R文件，回编译母包，签名母包。</p>
+        <blockquote>
+<p>插件化的好处就是满足各类用户的特定需求，动态加载内容。好像锤子桌面里面有很多主题，如主题ABCD有的人喜欢安装A，有的人喜欢安装C这时候就用到插件开发，又比如qq有很多皮肤，有的是商务皮肤，有的是可爱皮肤，有的是运动皮肤，根据个人爱好下载不同的皮肤。</p>
+</blockquote>
+<p>想获取已安装的app的apk，路径就在data/app/包名/~1/base.apk  qq就是这样子发送已安装的apk</p>
+<h2 id="u4EE5_u52A0_u8F7Dapk_u4E3A_u4F8B_u5B50"><a href="#u4EE5_u52A0_u8F7Dapk_u4E3A_u4F8B_u5B50" class="headerlink" title="以加载apk为例子"></a>以加载apk为例子</h2><p>插件可以以zip jar dex apk等形式存在，首先下载好插件的apk到你app缓存根目录</p>
+<p>加载<strong>已安装的apk</strong>获取里面的资源文件先获取插件apk的context再获取里面资源。可以用到Context pluginContext=this.createPackageContext(“包名”,flag);</p>
+<p>加载未安装的apk呢就用DexClassLoader</p>
+<h2 id="u539F_u7406"><a href="#u539F_u7406" class="headerlink" title="原理"></a>原理</h2><p>原理根据是普通apk里面的getResoure.getDrawable(R.drawable.bg);getResource肯定有获取apk资源的方法。查看系统代码发现 getResource里面根据AssetManager添加自己apk的路径返回resource，通过resource就可以访问R文件下的所有对象属性。</p>
+<p>这里只要新建一个pluginResurces继承Resources和AssetManager.</p>
+<p>让AssetManager.addAssetPath为插件apk的路径，通过pluginResurces构造函数实例化pluginResurces，插件Reources有了，就差插件R文件里面的属性id，</p>
+<p>根据DexClassloader加载包名+R$drawable 获取class 再获取field判断field和插进R文件的属性相同就int drawableId=field.getInt(R.drawable.class);</p>
+<p>Drawable drawable= resource.getDrawable(drawableId);然后你的按钮就可以设置background了。</p>
 
       
     </div>
@@ -285,7 +295,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/U8SDK/" rel="tag">#U8SDK</a>
+            <a href="/tags/插件开发/" rel="tag">#插件开发</a>
           
         </div>
       
@@ -294,17 +304,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/23/Dagger2-笔记/" rel="next" title="Dagger2 笔记">
-                <i class="fa fa-chevron-left"></i> Dagger2 笔记
+              <a href="/2016/07/15/Java反射/" rel="next" title="Java反射">
+                <i class="fa fa-chevron-left"></i> Java反射
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/05/30/gradle多渠道打包/" rel="prev" title="gradle多渠道打包">
-                gradle多渠道打包 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -330,8 +336,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/03/28/U8SDK开发笔记/"
-           data-title="U8SDK开发笔记" data-url="http://www.lanyimi.com/2016/03/28/U8SDK开发笔记/">
+      <div class="ds-thread" data-thread-key="2016/08/09/Android中的插件开发/"
+           data-title="Android中的插件开发" data-url="http://www.lanyimi.com/2016/08/09/Android中的插件开发/">
       </div>
     
   </div>
@@ -438,7 +444,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#u4EC0_u4E48_u662FU8SDK"><span class="nav-number">1.</span> <span class="nav-text">什么是U8SDK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u5DE5_u4F5C_u539F_u7406"><span class="nav-number">2.</span> <span class="nav-text">工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u5DE5_u4F5C_u6D41_u7A0B"><span class="nav-number">3.</span> <span class="nav-text">工作流程</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#u4EE5_u52A0_u8F7Dapk_u4E3A_u4F8B_u5B50"><span class="nav-number">1.</span> <span class="nav-text">以加载apk为例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u539F_u7406"><span class="nav-number">2.</span> <span class="nav-text">原理</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
