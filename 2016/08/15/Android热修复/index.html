@@ -57,37 +57,25 @@
 
 
 
-<meta name="description" content="在window上的git命令git init 新建.git到当前文件夹
-git status 查看当前项目文件夹有没有添加到github
-git clone xxx.git 克隆项目到本地
-git add . 添加全部文件到缓存区
-git commit -m “注释”  添加注释
-git log 查看注释
-git push origin master 提交项目代码到master分支上
-git ta">
+<meta name="description" content="Android热修复
+热修复就是在用户运行app时候不知不觉，将apk里面错误代码纠正，无需再重新从应用市场下载最新版本。而且还有减少了开发者从打多个渠道包，上架多个应用渠道的工作。
+
+热修复原理首先你的app必须经过分包（在eclipse你可以自定义ant分包，在as你可以用multix分包），把Application和Mainactivity放在主classes.dex，把Bug.class放">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Git常用命令">
-<meta property="og:url" content="http://www.lanyimi.com/2016/05/31/Git常用命令/index.html">
+<meta property="og:title" content="Android热修复">
+<meta property="og:url" content="http://www.lanyimi.com/2016/08/15/Android热修复/index.html">
 <meta property="og:site_name" content="ppjun's blog">
-<meta property="og:description" content="在window上的git命令git init 新建.git到当前文件夹
-git status 查看当前项目文件夹有没有添加到github
-git clone xxx.git 克隆项目到本地
-git add . 添加全部文件到缓存区
-git commit -m “注释”  添加注释
-git log 查看注释
-git push origin master 提交项目代码到master分支上
-git ta">
-<meta property="og:updated_time" content="2016-06-07T02:07:22.558Z">
+<meta property="og:description" content="Android热修复
+热修复就是在用户运行app时候不知不觉，将apk里面错误代码纠正，无需再重新从应用市场下载最新版本。而且还有减少了开发者从打多个渠道包，上架多个应用渠道的工作。
+
+热修复原理首先你的app必须经过分包（在eclipse你可以自定义ant分包，在as你可以用multix分包），把Application和Mainactivity放在主classes.dex，把Bug.class放">
+<meta property="og:updated_time" content="2016-08-15T09:34:50.988Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Git常用命令">
-<meta name="twitter:description" content="在window上的git命令git init 新建.git到当前文件夹
-git status 查看当前项目文件夹有没有添加到github
-git clone xxx.git 克隆项目到本地
-git add . 添加全部文件到缓存区
-git commit -m “注释”  添加注释
-git log 查看注释
-git push origin master 提交项目代码到master分支上
-git ta">
+<meta name="twitter:title" content="Android热修复">
+<meta name="twitter:description" content="Android热修复
+热修复就是在用户运行app时候不知不觉，将apk里面错误代码纠正，无需再重新从应用市场下载最新版本。而且还有减少了开发者从打多个渠道包，上架多个应用渠道的工作。
+
+热修复原理首先你的app必须经过分包（在eclipse你可以自定义ant分包，在as你可以用multix分包），把Application和Mainactivity放在主classes.dex，把Bug.class放">
 
 
 
@@ -105,7 +93,7 @@ git ta">
   };
 </script>
 
-  <title> Git常用命令 | ppjun's blog </title>
+  <title> Android热修复 | ppjun's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
@@ -235,7 +223,7 @@ git ta">
             
             
               
-                Git常用命令
+                Android热修复
               
             
           </h1>
@@ -247,8 +235,8 @@ git ta">
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-05-31T14:44:33+08:00" content="2016-05-31">
-              2016-05-31
+            <time itemprop="dateCreated" datetime="2016-08-15T15:00:41+08:00" content="2016-08-15">
+              2016-08-15
             </time>
           </span>
 
@@ -258,8 +246,8 @@ git ta">
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/05/31/Git常用命令/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/31/Git常用命令/" itemprop="commentsCount"></span>
+                <a href="/2016/08/15/Android热修复/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/15/Android热修复/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -281,46 +269,16 @@ git ta">
       
 
       
-        <h4 id="u5728window_u4E0A_u7684git_u547D_u4EE4"><a href="#u5728window_u4E0A_u7684git_u547D_u4EE4" class="headerlink" title="在window上的git命令"></a>在window上的git命令</h4><p>git init 新建.git到当前文件夹</p>
-<p>git status 查看当前项目文件夹有没有添加到github</p>
-<p>git clone xxx.git 克隆项目到本地</p>
-<p>git add . 添加全部文件到缓存区</p>
-<p>git commit -m “注释”  添加注释</p>
-<p>git log 查看注释</p>
-<p>git push origin master 提交项目代码到master分支上</p>
-<p>git tag xx 给当前分支创建一个tag 以后就能退回到这个tag的代码了</p>
-<p>git branch 查看当前分支 *master指向master分支</p>
-<p>git branch a 创建 a分支</p>
-<p>git checkout a 转到a分支</p>
-<p>git branch -b a 创建并转到a分支</p>
-<p>git branch -d a 删除a分支<br>git branch -D a 在没有合并分支代码到master代码，或者无法删除分支时，强制删除分支a</p>
-<p>git merga 合并代码先转到master分支，再git merga a 的分支代码到master分支代码 </p>
-<p>git checkout tagname 让分支代码回到tag是tagname那时候的代码`</p>
-<h4 id="u7528SSH_u8FDC_u7A0B_u63D0_u4EA4_u4EE3_u7801"><a href="#u7528SSH_u8FDC_u7A0B_u63D0_u4EA4_u4EE3_u7801" class="headerlink" title="用SSH远程提交代码"></a>用SSH远程提交代码</h4><p>打开git bash<br>输入ssh</p>
-<pre><code>Rc3@ppjun MINGW64 ~/Desktop
+        <h2 id="Android_u70ED_u4FEE_u590D"><a href="#Android_u70ED_u4FEE_u590D" class="headerlink" title="Android热修复"></a>Android热修复</h2><blockquote>
+<p>热修复就是在用户运行app时候不知不觉，将apk里面错误代码纠正，无需再重新从应用市场下载最新版本。而且还有减少了开发者从打多个渠道包，上架多个应用渠道的工作。</p>
+</blockquote>
+<h3 id="u70ED_u4FEE_u590D_u539F_u7406"><a href="#u70ED_u4FEE_u590D_u539F_u7406" class="headerlink" title="热修复原理"></a>热修复原理</h3><p>首先你的app必须经过分包（在eclipse你可以自定义ant分包，在as你可以用multix分包），把Application和Mainactivity放在主classes.dex，把Bug.class放在Classes2.dex，要修改Bug.class内容只要执行dx.bat命令得到新的Classes2.dex文件，在app正常运行时，使用ClassLoader加载类方法。</p>
+<p>BaseDexClassLoader子类分为PathClassLoader加载已安装到系统的apk和DexClassLoader可以加载未安装到系统的jar、dex和apk。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#baseDexClassLoader</span><br><span class="line">  protected Class&lt;?&gt; findClass(String name)throws ClassNotFoundException&#123;</span><br><span class="line">   Class clazz=pathList.findClassLIE(name);</span><br><span class="line">  if(clazz==null)</span><br><span class="line">    throw new ClassNotFoundException(name);</span><br><span class="line">  return clazz;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#DexPathList</span><br><span class="line">  public Class findClass(String name)&#123;</span><br><span class="line">     for(Element element:dexElements)&#123;</span><br><span class="line">  if(dex!=null)&#123;</span><br><span class="line">  Class clazz=dex.loadClassBinaryName(name,definingContext);</span><br><span class="line">    if(clazz!=null)&#123;</span><br><span class="line">  return clazz;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">  return null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#DexFile</span><br><span class="line">  public Class loadClassBinaryName(String name,ClassLoader loader)&#123;</span><br><span class="line">  return defineClass(name,loader,mCookie);</span><br><span class="line">&#125;</span><br><span class="line">private native static Class defineClass(String name,ClassLoader loader,int cookie);</span><br></pre></td></tr></table></figure>
+<p>一个ClassLoader可以包含多个dex文件，每个dex文件是一个element，多个dex组成一个有序的dexElement数组，当找类的时候会遍历整个数组来找，如果在当前dex找到类了，就返回该类，不去其他dex找类了，所以补丁dex放在最前面遍历，不会覆盖这个类。</p>
+<p>这里还有一个CLASS_ISPREVERIFIED 问题就是有其他类引用到Bug.class 要取消CLASS_ISPREVERIFIED 标记其他类。</p>
+<h3 id="CLASS_ISPREVERIFIED__u662F_u4EC0_u4E48_uFF1F"><a href="#CLASS_ISPREVERIFIED__u662F_u4EC0_u4E48_uFF1F" class="headerlink" title="CLASS_ISPREVERIFIED 是什么？"></a>CLASS_ISPREVERIFIED 是什么？</h3><p>A类调用到B类方法 AB都在同一个在同一个dex里面 A类就会打上CLASS_ISPREVERIFIED标记</p>
 
- $ ssh
-
- usage: ssh [-1246AaCfGgKkMNnqsTtVvXxYy] [-b bind_address] [-c cipher_spec]
-       [-D [bind_address:]port] [-E log_file] [-e escape_char]
-       [-F configfile] [-I pkcs11] [-i identity_file]
-       [-L address] [-l login_name] [-m mac_spec]
-       [-O ctl_cmd] [-o option] [-p port]
-       [-Q cipher | cipher-auth | mac | kex | key]
-       [-R address] [-S ctl_path] [-W host:port]
-       [-w local_tun[:remote_tun]] [user@]hostname [command]``
-</code></pre><p>这是代表你已安装ssh。</p>
-<p>输入命令ssh-keygen -t rsa生成ssh密钥，连续按三个Enter</p>
-<pre><code>Rc3@ppjun MINGW64 ~/Desktop
-$ ssh-keygen -t rsa
-Generating public/private rsa key pair.
-Enter file in which to save the key (/c/Users/Rabbit/.ssh/id_rsa):
-</code></pre><p>打开C:\Users\Rabbit.ssh 找到id_rsa.pub<br>复制里面的<a href="https://github.com/settings/keys" target="_blank" rel="external">https://github.com/settings/keys</a>  点击 new SSH key的key里面-保存。</p>
-<p>最后输入ssh -T git@github.com，结果如下代表你添加好SSH到你git上面了。</p>
-<pre><code>Rc3@ppjun MINGW64 ~/Desktop
-$  ssh -T git@github.com
-Hi gdmec07120731! You&apos;ve successfully authenticated, but GitHub does not provide shell access.
-</code></pre>
       
     </div>
 
@@ -337,16 +295,16 @@ Hi gdmec07120731! You&apos;ve successfully authenticated, but GitHub does not pr
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/05/30/gradle多渠道打包/" rel="next" title="gradle多渠道打包">
-                <i class="fa fa-chevron-left"></i> gradle多渠道打包
+              <a href="/2016/08/09/Android中的插件开发/" rel="next" title="Android中的插件开发">
+                <i class="fa fa-chevron-left"></i> Android中的插件开发
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/07/15/Java反射/" rel="prev" title="Java反射">
-                Java反射 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/10/08/retrofit注解使用/" rel="prev" title="retrofit注解使用">
+                retrofit注解使用 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -373,8 +331,8 @@ Hi gdmec07120731! You&apos;ve successfully authenticated, but GitHub does not pr
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/05/31/Git常用命令/"
-           data-title="Git常用命令" data-url="http://www.lanyimi.com/2016/05/31/Git常用命令/">
+      <div class="ds-thread" data-thread-key="2016/08/15/Android热修复/"
+           data-title="Android热修复" data-url="http://www.lanyimi.com/2016/08/15/Android热修复/">
       </div>
     
   </div>
@@ -481,7 +439,7 @@ Hi gdmec07120731! You&apos;ve successfully authenticated, but GitHub does not pr
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#u5728window_u4E0A_u7684git_u547D_u4EE4"><span class="nav-number">1.</span> <span class="nav-text">在window上的git命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u7528SSH_u8FDC_u7A0B_u63D0_u4EA4_u4EE3_u7801"><span class="nav-number">2.</span> <span class="nav-text">用SSH远程提交代码</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Android_u70ED_u4FEE_u590D"><span class="nav-number">1.</span> <span class="nav-text">Android热修复</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#u70ED_u4FEE_u590D_u539F_u7406"><span class="nav-number">1.1.</span> <span class="nav-text">热修复原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CLASS_ISPREVERIFIED__u662F_u4EC0_u4E48_uFF1F"><span class="nav-number">1.2.</span> <span class="nav-text">CLASS_ISPREVERIFIED 是什么？</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
