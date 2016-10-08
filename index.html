@@ -269,28 +269,22 @@
             <p>在用到retrofit请求json时，通常在GankService.java类用到@GET，@POST，@Path这些注解，具体怎么用，可以看看下面。</p>
 <h3 id="@GET"><a href="#@GET" class="headerlink" title="@GET"></a>@GET</h3><p> 用于get请求</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="at_rule">@<span class="keyword">GET("user")</span></span><br><span class="line">Observable&lt;Result&gt; <span class="function">getUsers</span>()</span>;</span><br></pre></td></tr></table></figure>
-<p>###@Query，@QueryMap ###</p>
-<p>用于url后面?key=value</p>
+<h3 id="@Query_uFF0C@QueryMap"><a href="#@Query_uFF0C@QueryMap" class="headerlink" title="@Query，@QueryMap"></a>@Query，@QueryMap</h3><p>用于url后面?key=value</p>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@GET</span>(<span class="string">"user"</span>)</span><br><span class="line">Observable&lt;Result&gt; <span class="function">getUsers</span>(<span class="variable">@Query</span>(<span class="string">"id"</span>) String userId);<span class="comment">//这里你也可以用QueryMap 代替Query</span></span><br></pre></td></tr></table></figure>
 <p>相当于</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="at_rule">@<span class="keyword">GET("user?id=userId")</span></span><br><span class="line">Observable&lt;Result&gt; <span class="function">getUsers</span>()</span>;</span><br></pre></td></tr></table></figure>
-<p>###@Field###</p>
-<p>@POST 用于post请求，我们通常都是post一个表单形式的参数。这时候就用到@Field来连接键值对，@FormUrlEncoded来告诉服务器这是表单提交参数。</p>
+<h3 id="@Field"><a href="#@Field" class="headerlink" title="@Field"></a>@Field</h3><p>@POST 用于post请求，我们通常都是post一个表单形式的参数。这时候就用到@Field来连接键值对，@FormUrlEncoded来告诉服务器这是表单提交参数。</p>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@FormUrlEncoded</span></span><br><span class="line"><span class="variable">@POST</span>(<span class="string">"user"</span>)</span><br><span class="line">Observable&lt;Result&gt; <span class="function">getUsers</span>(<span class="variable">@Field</span>(<span class="string">"id"</span>) String userId);</span><br></pre></td></tr></table></figure>
-<p>###@Body###</p>
-<p>会把自定义对象，作为requestbody，并转换成指定格式。</p>
+<h3 id="@Body"><a href="#@Body" class="headerlink" title="@Body"></a>@Body</h3><p>会把自定义对象，作为requestbody，并转换成指定格式。</p>
 <p>好像依赖了这个包com.squareup.retrofit2:converter-gson  就会被gson转换成json格式。</p>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@POST</span>(<span class="string">"users/new"</span>)</span><br><span class="line">Call&lt;User&gt; <span class="function">createUser</span>(<span class="variable">@Body</span> User user);</span><br></pre></td></tr></table></figure>
-<p>###@Part###</p>
-<p>part和multipart一起使用，用于文件上传</p>
+<h3 id="@Part"><a href="#@Part" class="headerlink" title="@Part"></a>@Part</h3><p>part和multipart一起使用，用于文件上传</p>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@Multipart</span></span><br><span class="line"><span class="variable">@PUT</span>(<span class="string">"user/photo"</span>)</span><br><span class="line">Call&lt;User&gt; <span class="function">updateUser</span>(<span class="variable">@Part</span>(<span class="string">"photo"</span>) RequestBody photo, <span class="variable">@Part</span>(<span class="string">"description"</span>) RequestBody description);</span><br></pre></td></tr></table></figure>
-<p>###@Hearders###</p>
-<p>设置头文件内容</p>
+<h3 id="@Hearders"><a href="#@Hearders" class="headerlink" title="@Hearders"></a>@Hearders</h3><p>设置头文件内容</p>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@Headers</span>(<span class="string">"Cache-Control: max-age=640000"</span>)</span><br><span class="line"><span class="variable">@GET</span>(<span class="string">"widget/list"</span>)</span><br><span class="line">Call&lt;List&lt;Widget&gt;&gt; <span class="function">widgetList</span>();</span><br></pre></td></tr></table></figure>
 <p>如果你要设置头文件多个内容</p>
 <figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Headers</span>(&#123;</span><br><span class="line">    <span class="string">"Accept: application/vnd.github.v3.full+json"</span>,</span><br><span class="line">    <span class="string">"User-Agent: Retrofit-Sample-App"</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>###@Header###</p>
-<p>设置头文件内容</p>
+<h3 id="@Header"><a href="#@Header" class="headerlink" title="@Header"></a>@Header</h3><p>设置头文件内容</p>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@GET</span>(<span class="string">"user"</span>)</span><br><span class="line">Call&lt;User&gt; <span class="function">getUser</span>(<span class="variable">@Header</span>(<span class="string">"Authorization"</span>) String authorization);</span><br></pre></td></tr></table></figure>
 <p>等价于</p>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@Headers</span>(<span class="string">"Authorization :Authorization"</span>)</span><br><span class="line"><span class="variable">@GET</span>(<span class="string">"user"</span>)</span><br><span class="line">Call&lt;User&gt; <span class="function">getUser</span>();</span><br></pre></td></tr></table></figure>
