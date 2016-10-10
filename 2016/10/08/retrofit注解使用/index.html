@@ -60,8 +60,8 @@
 <meta name="description" content="在用到retrofit请求json时，通常在GankService.java类用到@GET，@POST，@Path这些注解，具体怎么用，可以看看下面。
 @GET 用于get请求
 12@GET(&quot;user&quot;)Observable&amp;lt;Result&amp;gt; getUsers();
-@Query，@QueryMap用于url后面?key=value
-12@GET(&quot;user&quot;)Observable&amp;l">
+@Query用于url后面?key=value
+12@GET(&quot;user&quot;)Observable&amp;lt;Result&amp;g">
 <meta property="og:type" content="article">
 <meta property="og:title" content="retrofit注解使用">
 <meta property="og:url" content="http://www.lanyimi.com/2016/10/08/retrofit注解使用/index.html">
@@ -69,16 +69,16 @@
 <meta property="og:description" content="在用到retrofit请求json时，通常在GankService.java类用到@GET，@POST，@Path这些注解，具体怎么用，可以看看下面。
 @GET 用于get请求
 12@GET(&quot;user&quot;)Observable&amp;lt;Result&amp;gt; getUsers();
-@Query，@QueryMap用于url后面?key=value
-12@GET(&quot;user&quot;)Observable&amp;l">
-<meta property="og:updated_time" content="2016-10-08T03:56:49.580Z">
+@Query用于url后面?key=value
+12@GET(&quot;user&quot;)Observable&amp;lt;Result&amp;g">
+<meta property="og:updated_time" content="2016-10-10T02:27:30.853Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="retrofit注解使用">
 <meta name="twitter:description" content="在用到retrofit请求json时，通常在GankService.java类用到@GET，@POST，@Path这些注解，具体怎么用，可以看看下面。
 @GET 用于get请求
 12@GET(&quot;user&quot;)Observable&amp;lt;Result&amp;gt; getUsers();
-@Query，@QueryMap用于url后面?key=value
-12@GET(&quot;user&quot;)Observable&amp;l">
+@Query用于url后面?key=value
+12@GET(&quot;user&quot;)Observable&amp;lt;Result&amp;g">
 
 
 
@@ -275,8 +275,8 @@
         <p>在用到retrofit请求json时，通常在GankService.java类用到@GET，@POST，@Path这些注解，具体怎么用，可以看看下面。</p>
 <h3 id="@GET"><a href="#@GET" class="headerlink" title="@GET"></a>@GET</h3><p> 用于get请求</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="at_rule">@<span class="keyword">GET("user")</span></span><br><span class="line">Observable&lt;Result&gt; <span class="function">getUsers</span>()</span>;</span><br></pre></td></tr></table></figure>
-<h3 id="@Query_uFF0C@QueryMap"><a href="#@Query_uFF0C@QueryMap" class="headerlink" title="@Query，@QueryMap"></a>@Query，@QueryMap</h3><p>用于url后面?key=value</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@GET</span>(<span class="string">"user"</span>)</span><br><span class="line">Observable&lt;Result&gt; <span class="function">getUsers</span>(<span class="variable">@Query</span>(<span class="string">"id"</span>) String userId);<span class="comment">//这里你也可以用QueryMap 代替Query</span></span><br></pre></td></tr></table></figure>
+<h3 id="@Query"><a href="#@Query" class="headerlink" title="@Query"></a>@Query</h3><p>用于url后面?key=value</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@GET</span>(<span class="string">"user"</span>)</span><br><span class="line">Observable&lt;Result&gt; <span class="function">getUsers</span>(<span class="variable">@Query</span>(<span class="string">"id"</span>) String userId);</span><br></pre></td></tr></table></figure>
 <p>相当于</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="at_rule">@<span class="keyword">GET("user?id=userId")</span></span><br><span class="line">Observable&lt;Result&gt; <span class="function">getUsers</span>()</span>;</span><br></pre></td></tr></table></figure>
 <h3 id="@Field"><a href="#@Field" class="headerlink" title="@Field"></a>@Field</h3><p>@POST 用于post请求，我们通常都是post一个表单形式的参数。这时候就用到@Field来连接键值对，@FormUrlEncoded来告诉服务器这是表单提交参数。</p>
@@ -285,7 +285,8 @@
 <p>好像依赖了这个包com.squareup.retrofit2:converter-gson  就会被gson转换成json格式。</p>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@POST</span>(<span class="string">"users/new"</span>)</span><br><span class="line">Call&lt;User&gt; <span class="function">createUser</span>(<span class="variable">@Body</span> User user);</span><br></pre></td></tr></table></figure>
 <h3 id="@Part"><a href="#@Part" class="headerlink" title="@Part"></a>@Part</h3><p>part和multipart一起使用，用于文件上传</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@Multipart</span></span><br><span class="line"><span class="variable">@PUT</span>(<span class="string">"user/photo"</span>)</span><br><span class="line">Call&lt;User&gt; <span class="function">updateUser</span>(<span class="variable">@Part</span>(<span class="string">"photo"</span>) RequestBody photo, <span class="variable">@Part</span>(<span class="string">"description"</span>) RequestBody description);</span><br></pre></td></tr></table></figure>
+<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Multipart</span><br><span class="line">@PUT(<span class="string">"user/photo"</span>)</span><br><span class="line">Call&lt;User&gt; updateUser(@<span class="keyword">Part</span> MultipartBody.<span class="keyword">Part</span> photo, @<span class="keyword">Part</span>(<span class="string">"description"</span>) RequestBody description);</span><br><span class="line"></span><br><span class="line"><span class="keyword">File</span> file=new <span class="keyword">File</span>(<span class="keyword">Environment</span>.getExternalStorageDirectory(),<span class="string">"aa.png"</span>);</span><br><span class="line">RequestBody body=RequestBody.create(MediaType.parse(<span class="string">"image/png"</span>),file);</span><br><span class="line">MultipartyBody.<span class="keyword">Part</span> photo=MultipartBody.<span class="keyword">Part</span>.createFromData(<span class="string">"photo"</span>,<span class="string">"icon.png"</span>,body);</span><br></pre></td></tr></table></figure>
+<h3 id="@PartMap"><a href="#@PartMap" class="headerlink" title="@PartMap"></a>@PartMap</h3><p>用于多个文件上传，多个MultipartBody<br><figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Multipart</span><br><span class="line">@PUT(<span class="string">"user/photo"</span>)</span><br><span class="line">Call&lt;User&gt; updateUser(@PartMap <span class="keyword">Map</span>&lt;<span class="typename">String</span> RequestBody&gt; <span class="keyword">map</span>, @Part(<span class="string">"description"</span>) RequestBody description);</span><br><span class="line"></span><br><span class="line"><span class="keyword">File</span> file1=<span class="keyword">new</span> <span class="keyword">File</span>(Environment.getExternalStorageDirectory(),<span class="string">"aa.png"</span>);</span><br><span class="line"><span class="keyword">File</span> file2=<span class="keyword">new</span> <span class="keyword">File</span>(Environment.getExternalStorageDirectory(),<span class="string">"bb.png"</span>);</span><br><span class="line">RequestBody body1=RequestBody.create(MediaType.parse(<span class="string">"image/png"</span>),file1);</span><br><span class="line">RequestBody body2=RequestBody.create(MediaType.parse(<span class="string">"image/png"</span>),file2);</span><br><span class="line"><span class="keyword">Map</span>&lt;<span class="typename">String</span> ,RequestBody&gt; <span class="keyword">map</span>=<span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"><span class="keyword">map</span>.put(<span class="string">"photos"</span>,body1);</span><br><span class="line"><span class="keyword">map</span>.put(<span class="string">"photo2"</span>,body2);</span><br></pre></td></tr></table></figure></p>
 <h3 id="@Hearders"><a href="#@Hearders" class="headerlink" title="@Hearders"></a>@Hearders</h3><p>设置头文件内容</p>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@Headers</span>(<span class="string">"Cache-Control: max-age=640000"</span>)</span><br><span class="line"><span class="variable">@GET</span>(<span class="string">"widget/list"</span>)</span><br><span class="line">Call&lt;List&lt;Widget&gt;&gt; <span class="function">widgetList</span>();</span><br></pre></td></tr></table></figure>
 <p>如果你要设置头文件多个内容</p>
@@ -323,6 +324,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/10/AndroidStudio从入门到精通/" rel="prev" title="AndroidStudio从入门到精通">
+                AndroidStudio从入门到精通 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -394,7 +399,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -456,7 +461,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#@GET"><span class="nav-number">1.</span> <span class="nav-text">@GET</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#@Query_uFF0C@QueryMap"><span class="nav-number">2.</span> <span class="nav-text">@Query，@QueryMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#@Field"><span class="nav-number">3.</span> <span class="nav-text">@Field</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#@Body"><span class="nav-number">4.</span> <span class="nav-text">@Body</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#@Part"><span class="nav-number">5.</span> <span class="nav-text">@Part</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#@Hearders"><span class="nav-number">6.</span> <span class="nav-text">@Hearders</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#@Header"><span class="nav-number">7.</span> <span class="nav-text">@Header</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#@GET"><span class="nav-number">1.</span> <span class="nav-text">@GET</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#@Query"><span class="nav-number">2.</span> <span class="nav-text">@Query</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#@Field"><span class="nav-number">3.</span> <span class="nav-text">@Field</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#@Body"><span class="nav-number">4.</span> <span class="nav-text">@Body</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#@Part"><span class="nav-number">5.</span> <span class="nav-text">@Part</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#@PartMap"><span class="nav-number">6.</span> <span class="nav-text">@PartMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#@Hearders"><span class="nav-number">7.</span> <span class="nav-text">@Hearders</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#@Header"><span class="nav-number">8.</span> <span class="nav-text">@Header</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

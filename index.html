@@ -216,6 +216,133 @@
             
               
                 
+                <a class="post-title-link" href="/2016/10/10/AndroidStudio从入门到精通/" itemprop="url">
+                  AndroidStudio从入门到精通
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-10-10T09:31:58+08:00" content="2016-10-10">
+              2016-10-10
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/10/AndroidStudio从入门到精通/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/10/AndroidStudio从入门到精通/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Android Studio谷歌官方推荐开发android的编译器，使用更强大的gradle脚本工具，支持Layout Editor更加直观的布局编辑，Constraint layout比relativelayout更加方便的相对布局，Apk Analyzer查看apk中dex体积等。</p>
+<p><a href="https://developer.android.com/studio/index.html?hl=zh-cn" target="_blank" rel="external">AndroidStudio下载链接</a></p>
+<h3 id="u4E0D_u540C_u4E8Eeclipse_uFF0Cas_u662F_u4EE5_u4E00_u4E2Aproject_u4E3A_u4E00_u4E2A_u7A97_u53E3_u3002"><a href="#u4E0D_u540C_u4E8Eeclipse_uFF0Cas_u662F_u4EE5_u4E00_u4E2Aproject_u4E3A_u4E00_u4E2A_u7A97_u53E3_u3002" class="headerlink" title="不同于eclipse，as是以一个project为一个窗口。"></a>不同于eclipse，as是以一个project为一个窗口。</h3><ul>
+<li>选择file-new-new project 新建as项目，</li>
+<li>选择file-new-import project 导入eclipse项目，</li>
+<li>选择file-open 打开as项目，</li>
+<li>选择file-new-Project from Version Control-github 来导入git上的项目。</li>
+</ul>
+<h3 id="as_u7684_u9879_u76EE_u7ED3_u6784_uFF0Capp_u9879_u76EE_u4E3B_u76EE_u5F55__u3002"><a href="#as_u7684_u9879_u76EE_u7ED3_u6784_uFF0Capp_u9879_u76EE_u4E3B_u76EE_u5F55__u3002" class="headerlink" title="as的项目结构，app项目主目录 。"></a>as的项目结构，app项目主目录 。</h3><ul>
+<li>app/libs jar 存放位置，</li>
+<li>app/src/java  放java代码，</li>
+<li>app/src/res 放图片xml等文件，</li>
+<li>app/src/res/mipmap-xhdpi 用来放launcher的logo</li>
+<li>app/src/res/drawable-xhdpi 用来放项目用到的图片文件</li>
+<li>app/build.gradle 负责定义项目的编译sdk版本，包名，版本号，打包签名，还有jar在maven上的引用。</li>
+<li>build.gradle  负责整个引用项目的gradle插件版本。</li>
+<li>settings.gradle 包含主项目和moudle项目</li>
+</ul>
+<h3 id="as_u8BBE_u7F6E"><a href="#as_u8BBE_u7F6E" class="headerlink" title="as设置"></a>as设置</h3><p><strong>as修改包名</strong></p>
+<p>选择show option menu就是绿色运行那个三角形下2行的那个齿轮按钮，把Compat Empty middle packages的改为不选中状态，修改包名java/com/xxx.xxx最后修改build.gradle上的applicationId为你的包名。</p>
+<p><strong>添加每个java类的头文件</strong></p>
+<p>在settings搜索File and Code Templates找到includle -file Header<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span> Package :$&#123;PACKAGE_NAME&#125;</span><br><span class="line"> <span class="keyword">*</span> Description :</span><br><span class="line"> <span class="keyword">*</span> Author :$&#123;USER&#125;</span><br><span class="line"> <span class="keyword">*</span> Created at :$&#123;DATE&#125; $&#123;HOUR&#125;:$&#123;MINUTE&#125;.</span><br><span class="line"> <span class="keyword">*</span>/</span><br></pre></td></tr></table></figure></p>
+<p><strong>自定义代码模板</strong></p>
+<p>在settings搜索 Live Templates 点开Android ，点击右上角绿色的加号，，例如我要添加一个swith的代码片段。</p>
+<p>在Abbreviation 输入片段的缩写：如switchinit； </p>
+<p>在description 输入片段作用的描述：如ontouchevent的switch语句。</p>
+<p>然后在Template text输入代码:</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">switch</span> (event.getAction()) &#123;</span><br><span class="line">    <span class="keyword">case</span> MotionEvent.<span class="string">ACTION_DOWN:</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> MotionEvent.<span class="string">ACTION_MOVE:</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> MotionEvent.<span class="string">ACTION_UP:</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>as的快捷键</strong>，我选择default，下面是几个常用的快捷键</p>
+<p>Ctrl+Alt+L                                     format code</p>
+<p>Alt+Shift+鼠标光标                      多行多光标编辑</p>
+<p>Alt+enter                                      解决代码报错，用于强制类型转换，导包，生成方法等</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/10/08/retrofit注解使用/" itemprop="url">
                   retrofit注解使用
                 </a>
@@ -269,8 +396,8 @@
             <p>在用到retrofit请求json时，通常在GankService.java类用到@GET，@POST，@Path这些注解，具体怎么用，可以看看下面。</p>
 <h3 id="@GET"><a href="#@GET" class="headerlink" title="@GET"></a>@GET</h3><p> 用于get请求</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="at_rule">@<span class="keyword">GET("user")</span></span><br><span class="line">Observable&lt;Result&gt; <span class="function">getUsers</span>()</span>;</span><br></pre></td></tr></table></figure>
-<h3 id="@Query_uFF0C@QueryMap"><a href="#@Query_uFF0C@QueryMap" class="headerlink" title="@Query，@QueryMap"></a>@Query，@QueryMap</h3><p>用于url后面?key=value</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@GET</span>(<span class="string">"user"</span>)</span><br><span class="line">Observable&lt;Result&gt; <span class="function">getUsers</span>(<span class="variable">@Query</span>(<span class="string">"id"</span>) String userId);<span class="comment">//这里你也可以用QueryMap 代替Query</span></span><br></pre></td></tr></table></figure>
+<h3 id="@Query"><a href="#@Query" class="headerlink" title="@Query"></a>@Query</h3><p>用于url后面?key=value</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@GET</span>(<span class="string">"user"</span>)</span><br><span class="line">Observable&lt;Result&gt; <span class="function">getUsers</span>(<span class="variable">@Query</span>(<span class="string">"id"</span>) String userId);</span><br></pre></td></tr></table></figure>
 <p>相当于</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="at_rule">@<span class="keyword">GET("user?id=userId")</span></span><br><span class="line">Observable&lt;Result&gt; <span class="function">getUsers</span>()</span>;</span><br></pre></td></tr></table></figure>
 <h3 id="@Field"><a href="#@Field" class="headerlink" title="@Field"></a>@Field</h3><p>@POST 用于post请求，我们通常都是post一个表单形式的参数。这时候就用到@Field来连接键值对，@FormUrlEncoded来告诉服务器这是表单提交参数。</p>
@@ -279,7 +406,8 @@
 <p>好像依赖了这个包com.squareup.retrofit2:converter-gson  就会被gson转换成json格式。</p>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@POST</span>(<span class="string">"users/new"</span>)</span><br><span class="line">Call&lt;User&gt; <span class="function">createUser</span>(<span class="variable">@Body</span> User user);</span><br></pre></td></tr></table></figure>
 <h3 id="@Part"><a href="#@Part" class="headerlink" title="@Part"></a>@Part</h3><p>part和multipart一起使用，用于文件上传</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@Multipart</span></span><br><span class="line"><span class="variable">@PUT</span>(<span class="string">"user/photo"</span>)</span><br><span class="line">Call&lt;User&gt; <span class="function">updateUser</span>(<span class="variable">@Part</span>(<span class="string">"photo"</span>) RequestBody photo, <span class="variable">@Part</span>(<span class="string">"description"</span>) RequestBody description);</span><br></pre></td></tr></table></figure>
+<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Multipart</span><br><span class="line">@PUT(<span class="string">"user/photo"</span>)</span><br><span class="line">Call&lt;User&gt; updateUser(@<span class="keyword">Part</span> MultipartBody.<span class="keyword">Part</span> photo, @<span class="keyword">Part</span>(<span class="string">"description"</span>) RequestBody description);</span><br><span class="line"></span><br><span class="line"><span class="keyword">File</span> file=new <span class="keyword">File</span>(<span class="keyword">Environment</span>.getExternalStorageDirectory(),<span class="string">"aa.png"</span>);</span><br><span class="line">RequestBody body=RequestBody.create(MediaType.parse(<span class="string">"image/png"</span>),file);</span><br><span class="line">MultipartyBody.<span class="keyword">Part</span> photo=MultipartBody.<span class="keyword">Part</span>.createFromData(<span class="string">"photo"</span>,<span class="string">"icon.png"</span>,body);</span><br></pre></td></tr></table></figure>
+<h3 id="@PartMap"><a href="#@PartMap" class="headerlink" title="@PartMap"></a>@PartMap</h3><p>用于多个文件上传，多个MultipartBody<br><figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Multipart</span><br><span class="line">@PUT(<span class="string">"user/photo"</span>)</span><br><span class="line">Call&lt;User&gt; updateUser(@PartMap <span class="keyword">Map</span>&lt;<span class="typename">String</span> RequestBody&gt; <span class="keyword">map</span>, @Part(<span class="string">"description"</span>) RequestBody description);</span><br><span class="line"></span><br><span class="line"><span class="keyword">File</span> file1=<span class="keyword">new</span> <span class="keyword">File</span>(Environment.getExternalStorageDirectory(),<span class="string">"aa.png"</span>);</span><br><span class="line"><span class="keyword">File</span> file2=<span class="keyword">new</span> <span class="keyword">File</span>(Environment.getExternalStorageDirectory(),<span class="string">"bb.png"</span>);</span><br><span class="line">RequestBody body1=RequestBody.create(MediaType.parse(<span class="string">"image/png"</span>),file1);</span><br><span class="line">RequestBody body2=RequestBody.create(MediaType.parse(<span class="string">"image/png"</span>),file2);</span><br><span class="line"><span class="keyword">Map</span>&lt;<span class="typename">String</span> ,RequestBody&gt; <span class="keyword">map</span>=<span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"><span class="keyword">map</span>.put(<span class="string">"photos"</span>,body1);</span><br><span class="line"><span class="keyword">map</span>.put(<span class="string">"photo2"</span>,body2);</span><br></pre></td></tr></table></figure></p>
 <h3 id="@Hearders"><a href="#@Hearders" class="headerlink" title="@Hearders"></a>@Hearders</h3><p>设置头文件内容</p>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@Headers</span>(<span class="string">"Cache-Control: max-age=640000"</span>)</span><br><span class="line"><span class="variable">@GET</span>(<span class="string">"widget/list"</span>)</span><br><span class="line">Call&lt;List&lt;Widget&gt;&gt; <span class="function">widgetList</span>();</span><br></pre></td></tr></table></figure>
 <p>如果你要设置头文件多个内容</p>
@@ -769,202 +897,11 @@ Hi gdmec07120731! You&apos;ve successfully authenticated, but GitHub does not pr
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/30/gradle多渠道打包/" itemprop="url">
-                  gradle多渠道打包
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-05-30T20:32:15+08:00" content="2016-05-30">
-              2016-05-30
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/30/gradle多渠道打包/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/30/gradle多渠道打包/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Gradle_u591A_u6E20_u9053_u6253_u5305"><a href="#Gradle_u591A_u6E20_u9053_u6253_u5305" class="headerlink" title="Gradle多渠道打包"></a>Gradle多渠道打包</h1><blockquote>
-<p>前言，多渠道打包的作用在于统计哪个app市场最多用户量下载量，推广效果最好。</p>
-</blockquote>
-<p>编译工具：AndroidStudio 2.2preview 1<br>gradle版本: gradle-2.10</p>
-<p>打包原理：通过修改Androidmanifest.xml 自定义meta值来统计不同市场。</p>
-<hr>
-<p>下面是总结的打包流程：</p>
-<h2 id="1-__u5728Androidmanifest-xml_u4E2DApplication_u6807_u7B7E_u4E0B"><a href="#1-__u5728Androidmanifest-xml_u4E2DApplication_u6807_u7B7E_u4E0B" class="headerlink" title="1. 在Androidmanifest.xml中Application标签下"></a>1. 在Androidmanifest.xml中Application标签下</h2><p>新增meta标签，name根据你的统计方式来定义，你可以用你app名（PPJUN_CHANNEL）<br>，如果你用友盟的统计name就要用UMENG_CHANNEL了。</p>
-<p>自家自定义</p>
-<pre><code>&lt;meta-data
-android:name=&quot;PPJUN_CHANNEL&quot;
-android:value=&quot;{UMENG_CHANNEL_ID}&quot;/&gt;
-</code></pre><p>友盟统计</p>
-<pre><code>&lt;meta-data
-  android:name=&quot;UMENG_APPKEY&quot;
-  android:value=&quot;123&quot;/&gt;
-
-&lt;meta-data
-  android:name=&quot;UMENG_CHANNEL&quot;
-  android:value=&quot;{UMENG_CHANNEL_ID}&quot;/&gt;
-</code></pre><h2 id="2-__u8BBE_u7F6Ebuild-gradle"><a href="#2-__u8BBE_u7F6Ebuild-gradle" class="headerlink" title="2. 设置build.gradle"></a>2. 设置build.gradle</h2><p>在app的build.gradle设置</p>
-<pre><code>android{
-   ...
-   //配置签名信息
-   signingConfigs {
-    release {
-        keyAlias &apos;ppjun&apos;
-        keyPassword &apos;ppjun123&apos;
-        storeFile file(&apos;C:/Users/Rabbit/Desktop/umeng_message201603291611_v2.8.0/LabelView/app/ppjun.jks&apos;)
-        storePassword &apos;ppjun123&apos;
-
-    }
-}
-
-   //配置签名apk优化
-   buildTypes {
-    release {
-        zipAlignEnabled true
-        minifyEnabled true
-        shrinkResources true
-        proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;
-        signingConfig signingConfigs.release
-    }
-}
-
-   //配置渠道号
-   productFlavors {
-    baidu {}
-    google {}
-    wandoujia {}
-    xiaomi {}
-
-}
-   //关联渠道号和Androidmani.xml
-productFlavors.all { flavor -&gt;
-    flavor.manifestPlaceholders = [UMENG_CHANNEL_ID: flavor.name]
-}
-
-}
-</code></pre><p>ps：signingConfigs这个方法一定要写在buildTypes方法前，不然不能通过clean。</p>
-<h2 id="3-_u4FEE_u6539apk_u540D"><a href="#3-_u4FEE_u6539apk_u540D" class="headerlink" title="3.修改apk名"></a>3.修改apk名</h2><p>如果要打包出app_v1.0_1_20160101_xiaomi.apk这样子的包名<br>在build.gradle</p>
-<pre><code>android{
-  ...
- applicationVariants.all { variant -&gt;
-    variant.outputs.each { output -&gt;
-        // 重命名产出的apk文件
-        def outputFile = output.outputFile
-        if (outputFile != null &amp;&amp; outputFile.name.endsWith(&apos;.apk&apos;)) {
-            File outputDirectory = new File(outputFile.parent);
-            def fileName
-            if (variant.buildType.name == &quot;release&quot;) {
-                fileName = &quot;app_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${packageTime()}_${variant.productFlavors[0].name}.apk&quot;
-            } else {
-                fileName = &quot;app_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${packageTime()}_debug.apk&quot;
-            }
-            output.outputFile = new File(outputDirectory, fileName)
-        }
-
-        // 删除unaligned apk
-        if (output.zipAlign != null) {
-            output.zipAlign.doLast {
-                output.zipAlign.inputFile.delete()
-            }
-        }
-    }
-  }
-}
-//在android外层
-def packageTime() {
-return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&quot;))
-
-}
-</code></pre><h2 id="4-_u5728Terminal_u8FD0_u884C_u547D_u4EE4"><a href="#4-_u5728Terminal_u8FD0_u884C_u547D_u4EE4" class="headerlink" title="4.在Terminal运行命令"></a>4.在Terminal运行命令</h2><p>先运行，clean项目</p>
-<pre><code>gradlew clean 
-</code></pre><p>成功后再运行，开始正式打包</p>
-<pre><code>gradlew assembleRelease
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1005,7 +942,7 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
