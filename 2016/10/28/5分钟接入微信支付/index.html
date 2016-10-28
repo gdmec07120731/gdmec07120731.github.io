@@ -1,0 +1,817 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="微信支付," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="现在app最流行微信支付，支付宝支付，都是大部分消费类型app计费方式首选。现在5分钟教你接入微信支付。
+接入前请准备好
+
+微信appid
+微信appkey
+微信商户id
+微信商户APIkey  需要在商户后台自定义32位key
+上传app的签名.jks文件  MD5值
+
+官网微信支付demo下载链接
+配置项目配置文件AndroidManifest.xml加入权限
+123&amp;lt;uses-perm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5分钟接入微信支付">
+<meta property="og:url" content="http://www.lanyimi.com/2016/10/28/5分钟接入微信支付/index.html">
+<meta property="og:site_name" content="ppjun's blog">
+<meta property="og:description" content="现在app最流行微信支付，支付宝支付，都是大部分消费类型app计费方式首选。现在5分钟教你接入微信支付。
+接入前请准备好
+
+微信appid
+微信appkey
+微信商户id
+微信商户APIkey  需要在商户后台自定义32位key
+上传app的签名.jks文件  MD5值
+
+官网微信支付demo下载链接
+配置项目配置文件AndroidManifest.xml加入权限
+123&amp;lt;uses-perm">
+<meta property="og:updated_time" content="2016-10-28T09:32:24.089Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="5分钟接入微信支付">
+<meta name="twitter:description" content="现在app最流行微信支付，支付宝支付，都是大部分消费类型app计费方式首选。现在5分钟教你接入微信支付。
+接入前请准备好
+
+微信appid
+微信appkey
+微信商户id
+微信商户APIkey  需要在商户后台自定义32位key
+上传app的签名.jks文件  MD5值
+
+官网微信支付demo下载链接
+配置项目配置文件AndroidManifest.xml加入权限
+123&amp;lt;uses-perm">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 5分钟接入微信支付 | ppjun's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?cef14f34097ee96d1c421c93f49f83b9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ppjun's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Thanks for your watching</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                5分钟接入微信支付
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-10-28T16:36:45+08:00" content="2016-10-28">
+              2016-10-28
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/28/5分钟接入微信支付/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/28/5分钟接入微信支付/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>现在app最流行微信支付，支付宝支付，都是大部分消费类型app计费方式首选。现在5分钟教你接入微信支付。</p>
+<p>接入前请准备好</p>
+<ul>
+<li>微信appid</li>
+<li>微信appkey</li>
+<li>微信商户id</li>
+<li>微信商户APIkey  需要在商户后台自定义32位key</li>
+<li>上传app的签名.jks文件  MD5值</li>
+</ul>
+<p><a href="https://res.wx.qq.com/open/zh_CN/htmledition/res/dev/download/sdk/WeChatSDK_sample_Android221cbf.zip" target="_blank" rel="external">官网微信支付demo下载链接</a></p>
+<h3 id="u914D_u7F6E_u9879_u76EE_u914D_u7F6E_u6587_u4EF6"><a href="#u914D_u7F6E_u9879_u76EE_u914D_u7F6E_u6587_u4EF6" class="headerlink" title="配置项目配置文件"></a>配置项目配置文件</h3><p>AndroidManifest.xml加入权限</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.INTERNET"</span> /&gt;</span><br><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.MODIFY_AUDIO_SETTINGS"</span>/&gt;</span><br><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span>/&gt;</span><br></pre></td></tr></table></figure>
+<p>注册广播接收器</p>
+<pre><code>&lt;receiver
+           android:name=&quot;包名.AppRegister&quot;&gt;
+           &lt;intent-filter&gt;
+               &lt;action android:name=&quot;com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP&quot; /&gt;
+           &lt;/intent-filter&gt;
+       &lt;/receiver&gt;
+</code></pre><p>注册支付结果回调actiivty  ，<strong>此处activity命名规则必须是包名+wxapi.WXPayEntryActivity</strong> ，否则无法得到支付结果。</p>
+<pre><code>&lt;activity
+        android:name=&quot;包名.wxapi.WXPayEntryActivity&quot;
+        android:exported=&quot;true&quot;
+        android:launchMode=&quot;singleTop&quot;/&gt;
+</code></pre><p>在调用微信支付的activity 的intent-filter标签加上</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;data android:scheme=<span class="string">"微信appid"</span>/&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="u8C03_u7528_u652F_u4ED8_u65B9_u6CD5"><a href="#u8C03_u7528_u652F_u4ED8_u65B9_u6CD5" class="headerlink" title="调用支付方法"></a>调用支付方法</h3><p>前提，微信生成预订单prepay_id要在app服务器完成，这样子好处是客户端不保存微信appkey，商户key，商户id等信息让支付更加安全可靠。操作就是客户端把商品名称，金额提交给app服务器返回预订单。</p>
+<p>在调用支付方法view定义</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">      <span class="keyword">private</span>  PayReq mReq</span><br><span class="line">      <span class="keyword">private</span>  IWXAPI mWxapi</span><br><span class="line">  	<span class="annotation">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">           mReq=<span class="keyword">new</span> PayReq();</span><br><span class="line">           mWxapi=WXAPIFactory.createWXAPI(<span class="keyword">this</span>,<span class="keyword">null</span>);</span><br><span class="line">          </span><br><span class="line">         </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pay</span><span class="params">()</span></span>&#123;</span><br><span class="line">         <span class="comment">//判断微信是否安装</span></span><br><span class="line">         <span class="keyword">if</span>(!isSupportPay())&#123;</span><br><span class="line">              <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">   <span class="comment">//向app服务器提交商品名金额，获取预订单，商户id，加密信息，时间戳等后...</span></span><br><span class="line">        </span><br><span class="line">           mReq.appId = <span class="string">"appid"</span>;</span><br><span class="line">		  mReq.partnerId = <span class="string">"mch_id"</span>;</span><br><span class="line">		  mReq.prepayId = <span class="string">"prepay_id"</span>;</span><br><span class="line">		  mReq.packageValue = <span class="string">"Sign=WXPay"</span>;</span><br><span class="line">		  mReq.nonceStr =<span class="string">"nonce_str"</span>;</span><br><span class="line">		  mReq.timeStamp = <span class="string">"TimeStamp"</span>;</span><br><span class="line">           mReq.sign = <span class="string">"signParams"</span>;</span><br><span class="line">           mWxapi.registerApp(<span class="string">"appid"</span>);</span><br><span class="line">           mWxapi.sendReq(req);<span class="comment">//拉起微信支付界面</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isSupportPay</span><span class="params">()</span></span>&#123;</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span>(mWxapi.isWXAppInstalled()&amp;&amp;mWxapi.isWXAppSupportAPI())&#123;</span><br><span class="line">               <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">	   Toast.makeText(mContext, <span class="string">"请安装最新版微信"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">  WXPayEntryActivity.java</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">private</span> IWXAPI wxapi;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WXPayEntryActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> <span class="keyword">implements</span> <span class="title">IWXAPIEventHandler</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">      <span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">         wxapi = WXAPIFactory.createWXAPI(<span class="keyword">this</span>, <span class="string">"wxappid"</span>);</span><br><span class="line">	 wxapi.handleIntent(getIntent(), <span class="keyword">this</span>);</span><br><span class="line">     </span><br><span class="line">  &#125;</span><br><span class="line">   <span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onNewIntent</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">super</span>.onNewIntent(intent);</span><br><span class="line">    wxapi.handleIntent(intent, <span class="keyword">this</span>);</span><br><span class="line"> &#125;</span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReq</span><span class="params">(BaseReq req)</span> </span>&#123;</span><br><span class="line">	<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//微信通知app客户端</span></span><br><span class="line"><span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResp</span><span class="params">(BaseResp resp)</span> </span>&#123;</span><br><span class="line"> 	<span class="keyword">if</span> (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) &#123;</span><br><span class="line">   </span><br><span class="line">   <span class="keyword">switch</span>(resp.errCode)&#123;</span><br><span class="line">     <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">       <span class="comment">//支付成功</span></span><br><span class="line">       <span class="keyword">break</span>;</span><br><span class="line">     <span class="keyword">case</span> -<span class="number">1</span>:</span><br><span class="line">       <span class="comment">//未签名app</span></span><br><span class="line">       <span class="keyword">break</span>;</span><br><span class="line">     <span class="keyword">case</span> -<span class="number">2</span>:</span><br><span class="line">       <span class="comment">//取消支付</span></span><br><span class="line">       <span class="keyword">break</span>;</span><br><span class="line">     <span class="keyword">default</span>:</span><br><span class="line">       <span class="comment">//支付失败</span></span><br><span class="line">       <span class="keyword">break</span>;</span><br><span class="line">       </span><br><span class="line">        &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="u652F_u4ED8_u76F8_u5173_u9519_u8BEF_u7801"><a href="#u652F_u4ED8_u76F8_u5173_u9519_u8BEF_u7801" class="headerlink" title="支付相关错误码"></a>支付相关错误码</h3><p>如果resp.errCode返回-1，此时app签名和微信open平台签名文件的md5值不一致造成，所以要确保app使用open平台相同签名文件。</p>
+<p>如遇到其他复杂情况可以清空微信app缓存，进行测试。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/微信支付/" rel="tag">#微信支付</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/12/EventBus3.0入门/" rel="next" title="EventBus3.0入门">
+                <i class="fa fa-chevron-left"></i> EventBus3.0入门
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/10/28/5分钟接入微信支付/"
+           data-title="5分钟接入微信支付" data-url="http://www.lanyimi.com/2016/10/28/5分钟接入微信支付/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://tp2.sinaimg.cn/1856098257/180/40040512434/1"
+               alt="区汇君" />
+          <p class="site-author-name" itemprop="name">区汇君</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">標籤</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/gdmec07120731" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1856098257?is_all=1" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u914D_u7F6E_u9879_u76EE_u914D_u7F6E_u6587_u4EF6"><span class="nav-number">1.</span> <span class="nav-text">配置项目配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u8C03_u7528_u652F_u4ED8_u65B9_u6CD5"><span class="nav-number">2.</span> <span class="nav-text">调用支付方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u652F_u4ED8_u76F8_u5173_u9519_u8BEF_u7801"><span class="nav-number">3.</span> <span class="nav-text">支付相关错误码</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">区汇君</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ouhuijun"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

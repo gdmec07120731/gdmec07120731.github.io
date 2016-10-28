@@ -216,6 +216,133 @@
             
               
                 
+                <a class="post-title-link" href="/2016/10/28/5分钟接入微信支付/" itemprop="url">
+                  5分钟接入微信支付
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-10-28T16:36:45+08:00" content="2016-10-28">
+              2016-10-28
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/28/5分钟接入微信支付/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/28/5分钟接入微信支付/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>现在app最流行微信支付，支付宝支付，都是大部分消费类型app计费方式首选。现在5分钟教你接入微信支付。</p>
+<p>接入前请准备好</p>
+<ul>
+<li>微信appid</li>
+<li>微信appkey</li>
+<li>微信商户id</li>
+<li>微信商户APIkey  需要在商户后台自定义32位key</li>
+<li>上传app的签名.jks文件  MD5值</li>
+</ul>
+<p><a href="https://res.wx.qq.com/open/zh_CN/htmledition/res/dev/download/sdk/WeChatSDK_sample_Android221cbf.zip" target="_blank" rel="external">官网微信支付demo下载链接</a></p>
+<h3 id="u914D_u7F6E_u9879_u76EE_u914D_u7F6E_u6587_u4EF6"><a href="#u914D_u7F6E_u9879_u76EE_u914D_u7F6E_u6587_u4EF6" class="headerlink" title="配置项目配置文件"></a>配置项目配置文件</h3><p>AndroidManifest.xml加入权限</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.INTERNET"</span> /&gt;</span><br><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.MODIFY_AUDIO_SETTINGS"</span>/&gt;</span><br><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span>/&gt;</span><br></pre></td></tr></table></figure>
+<p>注册广播接收器</p>
+<pre><code>&lt;receiver
+           android:name=&quot;包名.AppRegister&quot;&gt;
+           &lt;intent-filter&gt;
+               &lt;action android:name=&quot;com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP&quot; /&gt;
+           &lt;/intent-filter&gt;
+       &lt;/receiver&gt;
+</code></pre><p>注册支付结果回调actiivty  ，<strong>此处activity命名规则必须是包名+wxapi.WXPayEntryActivity</strong> ，否则无法得到支付结果。</p>
+<pre><code>&lt;activity
+        android:name=&quot;包名.wxapi.WXPayEntryActivity&quot;
+        android:exported=&quot;true&quot;
+        android:launchMode=&quot;singleTop&quot;/&gt;
+</code></pre><p>在调用微信支付的activity 的intent-filter标签加上</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;data android:scheme=<span class="string">"微信appid"</span>/&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="u8C03_u7528_u652F_u4ED8_u65B9_u6CD5"><a href="#u8C03_u7528_u652F_u4ED8_u65B9_u6CD5" class="headerlink" title="调用支付方法"></a>调用支付方法</h3><p>前提，微信生成预订单prepay_id要在app服务器完成，这样子好处是客户端不保存微信appkey，商户key，商户id等信息让支付更加安全可靠。操作就是客户端把商品名称，金额提交给app服务器返回预订单。</p>
+<p>在调用支付方法view定义</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">      <span class="keyword">private</span>  PayReq mReq</span><br><span class="line">      <span class="keyword">private</span>  IWXAPI mWxapi</span><br><span class="line">  	<span class="annotation">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">           mReq=<span class="keyword">new</span> PayReq();</span><br><span class="line">           mWxapi=WXAPIFactory.createWXAPI(<span class="keyword">this</span>,<span class="keyword">null</span>);</span><br><span class="line">          </span><br><span class="line">         </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pay</span><span class="params">()</span></span>&#123;</span><br><span class="line">         <span class="comment">//判断微信是否安装</span></span><br><span class="line">         <span class="keyword">if</span>(!isSupportPay())&#123;</span><br><span class="line">              <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">   <span class="comment">//向app服务器提交商品名金额，获取预订单，商户id，加密信息，时间戳等后...</span></span><br><span class="line">        </span><br><span class="line">           mReq.appId = <span class="string">"appid"</span>;</span><br><span class="line">		  mReq.partnerId = <span class="string">"mch_id"</span>;</span><br><span class="line">		  mReq.prepayId = <span class="string">"prepay_id"</span>;</span><br><span class="line">		  mReq.packageValue = <span class="string">"Sign=WXPay"</span>;</span><br><span class="line">		  mReq.nonceStr =<span class="string">"nonce_str"</span>;</span><br><span class="line">		  mReq.timeStamp = <span class="string">"TimeStamp"</span>;</span><br><span class="line">           mReq.sign = <span class="string">"signParams"</span>;</span><br><span class="line">           mWxapi.registerApp(<span class="string">"appid"</span>);</span><br><span class="line">           mWxapi.sendReq(req);<span class="comment">//拉起微信支付界面</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isSupportPay</span><span class="params">()</span></span>&#123;</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span>(mWxapi.isWXAppInstalled()&amp;&amp;mWxapi.isWXAppSupportAPI())&#123;</span><br><span class="line">               <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">	   Toast.makeText(mContext, <span class="string">"请安装最新版微信"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">  WXPayEntryActivity.java</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">private</span> IWXAPI wxapi;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WXPayEntryActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> <span class="keyword">implements</span> <span class="title">IWXAPIEventHandler</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">      <span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">         wxapi = WXAPIFactory.createWXAPI(<span class="keyword">this</span>, <span class="string">"wxappid"</span>);</span><br><span class="line">	 wxapi.handleIntent(getIntent(), <span class="keyword">this</span>);</span><br><span class="line">     </span><br><span class="line">  &#125;</span><br><span class="line">   <span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onNewIntent</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">super</span>.onNewIntent(intent);</span><br><span class="line">    wxapi.handleIntent(intent, <span class="keyword">this</span>);</span><br><span class="line"> &#125;</span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReq</span><span class="params">(BaseReq req)</span> </span>&#123;</span><br><span class="line">	<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//微信通知app客户端</span></span><br><span class="line"><span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResp</span><span class="params">(BaseResp resp)</span> </span>&#123;</span><br><span class="line"> 	<span class="keyword">if</span> (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) &#123;</span><br><span class="line">   </span><br><span class="line">   <span class="keyword">switch</span>(resp.errCode)&#123;</span><br><span class="line">     <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">       <span class="comment">//支付成功</span></span><br><span class="line">       <span class="keyword">break</span>;</span><br><span class="line">     <span class="keyword">case</span> -<span class="number">1</span>:</span><br><span class="line">       <span class="comment">//未签名app</span></span><br><span class="line">       <span class="keyword">break</span>;</span><br><span class="line">     <span class="keyword">case</span> -<span class="number">2</span>:</span><br><span class="line">       <span class="comment">//取消支付</span></span><br><span class="line">       <span class="keyword">break</span>;</span><br><span class="line">     <span class="keyword">default</span>:</span><br><span class="line">       <span class="comment">//支付失败</span></span><br><span class="line">       <span class="keyword">break</span>;</span><br><span class="line">       </span><br><span class="line">        &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="u652F_u4ED8_u76F8_u5173_u9519_u8BEF_u7801"><a href="#u652F_u4ED8_u76F8_u5173_u9519_u8BEF_u7801" class="headerlink" title="支付相关错误码"></a>支付相关错误码</h3><p>如果resp.errCode返回-1，此时app签名和微信open平台签名文件的md5值不一致造成，所以要确保app使用open平台相同签名文件。</p>
+<p>如遇到其他复杂情况可以清空微信app缓存，进行测试。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/10/12/EventBus3.0入门/" itemprop="url">
                   EventBus3.0入门
                 </a>
@@ -437,6 +564,16 @@
 <p>Ctrl+Alt+L                                     format code</p>
 <p>Alt+Shift+鼠标光标                      多行多光标编辑</p>
 <p>Alt+enter                                      解决代码报错，用于强制类型转换，导包，生成方法等</p>
+<h3 id="u5F15_u7528aar_u5305"><a href="#u5F15_u7528aar_u5305" class="headerlink" title="引用aar包"></a>引用aar包</h3><p>把aar包复制到libs文件夹下,修改module的build.gradle</p>
+<p><strong>注</strong> ：apply plugin:com.android.library的项目才能gengerate出aar</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">repositories&#123;</span><br><span class="line">    flatDir&#123;</span><br><span class="line">        dirs <span class="string">'libs'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies&#123;</span><br><span class="line">  compile(name:<span class="string">"aaa.aar"</span>,ext:<span class="string">'aar'</span>)</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="u6392_u9664_u4F9D_u8D56"><a href="#u6392_u9664_u4F9D_u8D56" class="headerlink" title="排除依赖"></a>排除依赖</h3><p>但出现依赖冲突时候，可以通过排除依赖解决：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">compile (group:<span class="string">'xx'</span>,name:<span class="string">''</span>,version:<span class="string">''</span>)&#123;</span><br><span class="line">        exclude group:<span class="string">''</span>,module:<span class="string">''</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="dex_u5206_u5305_uFF08_u89E3_u51B365k_uFF09"><a href="#dex_u5206_u5305_uFF08_u89E3_u51B365k_uFF09" class="headerlink" title="dex分包（解决65k）"></a>dex分包（解决65k）</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">buildConfig&#123;</span><br><span class="line">  </span><br><span class="line">  multiDexEnable <span class="keyword">true</span></span><br><span class="line">&#125;</span><br><span class="line">dependencies&#123;</span><br><span class="line">  </span><br><span class="line">  compile <span class="string">'com.google.support:multidex:1.0.0'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//自定义application继承MultiDexApplication。即可</span></span><br><span class="line"><span class="comment">//或者在你原来的Application重写attachBaseContext方法加入</span></span><br><span class="line"><span class="comment">//MultiDex.install(this);</span></span><br></pre></td></tr></table></figure>
+<h3 id="u79FB_u9664_u6CA1_u7528_u8D44_u6E90"><a href="#u79FB_u9664_u6CA1_u7528_u8D44_u6E90" class="headerlink" title="移除没用资源"></a>移除没用资源</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">buildTpyes&#123;</span><br><span class="line">    release&#123;</span><br><span class="line">        minifyEnable <span class="keyword">true</span></span><br><span class="line">        shrinkResources <span class="keyword">true</span></span><br><span class="line">      &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="u5FFD_u7565lint_u9519_u8BEF"><a href="#u5FFD_u7565lint_u9519_u8BEF" class="headerlink" title="忽略lint错误"></a>忽略lint错误</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">android&#123;</span><br><span class="line">  lintOptions&#123;</span><br><span class="line">     abortOnError <span class="keyword">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="u58F0_u660E_u7F16_u8BD1java_u7248_u672C"><a href="#u58F0_u660E_u7F16_u8BD1java_u7248_u672C" class="headerlink" title="声明编译java版本"></a>声明编译java版本</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">android&#123;</span><br><span class="line">   compileOptions&#123;</span><br><span class="line">     sourceCompatibility JavaVersion.VERSION_1_8</span><br><span class="line">     targetCompatibility JavaVersion.VERSION_1_8</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="u7B7E_u540D_u914D_u7F6E"><a href="#u7B7E_u540D_u914D_u7F6E" class="headerlink" title="签名配置"></a>签名配置</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">signingConfigs&#123;</span><br><span class="line">  release&#123;</span><br><span class="line">       <span class="function">storeFile <span class="title">file</span><span class="params">(<span class="string">"c:/xx.jks"</span>)</span></span><br><span class="line">       storePassword "123456"</span><br><span class="line">       keyAlias  "xiaom"</span><br><span class="line">       keuPassword "bjuaa"</span><br><span class="line">  &#125;</span><br><span class="line">  debug</span>&#123;</span><br><span class="line">       <span class="function">storeFile <span class="title">file</span><span class="params">(<span class="string">"c:/xx.jks"</span>)</span></span><br><span class="line">       storePassword "123456"</span><br><span class="line">       keyAlias  "xiaom"</span><br><span class="line">       keuPassword "bjuaa"</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">buildTypes</span>&#123;</span><br><span class="line">  </span><br><span class="line">  release&#123;</span><br><span class="line">            <span class="function">minifyEnabled <span class="keyword">true</span></span><br><span class="line">            useProguard <span class="keyword">false</span></span><br><span class="line">            shirkResources <span class="keyword">true</span></span><br><span class="line">            proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.pro'</span><br><span class="line">          </span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
 
           
         
@@ -789,119 +926,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/15/Java反射/" itemprop="url">
-                  Java反射
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-07-15T11:28:51+08:00" content="2016-07-15">
-              2016-07-15
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/07/15/Java反射/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/15/Java反射/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>Java反射</p>
-<p><a href="http://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&amp;mid=2650236432&amp;idx=1&amp;sn=1da63ff74cb6082ffe3df5f344f9f5f1&amp;scene=0#wechat_redirect" target="_blank" rel="external">http://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&amp;mid=2650236432&amp;idx=1&amp;sn=1da63ff74cb6082ffe3df5f344f9f5f1&amp;scene=0#wechat_redirect</a></p>
-</blockquote>
-<h1 id="Java_u53CD_u5C04"><a href="#Java_u53CD_u5C04" class="headerlink" title="Java反射"></a>Java反射</h1><h2 id="u52A8_u6001_u8BED_u8A00"><a href="#u52A8_u6001_u8BED_u8A00" class="headerlink" title="动态语言"></a>动态语言</h2><p>程序运行时，通过代码能改变程序结构或变量类型的语言，一般为动态语言。例如Perl,Python,Ruby是动态语言，反之c++,java,C#是静态语言。java有个特点能在运行时加载，编译期间完全未知的class。就是java程序运行时可以加载未知名称的class，获取类的构造方法，类属性，类方法。</p>
-<h2 id="java_u53CD_u5C04"><a href="#java_u53CD_u5C04" class="headerlink" title="java反射"></a>java反射</h2><p>要让java程序运行，就要让java类被java虚拟机加载，java不被虚拟机加载，就不能正常运行。正常情况下，我们运行的所有程序在编译期间已经把那个类加载好了。<strong>java反射就是在程序编译期间不加载用到的类，而在程序运行的时候才加载这个类</strong>。使用的是在编译期并不知道的类。</p>
-<h2 id="u53CD_u5C04_u7684_u4F5C_u7528"><a href="#u53CD_u5C04_u7684_u4F5C_u7528" class="headerlink" title="反射的作用"></a>反射的作用</h2><p>如果AB两个程序员合作，A写程序时用到B写的类，如果B没写A用到的类，A的代码就不能通过编译了，此时用到java反射机制，就可以让A在获取不到B写的类是，来让自己代码通过编译，就是在运行时才加载用到类。</p>
-<h2 id="u53CD_u5C04_u7684_u5B9E_u8D28"><a href="#u53CD_u5C04_u7684_u5B9E_u8D28" class="headerlink" title="反射的实质"></a>反射的实质</h2><p> java反射会将代码解析成java类，要使用java反射就要用到Class（大写C）这个类，当一个java类被加载,java虚拟机就会自动生成一个Class对象，通过Class对象我们就能获取加载到java虚拟机当前Class对象的构造方法，类方法，类属性。<strong>在运行期间拿到这个类的构造方法类属性和类方法</strong></p>
-<h2 id="u53CD_u5C04_u7684_u4F7F_u7528"><a href="#u53CD_u5C04_u7684_u4F7F_u7528" class="headerlink" title="反射的使用"></a>反射的使用</h2><p>获取本apk的类</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Class clazz=ClassLoader.getSystemClassLoader().loadClass(<span class="string">"com.ppjun.Test"</span>);<span class="comment">//通过系统的   ClassLoader来加载Class，返回Class对象</span></span><br><span class="line"></span><br><span class="line">Coustructor constructor=clazz.getConstructor(String.class);<span class="comment">//获取构造函数，参数是String类型</span></span><br><span class="line"></span><br><span class="line"> Object obj=constructor.newInstance(<span class="string">"ppjun"</span>); <span class="comment">//往构造函数传入参数ppjun</span></span><br><span class="line"></span><br><span class="line">Method method=clazz.getMethod(<span class="string">"display"</span>,<span class="keyword">null</span>);<span class="comment">//获取clazz对象叫display的方法，没有返回值</span></span><br><span class="line"></span><br><span class="line">method.invoke(obj,<span class="keyword">null</span>);<span class="comment">//执行display的方法，会输出ppjun`</span></span><br></pre></td></tr></table></figure>
-<p>反射也可以在A.apk 调用B.apk的方法</p>
-<p>首先在A.apk写一个类Share</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Share</span></span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">(String s)</span></span>&#123;</span><br><span class="line"></span><br><span class="line"> Log.i(<span class="string">"display"</span>,<span class="string">"from A.apk"</span>)&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>然后再AndroidManifest的MainActivity的<intent-filter>声明</intent-filter></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;action android:name=<span class="string">"com.ppjun"</span>&gt;</span><br></pre></td></tr></table></figure>
-<p>来扑抓这个activity</p>
-<p>在B.apk</p>
-<p>调用以下方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getFromRemote</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">   Intent intent=<span class="keyword">new</span> Intent(<span class="string">"com.ppjun"</span>);</span><br><span class="line"></span><br><span class="line">   PackageManager pm=getPackageManager();</span><br><span class="line"></span><br><span class="line">   List&lt;ResolveInfo&gt; resolveInfos=pm.queryIntentActivities(intent,<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">   ResolveInfo resolveInfo=resolveInfos.get(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">   ActivityInfo activityInfo=resolveInfo.activityInfo;</span><br><span class="line"></span><br><span class="line">   String packageName=activityInfo.packageName;</span><br><span class="line"></span><br><span class="line">   String dexPath=activityInfo.applicationInfo.sourceDir;</span><br><span class="line"></span><br><span class="line">   String dexOutputDir=getApplicationInfo().dataDir;</span><br><span class="line"></span><br><span class="line">   String nativeLibraryDir=activityInfo.applicationInfo.nativeLibraryDir;</span><br><span class="line"></span><br><span class="line">   ClassLoader classLoader=getClassLoader();</span><br><span class="line"></span><br><span class="line">   DexClassLoader dc1=<span class="keyword">new</span> DexClassLoader(dexPath,dexOutputDir,nativeLibraryDir,classLoader);</span><br><span class="line"></span><br><span class="line">   <span class="keyword">try</span>&#123;</span><br><span class="line"></span><br><span class="line">   Class&lt;?&gt; clazz=dcl.loadClass(packageName+<span class="string">".Share"</span>);</span><br><span class="line"></span><br><span class="line">   Constructor&lt;?&gt; constructor=clazz.getConstructor();</span><br><span class="line"></span><br><span class="line">    Object o=constructor.newInstance();</span><br><span class="line"></span><br><span class="line">   Method display=clazz.getMethod(<span class="string">"display"</span>,String.class);</span><br><span class="line"></span><br><span class="line">   display.invoke(o,<span class="string">"ppjun"</span>)</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line"></span><br><span class="line">   e.printStackTrace();</span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -947,7 +971,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-count">15</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -957,7 +981,7 @@
           
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">標籤</span>
               
             </div>
