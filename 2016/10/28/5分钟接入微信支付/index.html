@@ -67,8 +67,7 @@
 上传app的签名.jks文件  MD5值
 
 官网微信支付demo下载链接
-配置项目配置文件AndroidManifest.xml加入权限
-123&amp;lt;uses-perm">
+配置项目配置文件首先，把demo中的libammsdk.jar加入项目中libs文件夹，右击as">
 <meta property="og:type" content="article">
 <meta property="og:title" content="5分钟接入微信支付">
 <meta property="og:url" content="http://www.lanyimi.com/2016/10/28/5分钟接入微信支付/index.html">
@@ -83,9 +82,8 @@
 上传app的签名.jks文件  MD5值
 
 官网微信支付demo下载链接
-配置项目配置文件AndroidManifest.xml加入权限
-123&amp;lt;uses-perm">
-<meta property="og:updated_time" content="2016-10-28T09:32:24.089Z">
+配置项目配置文件首先，把demo中的libammsdk.jar加入项目中libs文件夹，右击as">
+<meta property="og:updated_time" content="2016-10-28T09:34:56.289Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="5分钟接入微信支付">
 <meta name="twitter:description" content="现在app最流行微信支付，支付宝支付，都是大部分消费类型app计费方式首选。现在5分钟教你接入微信支付。
@@ -98,8 +96,7 @@
 上传app的签名.jks文件  MD5值
 
 官网微信支付demo下载链接
-配置项目配置文件AndroidManifest.xml加入权限
-123&amp;lt;uses-perm">
+配置项目配置文件首先，把demo中的libammsdk.jar加入项目中libs文件夹，右击as">
 
 
 
@@ -303,7 +300,8 @@
 <li>上传app的签名.jks文件  MD5值</li>
 </ul>
 <p><a href="https://res.wx.qq.com/open/zh_CN/htmledition/res/dev/download/sdk/WeChatSDK_sample_Android221cbf.zip" target="_blank" rel="external">官网微信支付demo下载链接</a></p>
-<h3 id="u914D_u7F6E_u9879_u76EE_u914D_u7F6E_u6587_u4EF6"><a href="#u914D_u7F6E_u9879_u76EE_u914D_u7F6E_u6587_u4EF6" class="headerlink" title="配置项目配置文件"></a>配置项目配置文件</h3><p>AndroidManifest.xml加入权限</p>
+<h3 id="u914D_u7F6E_u9879_u76EE_u914D_u7F6E_u6587_u4EF6"><a href="#u914D_u7F6E_u9879_u76EE_u914D_u7F6E_u6587_u4EF6" class="headerlink" title="配置项目配置文件"></a>配置项目配置文件</h3><p>首先，把demo中的libammsdk.jar加入项目中libs文件夹，右击as library</p>
+<p>AndroidManifest.xml加入权限</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.INTERNET"</span> /&gt;</span><br><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.MODIFY_AUDIO_SETTINGS"</span>/&gt;</span><br><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span>/&gt;</span><br></pre></td></tr></table></figure>
 <p>注册广播接收器</p>
 <pre><code>&lt;receiver
