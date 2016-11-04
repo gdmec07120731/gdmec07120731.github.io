@@ -78,7 +78,7 @@
     motion: true,
     duoshuo: {
       userId: 0,
-      author: 'Author'
+      author: '博主'
     }
   };
 </script>
@@ -153,7 +153,7 @@
             
               <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
             
-            Home
+            首頁
           </a>
         </li>
       
@@ -163,7 +163,7 @@
             
               <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
             
-            Arquivos
+            歸檔
           </a>
         </li>
       
@@ -173,7 +173,7 @@
             
               <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
             
-            Sobre
+            關於
           </a>
         </li>
       
@@ -229,7 +229,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Postado em</span>
+            <span class="post-meta-item-text">發表於</span>
             <time itemprop="dateCreated" datetime="2016-11-01T16:48:10+08:00" content="2016-11-01">
               2016-11-01
             </time>
@@ -361,7 +361,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Postado em</span>
+            <span class="post-meta-item-text">發表於</span>
             <time itemprop="dateCreated" datetime="2016-10-28T16:36:45+08:00" content="2016-10-28">
               2016-10-28
             </time>
@@ -489,7 +489,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Postado em</span>
+            <span class="post-meta-item-text">發表於</span>
             <time itemprop="dateCreated" datetime="2016-10-12T09:39:32+08:00" content="2016-10-12">
               2016-10-12
             </time>
@@ -628,7 +628,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Postado em</span>
+            <span class="post-meta-item-text">發表於</span>
             <time itemprop="dateCreated" datetime="2016-10-10T09:31:58+08:00" content="2016-10-10">
               2016-10-10
             </time>
@@ -699,14 +699,14 @@
 <p>Alt+enter                                      解决代码报错，用于强制类型转换，导包，生成方法等</p>
 <h3 id="u5F15_u7528aar_u5305"><a href="#u5F15_u7528aar_u5305" class="headerlink" title="引用aar包"></a>引用aar包</h3><p>把aar包复制到libs文件夹下,修改module的build.gradle</p>
 <p><strong>注</strong> ：apply plugin:com.android.library的项目才能gengerate出aar</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">repositories&#123;</span><br><span class="line">    flatDir&#123;</span><br><span class="line">        dirs <span class="string">'libs'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies&#123;</span><br><span class="line">  compile(name:<span class="string">"aaa.aar"</span>,ext:<span class="string">'aar'</span>)</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">repositories&#123;</span><br><span class="line">    flatDir&#123;</span><br><span class="line">        dirs <span class="string">'libs'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies&#123;</span><br><span class="line">  compile(name:<span class="string">'aaa.aar'</span>,ext:<span class="string">'aar'</span>)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="u6392_u9664_u4F9D_u8D56"><a href="#u6392_u9664_u4F9D_u8D56" class="headerlink" title="排除依赖"></a>排除依赖</h3><p>但出现依赖冲突时候，可以通过排除依赖解决：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">compile (group:<span class="string">'xx'</span>,name:<span class="string">''</span>,version:<span class="string">''</span>)&#123;</span><br><span class="line">        exclude group:<span class="string">''</span>,module:<span class="string">''</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="dex_u5206_u5305_uFF08_u89E3_u51B365k_uFF09"><a href="#dex_u5206_u5305_uFF08_u89E3_u51B365k_uFF09" class="headerlink" title="dex分包（解决65k）"></a>dex分包（解决65k）</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">buildConfig&#123;</span><br><span class="line">  </span><br><span class="line">  multiDexEnable <span class="keyword">true</span></span><br><span class="line">&#125;</span><br><span class="line">dependencies&#123;</span><br><span class="line">  </span><br><span class="line">  compile <span class="string">'com.google.support:multidex:1.0.0'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//自定义application继承MultiDexApplication。即可</span></span><br><span class="line"><span class="comment">//或者在你原来的Application重写attachBaseContext方法加入</span></span><br><span class="line"><span class="comment">//MultiDex.install(this);</span></span><br></pre></td></tr></table></figure>
+<h3 id="dex_u5206_u5305_uFF08_u89E3_u51B365k_uFF09"><a href="#dex_u5206_u5305_uFF08_u89E3_u51B365k_uFF09" class="headerlink" title="dex分包（解决65k）"></a>dex分包（解决65k）</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">buildConfig&#123;</span><br><span class="line"></span><br><span class="line">  multiDexEnable <span class="keyword">true</span></span><br><span class="line">&#125;</span><br><span class="line">dependencies&#123;</span><br><span class="line"></span><br><span class="line">  compile <span class="string">'com.google.support:multidex:1.0.0'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//自定义application继承MultiDexApplication。即可</span></span><br><span class="line"><span class="comment">//或者在你原来的Application重写attachBaseContext方法加入</span></span><br><span class="line"><span class="comment">//MultiDex.install(this);</span></span><br></pre></td></tr></table></figure>
 <h3 id="u79FB_u9664_u6CA1_u7528_u8D44_u6E90"><a href="#u79FB_u9664_u6CA1_u7528_u8D44_u6E90" class="headerlink" title="移除没用资源"></a>移除没用资源</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">buildTpyes&#123;</span><br><span class="line">    release&#123;</span><br><span class="line">        minifyEnable <span class="keyword">true</span></span><br><span class="line">        shrinkResources <span class="keyword">true</span></span><br><span class="line">      &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 <h3 id="u5FFD_u7565lint_u9519_u8BEF"><a href="#u5FFD_u7565lint_u9519_u8BEF" class="headerlink" title="忽略lint错误"></a>忽略lint错误</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">android&#123;</span><br><span class="line">  lintOptions&#123;</span><br><span class="line">     abortOnError <span class="keyword">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="u58F0_u660E_u7F16_u8BD1java_u7248_u672C"><a href="#u58F0_u660E_u7F16_u8BD1java_u7248_u672C" class="headerlink" title="声明编译java版本"></a>声明编译java版本</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">android&#123;</span><br><span class="line">   compileOptions&#123;</span><br><span class="line">     sourceCompatibility JavaVersion.VERSION_1_8</span><br><span class="line">     targetCompatibility JavaVersion.VERSION_1_8</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="u7B7E_u540D_u914D_u7F6E"><a href="#u7B7E_u540D_u914D_u7F6E" class="headerlink" title="签名配置"></a>签名配置</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">signingConfigs&#123;</span><br><span class="line">  release&#123;</span><br><span class="line">       <span class="function">storeFile <span class="title">file</span><span class="params">(<span class="string">"c:/xx.jks"</span>)</span></span><br><span class="line">       storePassword "123456"</span><br><span class="line">       keyAlias  "xiaom"</span><br><span class="line">       keuPassword "bjuaa"</span><br><span class="line">  &#125;</span><br><span class="line">  debug</span>&#123;</span><br><span class="line">       <span class="function">storeFile <span class="title">file</span><span class="params">(<span class="string">"c:/xx.jks"</span>)</span></span><br><span class="line">       storePassword "123456"</span><br><span class="line">       keyAlias  "xiaom"</span><br><span class="line">       keuPassword "bjuaa"</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">buildTypes</span>&#123;</span><br><span class="line">  </span><br><span class="line">  release&#123;</span><br><span class="line">            <span class="function">minifyEnabled <span class="keyword">true</span></span><br><span class="line">            useProguard <span class="keyword">false</span></span><br><span class="line">            shirkResources <span class="keyword">true</span></span><br><span class="line">            proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.pro'</span><br><span class="line">          </span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="u7B7E_u540D_u914D_u7F6E"><a href="#u7B7E_u540D_u914D_u7F6E" class="headerlink" title="签名配置"></a>签名配置</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">signingConfigs&#123;</span><br><span class="line">  release&#123;</span><br><span class="line">       <span class="function">storeFile <span class="title">file</span><span class="params">(<span class="string">"c:/xx.jks"</span>)</span></span><br><span class="line">       storePassword "123456"</span><br><span class="line">       keyAlias  "xiaom"</span><br><span class="line">       keuPassword "bjuaa"</span><br><span class="line">  &#125;</span><br><span class="line">  debug</span>&#123;</span><br><span class="line">       <span class="function">storeFile <span class="title">file</span><span class="params">(<span class="string">"c:/xx.jks"</span>)</span></span><br><span class="line">       storePassword "123456"</span><br><span class="line">       keyAlias  "xiaom"</span><br><span class="line">       keuPassword "bjuaa"</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">buildTypes</span>&#123;</span><br><span class="line"></span><br><span class="line">  release&#123;</span><br><span class="line">            <span class="function">minifyEnabled <span class="keyword">true</span></span><br><span class="line">            useProguard <span class="keyword">false</span></span><br><span class="line">            shirkResources <span class="keyword">true</span></span><br><span class="line">            proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.pro'</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
 
           
         
@@ -765,7 +765,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Postado em</span>
+            <span class="post-meta-item-text">發表於</span>
             <time itemprop="dateCreated" datetime="2016-10-08T11:00:00+08:00" content="2016-10-08">
               2016-10-08
             </time>
@@ -882,7 +882,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Postado em</span>
+            <span class="post-meta-item-text">發表於</span>
             <time itemprop="dateCreated" datetime="2016-08-15T15:00:41+08:00" content="2016-08-15">
               2016-08-15
             </time>
@@ -998,7 +998,7 @@
           <div class="site-state-item site-state-posts">
             <a href="/archives">
               <span class="site-state-item-count">16</span>
-              <span class="site-state-item-name">publicações</span>
+              <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
@@ -1008,7 +1008,7 @@
             <div class="site-state-item site-state-tags">
               
                 <span class="site-state-item-count">12</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">標籤</span>
               
             </div>
           
@@ -1072,11 +1072,11 @@
 </div>
 
 <div class="powered-by">
-  Desenvolvido com amor com <a class="theme-link" href="http://hexo.io">Hexo</a>
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
 </div>
 
 <div class="theme-info">
-  Tema -
+  主題 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Pisces
   </a>
