@@ -1,63 +1,17 @@
-<!doctype html>
 
-
-
-  
-
-
-<html class="theme-next pisces use-motion">
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <meta charset="UTF-8">
+  
+    <title>AndroidStudio从入门到精通 | ppjun&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="区汇君">
+    
 
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
-
-
-
-
-  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="Hexo, World" />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
-
-
-
-
-
-
-<meta name="description" content="Android Studio谷歌官方推荐开发android的编译器，使用更强大的gradle脚本工具，支持Layout Editor更加直观的布局编辑，Constraint layout比relativelayout更加方便的相对布局，Apk Analyzer查看apk中dex体积等。
+    
+    <meta name="description" content="Android Studio谷歌官方推荐开发android的编译器，使用更强大的gradle脚本工具，支持Layout Editor更加直观的布局编辑，Constraint layout比relativelayout更加方便的相对布局，Apk Analyzer查看apk中dex体积等。
 AndroidStudio下载链接
 不同于eclipse，as是以一个project为一个窗口。
 选择file-">
@@ -76,200 +30,93 @@ AndroidStudio下载链接
 AndroidStudio下载链接
 不同于eclipse，as是以一个project为一个窗口。
 选择file-">
+<meta name="twitter:creator" content="@maijifeng">
 
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Pisces',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-  <title> AndroidStudio从入门到精通 | ppjun's blog </title>
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
-
-  
-
-
-
-  <script type="text/javascript">
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?cef14f34097ee96d1c421c93f49f83b9";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta custom-logo">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">ppjun's blog</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle">Thanks for your watching</p>
+  <body>
+    <header>
+      
+<div id="header">
+     <div id="head_con">
+		
+		<div id="topinfo">
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="ppjun&#39;s blog" title="ppjun&#39;s blog"/></a>
+			</div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="ppjun&#39;s blog">ppjun&#39;s blog</a></h1>
+				<h2 class="blog-motto">Thanks for your watching</h2>
+			</div>
+			<div class="navbar"><span class="navbutton navmobile" title="菜单"></span></div>
+		</div>
+		<div id="topnav">
+			<nav class="animated">
+				 <ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">所有文章</a></li>
+					
+						<li><a href="/categories">分类</a></li>
+					
+						<li><a href="/tags">标签</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:www.lanyimi.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>			
 </div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
-            
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
-            
-              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
-            
-            關於
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
     </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
     
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
+      <a href="/2016/10/10/AndroidStudio从入门到精通/" title="AndroidStudio从入门到精通" itemprop="url">AndroidStudio从入门到精通</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
+		
+  <p class="article-time">
+    <time datetime="2016-10-10T01:31:58.000Z" itemprop="datePublished"> 发表于 2016-10-10</time>
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                AndroidStudio从入门到精通
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-10-10T09:31:58+08:00" content="2016-10-10">
-              2016-10-10
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/10/10/AndroidStudio从入门到精通/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/10/AndroidStudio从入门到精通/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>Android Studio谷歌官方推荐开发android的编译器，使用更强大的gradle脚本工具，支持Layout Editor更加直观的布局编辑，Constraint layout比relativelayout更加方便的相对布局，Apk Analyzer查看apk中dex体积等。</p>
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#u4E0D_u540C_u4E8Eeclipse_uFF0Cas_u662F_u4EE5_u4E00_u4E2Aproject_u4E3A_u4E00_u4E2A_u7A97_u53E3_u3002"><span class="toc-number">1.</span> <span class="toc-text">不同于eclipse，as是以一个project为一个窗口。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#as_u7684_u9879_u76EE_u7ED3_u6784_uFF0Capp_u9879_u76EE_u4E3B_u76EE_u5F55__u3002"><span class="toc-number">2.</span> <span class="toc-text">as的项目结构，app项目主目录 。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#as_u8BBE_u7F6E"><span class="toc-number">3.</span> <span class="toc-text">as设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5F15_u7528aar_u5305"><span class="toc-number">4.</span> <span class="toc-text">引用aar包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u6392_u9664_u4F9D_u8D56"><span class="toc-number">5.</span> <span class="toc-text">排除依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dex_u5206_u5305_uFF08_u89E3_u51B365k_uFF09"><span class="toc-number">6.</span> <span class="toc-text">dex分包（解决65k）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u79FB_u9664_u6CA1_u7528_u8D44_u6E90"><span class="toc-number">7.</span> <span class="toc-text">移除没用资源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5FFD_u7565lint_u9519_u8BEF"><span class="toc-number">8.</span> <span class="toc-text">忽略lint错误</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u58F0_u660E_u7F16_u8BD1java_u7248_u672C"><span class="toc-number">9.</span> <span class="toc-text">声明编译java版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u7B7E_u540D_u914D_u7F6E"><span class="toc-number">10.</span> <span class="toc-text">签名配置</span></a></li></ol>
+		
+		</div>
+		
+		<p>Android Studio谷歌官方推荐开发android的编译器，使用更强大的gradle脚本工具，支持Layout Editor更加直观的布局编辑，Constraint layout比relativelayout更加方便的相对布局，Apk Analyzer查看apk中dex体积等。</p>
 <p><a href="https://developer.android.com/studio/index.html?hl=zh-cn" target="_blank" rel="external">AndroidStudio下载链接</a></p>
 <h3 id="u4E0D_u540C_u4E8Eeclipse_uFF0Cas_u662F_u4EE5_u4E00_u4E2Aproject_u4E3A_u4E00_u4E2A_u7A97_u53E3_u3002"><a href="#u4E0D_u540C_u4E8Eeclipse_uFF0Cas_u662F_u4EE5_u4E00_u4E2Aproject_u4E3A_u4E00_u4E2A_u7A97_u53E3_u3002" class="headerlink" title="不同于eclipse，as是以一个project为一个窗口。"></a>不同于eclipse，as是以一个project为一个窗口。</h3><ul>
 <li>选择file-new-new project 新建as项目，</li>
@@ -311,491 +158,421 @@ AndroidStudio下载链接
 <h3 id="u5FFD_u7565lint_u9519_u8BEF"><a href="#u5FFD_u7565lint_u9519_u8BEF" class="headerlink" title="忽略lint错误"></a>忽略lint错误</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">android&#123;</span><br><span class="line">  lintOptions&#123;</span><br><span class="line">     abortOnError <span class="keyword">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="u58F0_u660E_u7F16_u8BD1java_u7248_u672C"><a href="#u58F0_u660E_u7F16_u8BD1java_u7248_u672C" class="headerlink" title="声明编译java版本"></a>声明编译java版本</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">android&#123;</span><br><span class="line">   compileOptions&#123;</span><br><span class="line">     sourceCompatibility JavaVersion.VERSION_1_8</span><br><span class="line">     targetCompatibility JavaVersion.VERSION_1_8</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="u7B7E_u540D_u914D_u7F6E"><a href="#u7B7E_u540D_u914D_u7F6E" class="headerlink" title="签名配置"></a>签名配置</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">signingConfigs&#123;</span><br><span class="line">  release&#123;</span><br><span class="line">       <span class="function">storeFile <span class="title">file</span><span class="params">(<span class="string">"c:/xx.jks"</span>)</span></span><br><span class="line">       storePassword "123456"</span><br><span class="line">       keyAlias  "xiaom"</span><br><span class="line">       keuPassword "bjuaa"</span><br><span class="line">  &#125;</span><br><span class="line">  debug</span>&#123;</span><br><span class="line">       <span class="function">storeFile <span class="title">file</span><span class="params">(<span class="string">"c:/xx.jks"</span>)</span></span><br><span class="line">       storePassword "123456"</span><br><span class="line">       keyAlias  "xiaom"</span><br><span class="line">       keuPassword "bjuaa"</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">buildTypes</span>&#123;</span><br><span class="line"></span><br><span class="line">  release&#123;</span><br><span class="line">            <span class="function">minifyEnabled <span class="keyword">true</span></span><br><span class="line">            useProguard <span class="keyword">false</span></span><br><span class="line">            shirkResources <span class="keyword">true</span></span><br><span class="line">            proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.pro'</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/10/08/retrofit注解使用/" rel="next" title="retrofit注解使用">
-                <i class="fa fa-chevron-left"></i> retrofit注解使用
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/10/12/EventBus3.0入门/" rel="prev" title="EventBus3.0入门">
-                EventBus3.0入门 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div class="ds-thread" data-thread-key="2016/10/10/AndroidStudio从入门到精通/"
-           data-title="AndroidStudio从入门到精通" data-url="http://www.lanyimi.com/2016/10/10/AndroidStudio从入门到精通/">
-      </div>
-    
-  </div>
-
-
-        </div>
-        
-          
   
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://www.lanyimi.com/2016/10/10/AndroidStudio从入门到精通/" data-title="AndroidStudio从入门到精通 | ppjun&#39;s blog" data-tsina="1822220382" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/10/12/EventBus3.0入门/" title="EventBus3.0入门">
+  <strong>上一篇：</strong><br/>
+  <span>
+  EventBus3.0入门</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/10/08/retrofit注解使用/"  title="retrofit注解使用">
+ <strong>下一篇：</strong><br/> 
+ <span>retrofit注解使用
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#u4E0D_u540C_u4E8Eeclipse_uFF0Cas_u662F_u4EE5_u4E00_u4E2Aproject_u4E3A_u4E00_u4E2A_u7A97_u53E3_u3002"><span class="toc-number">1.</span> <span class="toc-text">不同于eclipse，as是以一个project为一个窗口。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#as_u7684_u9879_u76EE_u7ED3_u6784_uFF0Capp_u9879_u76EE_u4E3B_u76EE_u5F55__u3002"><span class="toc-number">2.</span> <span class="toc-text">as的项目结构，app项目主目录 。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#as_u8BBE_u7F6E"><span class="toc-number">3.</span> <span class="toc-text">as设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5F15_u7528aar_u5305"><span class="toc-number">4.</span> <span class="toc-text">引用aar包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u6392_u9664_u4F9D_u8D56"><span class="toc-number">5.</span> <span class="toc-text">排除依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dex_u5206_u5305_uFF08_u89E3_u51B365k_uFF09"><span class="toc-number">6.</span> <span class="toc-text">dex分包（解决65k）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u79FB_u9664_u6CA1_u7528_u8D44_u6E90"><span class="toc-number">7.</span> <span class="toc-text">移除没用资源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5FFD_u7565lint_u9519_u8BEF"><span class="toc-number">8.</span> <span class="toc-text">忽略lint错误</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u58F0_u660E_u7F16_u8BD1java_u7248_u672C"><span class="toc-number">9.</span> <span class="toc-text">声明编译java版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u7B7E_u540D_u914D_u7F6E"><span class="toc-number">10.</span> <span class="toc-text">签名配置</span></a></li></ol>
+ 
   </div>
 
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
 
-      
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="githubbox">
+	<div class="github-card" data-github="maijifeng" data-width="100%" data-height="100%" data-theme="medium">
+	<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+</div>
+  </div>
 
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/source/tags/eventbus/" title="eventbus">eventbus<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/shadowsock/" title="shadowsock">shadowsock<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/android-mvp/" title="android.mvp">android.mvp<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/Genymotion/" title="Genymotion">Genymotion<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/U8SDK/" title="U8SDK">U8SDK<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/java反射/" title="java反射">java反射<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/retrofit/" title="retrofit">retrofit<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/Dagger2/" title="Dagger2">Dagger2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/Cocos2dx/" title="Cocos2dx">Cocos2dx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/插件开发/" title="插件开发">插件开发<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/lambda/" title="lambda">lambda<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/微信支付/" title="微信支付">微信支付<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://github.com" target="_blank" title="Github">Github</a>
+            
           </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
+        
+          <li>
+            
+            	<a href="https://hexo.io" target="_blank" title="Hexo">Hexo</a>
+            
           </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="http://tp2.sinaimg.cn/1856098257/180/40040512434/1"
-               alt="区汇君" />
-          <p class="site-author-name" itemprop="name">区汇君</p>
-          <p class="site-description motion-element" itemprop="description"></p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">16</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              
-                <span class="site-state-item-count">12</span>
-                <span class="site-state-item-name">標籤</span>
-              
-            </div>
-          
-
-        </nav>
-
         
+    </ul>
+</div>
 
-        <div class="links-of-author motion-element">
-          
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/gdmec07120731" target="_blank">
-                  
-                    <i class="fa fa-github"></i> GitHub
-                  
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://weibo.com/u/1856098257?is_all=1" target="_blank">
-                  
-                    <i class="fa fa-globe"></i> Weibo
-                  
-                </a>
-              </span>
-            
-          
-        </div>
-
-        
-        
-
-        
-        <div class="links-of-blogroll motion-element">
-          
-        </div>
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc-indicator-top post-toc-indicator">
-            <i class="fa fa-angle-double-up"></i>
-          </div>
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u4E0D_u540C_u4E8Eeclipse_uFF0Cas_u662F_u4EE5_u4E00_u4E2Aproject_u4E3A_u4E00_u4E2A_u7A97_u53E3_u3002"><span class="nav-number">1.</span> <span class="nav-text">不同于eclipse，as是以一个project为一个窗口。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#as_u7684_u9879_u76EE_u7ED3_u6784_uFF0Capp_u9879_u76EE_u4E3B_u76EE_u5F55__u3002"><span class="nav-number">2.</span> <span class="nav-text">as的项目结构，app项目主目录 。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#as_u8BBE_u7F6E"><span class="nav-number">3.</span> <span class="nav-text">as设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5F15_u7528aar_u5305"><span class="nav-number">4.</span> <span class="nav-text">引用aar包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u6392_u9664_u4F9D_u8D56"><span class="nav-number">5.</span> <span class="nav-text">排除依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dex_u5206_u5305_uFF08_u89E3_u51B365k_uFF09"><span class="nav-number">6.</span> <span class="nav-text">dex分包（解决65k）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u79FB_u9664_u6CA1_u7528_u8D44_u6E90"><span class="nav-number">7.</span> <span class="nav-text">移除没用资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5FFD_u7565lint_u9519_u8BEF"><span class="nav-number">8.</span> <span class="nav-text">忽略lint错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u58F0_u660E_u7F16_u8BD1java_u7248_u672C"><span class="nav-number">9.</span> <span class="nav-text">声明编译java版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u7B7E_u540D_u914D_u7F6E"><span class="nav-number">10.</span> <span class="nav-text">签名配置</span></a></li></ol></div>
-            
-          </div>
-          <div class="post-toc-indicator-bottom post-toc-indicator">
-            <i class="fa fa-angle-double-down"></i>
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
   
-  &copy;  2015 - 
-  <span itemprop="copyrightYear">2016</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">区汇君</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Pisces
-  </a>
-</div>
-
-
-
-      </div>
-    </footer>
-
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">所有文章</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
   </div>
 
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1822220382" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/maijifeng" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/maijifeng" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/maijifeng" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		<a href="https://www.douban.com/people/140732769" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:maijifeng@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+				
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="undefined" target="_blank" title="github">Hello</a> © 2016 
+		
+		
+		<a href="/about" target="_blank" title="区汇君">区汇君</a>
+		
+		
+		</p>
+		
+		<div id="totop">
+		     <a title="返回顶部"><img src="/img/scrollup.png"/></a>
+		</div>
+		
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn').removeClass('fadeOut');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('fadeIn').addClass('fadeOut');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');     
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(32,32-$(this).scrollTop()));
+  });
   
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
 
-
-  
-
-
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
 
 
 <script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
 
+  $('.hoverqrcode').hide();
 
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
-
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
-
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
-
-
-
-  
-  
-<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
-
-<script type="text/javascript" id="sidebar.toc.highlight">
-  $(document).ready(function () {
-    var tocSelector = '.post-toc';
-    var $tocSelector = $(tocSelector);
-    var activeCurrentSelector = '.active-current';
-
-    $tocSelector
-      .on('activate.bs.scrollspy', function () {
-        var $currentActiveElement = $(tocSelector + ' .active').last();
-
-        removeCurrentActiveClass();
-        $currentActiveElement.addClass('active-current');
-
-        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
-      })
-      .on('clear.bs.scrollspy', function () {
-        removeCurrentActiveClass();
-      });
-
-    function removeCurrentActiveClass () {
-      $(tocSelector + ' ' + activeCurrentSelector)
-        .removeClass(activeCurrentSelector.substring(1));
-    }
-
-    function processTOC () {
-      getTOCMaxHeight();
-      toggleTOCOverflowIndicators();
-    }
-
-    function getTOCMaxHeight () {
-      var height = $('.sidebar').height() -
-                   $tocSelector.position().top -
-                   $('.post-toc-indicator-bottom').height();
-
-      $tocSelector.css('height', height);
-
-      return height;
-    }
-
-    function toggleTOCOverflowIndicators () {
-      tocOverflowIndicator(
-        '.post-toc-indicator-top',
-        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
-      );
-
-      tocOverflowIndicator(
-        '.post-toc-indicator-bottom',
-        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
-      )
-    }
-
-    $(document).on('sidebar.motion.complete', function () {
-      processTOC();
-    });
-
-    $('body').scrollspy({ target: tocSelector });
-    $(window).on('resize', function () {
-      if ( $('.sidebar').hasClass('sidebar-active') ) {
-        processTOC();
-      }
-    });
-
-    onScroll($tocSelector);
-
-    function onScroll (element) {
-      element.on('mousewheel DOMMouseScroll', function (event) {
-          var oe = event.originalEvent;
-          var delta = oe.wheelDelta || -oe.detail;
-
-          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
-          event.preventDefault();
-
-          toggleTOCOverflowIndicators();
-      });
-    }
-
-    function tocOverflowIndicator (indicator, action) {
-      var $indicator = $(indicator);
-      var opacity = action === 'show' ? 1 : 0;
-      $indicator.velocity ?
-        $indicator.velocity('stop').velocity({
-          opacity: opacity
-        }, { duration: 100 }) :
-        $indicator.stop().animate({
-          opacity: opacity
-        }, 100);
-    }
-
-  });
-</script>
-
-<script type="text/javascript" id="sidebar.nav">
-  $(document).ready(function () {
-    var html = $('html');
-    var TAB_ANIMATE_DURATION = 200;
-    var hasVelocity = $.isFunction(html.velocity);
-
-    $('.sidebar-nav li').on('click', function () {
-      var item = $(this);
-      var activeTabClassName = 'sidebar-nav-active';
-      var activePanelClassName = 'sidebar-panel-active';
-      if (item.hasClass(activeTabClassName)) {
-        return;
-      }
-
-      var currentTarget = $('.' + activePanelClassName);
-      var target = $('.' + item.data('target'));
-
-      hasVelocity ?
-        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
-          target
-            .velocity('stop')
-            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
-            .addClass(activePanelClassName);
-        }) :
-        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
-          currentTarget.hide();
-          target
-            .stop()
-            .css({'opacity': 0, 'display': 'block'})
-            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
-              currentTarget.removeClass(activePanelClassName);
-              target.addClass(activePanelClassName);
-            });
-        });
-
-      item.siblings().removeClass(activeTabClassName);
-      item.addClass(activeTabClassName);
-    });
-
-    $('.post-toc a').on('click', function (e) {
-      e.preventDefault();
-      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
-      var offset = $(targetSelector).offset().top;
-      hasVelocity ?
-        html.velocity('stop').velocity('scroll', {
-          offset: offset  + 'px',
-          mobileHA: false
-        }) :
-        $('html, body').stop().animate({
-          scrollTop: offset
-        }, 500);
-    });
-
-    // Expand sidebar on post detail page by default, when post has a toc.
-    NexT.motion.middleWares.sidebar = function () {
-      var $tocContent = $('.post-toc-content');
-
-      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
-        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
-          NexT.utils.displaySidebar();
-        }
-      }
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
     };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
   });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
 </script>
 
 
 
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
-
-
-
-  
-
-  
-    
-  
-
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"ouhuijun"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.id = 'duoshuo-script';
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
-
-  
-    
-  
 
 
 
 
 
-  
-  
-  
-  <script type="text/x-mathjax-config">
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
     MathJax.Hub.Config({
       tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-        processEscapes: true,
         skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
       }
     });
-  </script>
+</script>
 
-  <script type="text/x-mathjax-config">
+<script type="text/x-mathjax-config">
     MathJax.Hub.Queue(function() {
-      var all = MathJax.Hub.getAllJax(), i;
-      for (i=0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
     });
-  </script>
+</script>
 
-  
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-  
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 
 
-  
+<!-- MathJax End -->
 
-  
+<!-- Tiny_search Begin -->
 
-</body>
+<!-- Tiny_search End -->
+
+  </body>
 </html>
