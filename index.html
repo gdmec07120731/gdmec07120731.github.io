@@ -71,6 +71,84 @@
 
    
     
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/11/21/retrofit/" title="How to use retrofit2?" itemprop="url">How to use retrofit2?</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
+		
+  <p class="article-time">
+    <time datetime="2016-11-21T02:16:15.000Z" itemprop="datePublished"> 发表于 2016-11-21</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p><a href="http://square.github.io/retrofit/" target="_blank" rel="external">retrofit2.1</a></p>
+<blockquote>
+<p>retrofit安全的http客户端for Android和java.</p>
+</blockquote>
+<h3 id="u5982_u4F55_u4F7F_u7528Retrofit"><a href="#u5982_u4F55_u4F7F_u7528Retrofit" class="headerlink" title="如何使用Retrofit"></a>如何使用Retrofit</h3><p>在app/build.gradle</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:retrofit:2.1.0'</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:converter-gson:2.1.0'</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:adapter-rxjava:2.1.0'</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">'io.reactivex:rxandroid:1.2.1'</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">'io.reactivex:rxjava:1.2.1'</span></span><br></pre></td></tr></table></figure>
+<p>新建Git包，含括Git.java ，GitApi.java 和GitService.java</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Git.java（单例类，包括retrofit GitService的实例化）</span><br><span class="line">GitApi<span class="class">.java</span> (请求需要的URl)</span><br><span class="line">GitService<span class="class">.java</span> （各种get post方法）</span><br></pre></td></tr></table></figure>
+<h3 id="Git-java"><a href="#Git-java" class="headerlink" title="Git.java"></a>Git.java</h3><ol>
+<li><p>新建单例类Git 私有化构造函数， 新建public static final Git mGit;  和public static Git getInstane()的方法</p>
+</li>
+<li><p>新建全局变量mGitService ，和getService的方法返回mGitService???</p>
+</li>
+<li><p>在Git的构造函数需要实例化 retrofit主要用到几个参数包括url，okhttpClient，new GsonConverterFactory?RxJavaCallAdapterFactory ，还要实例化GitService。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Git</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Git mInstance = <span class="keyword">new</span> Git();</span><br><span class="line">    <span class="keyword">private</span> GitService mGitService;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Git</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        OkHttpClient.Builder client= <span class="keyword">new</span> OkHttpClient().newBuilder();</span><br><span class="line">       OkHttpClient c= setCertificates(client,<span class="keyword">new</span> Buffer().writeUtf8(GitApi.CER).inputStream()).build();</span><br><span class="line">        Retrofit retrofit = <span class="keyword">new</span> Retrofit.Builder().baseUrl(GitApi.BASE_URL)</span><br><span class="line">                .client(c)</span><br><span class="line">                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())</span><br><span class="line">                .addConverterFactory(GsonConverterFactory.create())</span><br><span class="line">                .build();</span><br><span class="line">        mGitService = retrofit.create(GitService.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Git <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (mInstance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            Git mIns = mInstance;</span><br><span class="line">            <span class="keyword">synchronized</span> (Git.class) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (mIns == <span class="keyword">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">                    mIns = <span class="keyword">new</span> Git();</span><br><span class="line">                    mInstance = mIns;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> mInstance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> GitService <span class="title">getGitService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mGitService;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+</ol>
+<h3 id="GitApi-java"><a href="#GitApi-java" class="headerlink" title="GitApi.java"></a>GitApi.java</h3><p>这里的URL需要注意要以/结尾 要以/结尾 要以/结尾。这样子GitService注解里面的就不用/开头了</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span> BASE_URL=<span class="string">"https://api.github.com/"</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="GitService-java"><a href="#GitService-java" class="headerlink" title="GitService.java"></a>GitService.java</h3><p>要写这个类首先学会@GET  @POST  @FormUrlEncoded这些注解。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@GET</span>(<span class="string">"users/&#123;user&#125;/repos"</span>)</span><br><span class="line">Call&lt;List&lt;Repos&gt;&gt; <span class="function">listRepos</span>(<span class="variable">@Path</span>(<span class="string">"user"</span>) String user);</span><br><span class="line"></span><br><span class="line"><span class="variable">@GET</span></span><br><span class="line">Call&lt;String&gt; <span class="function">get</span>(<span class="variable">@Url</span> String url);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable">@POST</span></span><br><span class="line"><span class="variable">@FormUrlEncoded</span></span><br><span class="line">Call&lt;GitReturnCode&gt; <span class="function">init</span>(<span class="variable">@Url</span> String url,</span><br><span class="line">                         <span class="variable">@Field</span>(<span class="string">"id"</span>) String id,</span><br><span class="line">                         <span class="variable">@Field</span>(<span class="string">"key"</span>) String key);</span><br></pre></td></tr></table></figure>
+<p>详细的各种注解要看这里<a href="http://www.lanyimi.com/2016/10/08/retrofit%E6%B3%A8%E8%A7%A3%E4%BD%BF%E7%94%A8/">retrofit注解的使用</a></p>
+<p>最后在Presenter层调用方法，返回List<repos></repos></p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Git.getInstance().getGitService().listRepos(<span class="string">"gdmec07120731"</span>).enqueue(<span class="keyword">new</span> Callback&lt;List&lt;Repos&gt;&gt;() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    <span class="keyword">public</span> void onResponse(<span class="keyword">Call</span>&lt;List&lt;Repos&gt;&gt; <span class="keyword">call</span>, <span class="built_in">Response</span>&lt;List&lt;Repos&gt;&gt; <span class="built_in">response</span>) &#123;</span><br><span class="line"></span><br><span class="line">                        <span class="built_in">Log</span>.i(<span class="string">"TAG"</span>, <span class="built_in">response</span>.body().<span class="keyword">get</span>(<span class="number">0</span>).getName());</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    @Override</span><br><span class="line">                    <span class="keyword">public</span> void onFailure(<span class="keyword">Call</span>&lt;List&lt;Repos&gt;&gt; <span class="keyword">call</span>, Throwable t) &#123;</span><br><span class="line">                        <span class="built_in">Log</span>.i(<span class="string">"TAG"</span>, t.toString());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br></pre></td></tr></table></figure>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/source/tags/retrofit2/">retrofit2</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
     <article class="post-expand 5分钟熟悉android" itemprop="articleBody"> 
         <header class="article-info clearfix">
   <h1 itemprop="name">
@@ -512,64 +590,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/08/15/Android热修复/" title="Android热修复" itemprop="url">Android热修复</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
-		
-  <p class="article-time">
-    <time datetime="2016-08-15T07:00:41.000Z" itemprop="datePublished"> 发表于 2016-08-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="Android_u70ED_u4FEE_u590D"><a href="#Android_u70ED_u4FEE_u590D" class="headerlink" title="Android热修复"></a>Android热修复</h2><blockquote>
-<p>热修复就是在用户运行app时候不知不觉，将apk里面错误代码纠正，无需再重新从应用市场下载最新版本。而且还有减少了开发者从打多个渠道包，上架多个应用渠道的工作。</p>
-</blockquote>
-<h3 id="u70ED_u4FEE_u590D_u539F_u7406"><a href="#u70ED_u4FEE_u590D_u539F_u7406" class="headerlink" title="热修复原理"></a>热修复原理</h3><p>首先你的app必须经过分包（在eclipse你可以自定义ant分包，在as你可以用multix分包），把Application和Mainactivity放在主classes.dex，把Bug.class放在Classes2.dex，要修改Bug.class内容只要执行dx.bat命令得到新的Classes2.dex文件，在app正常运行时，使用ClassLoader加载类方法。</p>
-<p>BaseDexClassLoader子类分为PathClassLoader加载已安装到系统的apk和DexClassLoader可以加载未安装到系统的jar、dex和apk。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#baseDexClassLoader</span><br><span class="line">  protected Class&lt;?&gt; findClass(String name)throws ClassNotFoundException&#123;</span><br><span class="line">   Class clazz=pathList.findClassLIE(name);</span><br><span class="line">  if(clazz==null)</span><br><span class="line">    throw new ClassNotFoundException(name);</span><br><span class="line">  return clazz;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#DexPathList</span><br><span class="line">  public Class findClass(String name)&#123;</span><br><span class="line">     for(Element element:dexElements)&#123;</span><br><span class="line">  if(dex!=null)&#123;</span><br><span class="line">  Class clazz=dex.loadClassBinaryName(name,definingContext);</span><br><span class="line">    if(clazz!=null)&#123;</span><br><span class="line">  return clazz;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">  return null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#DexFile</span><br><span class="line">  public Class loadClassBinaryName(String name,ClassLoader loader)&#123;</span><br><span class="line">  return defineClass(name,loader,mCookie);</span><br><span class="line">&#125;</span><br><span class="line">private native static Class defineClass(String name,ClassLoader loader,int cookie);</span><br></pre></td></tr></table></figure>
-<p>一个ClassLoader可以包含多个dex文件，每个dex文件是一个element，多个dex组成一个有序的dexElement数组，当找类的时候会遍历整个数组来找，如果在当前dex找到类了，就返回该类，不去其他dex找类了，所以补丁dex放在最前面遍历，不会覆盖这个类。</p>
-<p>这里还有一个CLASS_ISPREVERIFIED 问题就是有其他类引用到Bug.class 要取消CLASS_ISPREVERIFIED 标记其他类。</p>
-<h3 id="CLASS_ISPREVERIFIED__u662F_u4EC0_u4E48_uFF1F"><a href="#CLASS_ISPREVERIFIED__u662F_u4EC0_u4E48_uFF1F" class="headerlink" title="CLASS_ISPREVERIFIED 是什么？"></a>CLASS_ISPREVERIFIED 是什么？</h3><p>A类调用到B类方法 AB都在同一个在同一个dex里面 A类就会打上CLASS_ISPREVERIFIED标记</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -649,6 +669,10 @@
 				<li><a href="/source/tags/微信支付/" title="微信支付">微信支付<sup>1</sup></a></li>
 			
 		
+			
+				<li><a href="/source/tags/retrofit2/" title="retrofit2">retrofit2<sup>1</sup></a></li>
+			
+		
 		</ul>
 </div>
 
@@ -675,7 +699,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">所有文章</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
   </div>
 
 

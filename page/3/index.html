@@ -71,6 +71,80 @@
 
    
     
+    <article class="post-expand n" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/23/Dagger2-笔记/" title="Dagger2 笔记" itemprop="url">Dagger2 笔记</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-23T03:39:14.000Z" itemprop="datePublished"> 发表于 2016-03-23</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <blockquote>
+<p>本文摘要自<a href="http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html" target="_blank" rel="external">http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html</a><br>目前安卓开发最新技术用到Retrofit网络请求框架，Rxjava异步处理，OkHttp网络请求，加上Gson解析，MVP项目架构，Lambda语法，Dagger2依赖注入，ButterKnife控件的依赖等</p>
+</blockquote>
+<h3 id="u4EC0_u4E48_u662FDagger2"><a href="#u4EC0_u4E48_u662FDagger2" class="headerlink" title="什么是Dagger2"></a>什么是Dagger2</h3><p><a href="https://github.com/google/dagger/" target="_blank" rel="external">Dagger2</a>是Dagger1的分支，由谷歌公司接手开发，目前的版本是2.0。Dagger2是受到AutoValue项目的启发。 刚开始，Dagger2解决问题的基本思想是：利用生成和写的代码混合达到看似所有的产生和提供依赖的代码都是手写的样子。</p>
+<h3 id="u4F9D_u8D56_u6CE8_u5165_u597D_u5904"><a href="#u4F9D_u8D56_u6CE8_u5165_u597D_u5904" class="headerlink" title="依赖注入好处"></a>依赖注入好处</h3><p>依赖注入好处就是大大方便解耦，方便修改代码，为什么要用Dagger2利用编译期的注解处理来生成依赖注入的代码，尽可能的减少了反射的使用，提高app性能。</p>
+<h3 id="Dagger2__u4F7F_u7528"><a href="#Dagger2__u4F7F_u7528" class="headerlink" title="Dagger2 使用"></a>Dagger2 使用</h3><p>在AndroidStudio 使用<br>在build:gradle(Moudle:app)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">    apply plugin: <span class="string">'com.neenbedankt.android-apt'</span> </span><br><span class="line"></span><br><span class="line">    dependencies &#123;</span><br><span class="line">           compile <span class="string">'com.google.dagger:dagger:2.1'</span> <span class="comment">// dagger2</span></span><br><span class="line">           apt <span class="string">'com.google.dagger:dagger-compiler:2.1'</span> <span class="comment">// dagger2</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在build:gradle(Project:项目名)<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">     dependencies &#123;</span><br><span class="line">            classpath <span class="string">'com.android.tools.build:gradle:2.1.0-alpha3'</span></span><br><span class="line">            classpath <span class="string">'com.neenbedankt.gradle.plugins:android-apt:1.8'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>以上配置完毕</p>
+<h3 id="Dagger2__u5173_u952E_u8BCD"><a href="#Dagger2__u5173_u952E_u8BCD" class="headerlink" title="Dagger2 关键词"></a>Dagger2 关键词</h3><p> <strong><em>@Inject</em></strong>  通常需要依赖的地方使用这个注解，换句话来说它告诉dagger这个类或者字段需要依赖，这样子 dagger就会造这个类的实例来满足依赖。例如在MainActivity类里 实例化 GitHubService ,下面就可以直接使用mGitHubService。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Inject</span></span><br><span class="line">GitHubService mGitHubService;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p> <strong><em>@Module</em></strong>  Modules类里面的方法专门提供依赖，所以我们定义一个类用@Module注解，这样Dagger构建类的实例的时候，就知道从哪里找到需要的依赖，module的一个重要特征是他们设计为分区并结合使用，比如在Modules包下 有MainModule ,ApiModule或者DBModule这些类都注解了@Module<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApiModule</span> </span>&#123;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p><strong><em>@Provides</em></strong>  我们为在Module类中 定义的方法使用这个注解 ，来告诉dagger我们构造对象并且提供这些方法依赖<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApiModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Provides</span></span><br><span class="line">    <span class="annotation">@Singleton</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> GitHubService <span class="title">provideGitHubService</span><span class="params">()</span> </span>&#123;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p><strong><em>@Component</em></strong>  @Component从根本上来说是一个注解器，也就是说@Inject和@Module的桥梁，它的主要作用就是连接这两个部分，@Component可以提供所有定义了类型的实例，比如：我们必须用@Component注解一个接口，然后列出所有的@Module组成改组件，如果缺失任何一块都会在编译的时候报错，所有的组件都可以通过他的@Module知道依赖范围。例子中定义DemoComponent接口 用@Component注解所有的@Module类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Singleton</span></span><br><span class="line"><span class="annotation">@Component</span>(modules = &#123;MainModule.class, ApiModule.class&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DemoComponent</span> <span class="keyword">extends</span> <span class="title">DemoGraph</span> </span>&#123;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p><strong><em>@Scope</em></strong> Dagger可以通过自定义注解来限定注解作用域，这是一个非常强大的特点，，因为就如前面说的一样，没必要让每个对象都去了解如何管理他们的实例，在Scope例子中，我们自定义@PerActivity注解一个类，所以这个对象存活时间就和activity一样，简单来说就是我们定义所有范围的粒度（@Perfragment,@preUser等）</p>
+<hr>
+<p><strong><em>@Qualifier</em></strong> 当类的类型不足以鉴别一个依赖的时候，我们就可以用这个注解来标示，例如：我们会用不同类型的Context 所以我们就可以定义 Qualifier注解@ForApplication 和@ForActivity<br>这样当注入一个Context的时候，我们就可以告诉dagger我们想要哪种类型的Context</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/source/tags/Dagger2/">Dagger2</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
     <article class="post-expand post" itemprop="articleBody"> 
         <header class="article-info clearfix">
   <h1 itemprop="name">
@@ -406,6 +480,10 @@
 				<li><a href="/source/tags/微信支付/" title="微信支付">微信支付<sup>1</sup></a></li>
 			
 		
+			
+				<li><a href="/source/tags/retrofit2/" title="retrofit2">retrofit2<sup>1</sup></a></li>
+			
+		
 		</ul>
 </div>
 
@@ -432,7 +510,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">所有文章</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
   </div>
 
 
