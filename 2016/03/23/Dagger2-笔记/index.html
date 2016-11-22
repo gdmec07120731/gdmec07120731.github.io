@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Dagger2 笔记 | ppjun&#39;s blog</title>
+    <title>Dagger2笔记 | ppjun&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="区汇君">
@@ -15,15 +15,15 @@
 
 什么是Dagger2Dagger2是Da">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dagger2 笔记">
+<meta property="og:title" content="Dagger2笔记">
 <meta property="og:url" content="http://www.lanyimi.com/2016/03/23/Dagger2-笔记/index.html">
 <meta property="og:site_name" content="ppjun's blog">
 <meta property="og:description" content="本文摘要自http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html目前安卓开发最新技术用到Retrofit网络请求框架，Rxjava异步处理，OkHttp网络请求，加上Gson解析，MVP项目架构，Lambda语法，Dagger2依赖注入，ButterKnife控件的依赖等
 
 什么是Dagger2Dagger2是Da">
-<meta property="og:updated_time" content="2016-03-23T11:04:47.407Z">
+<meta property="og:updated_time" content="2016-11-22T09:11:23.523Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Dagger2 笔记">
+<meta name="twitter:title" content="Dagger2笔记">
 <meta name="twitter:description" content="本文摘要自http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html目前安卓开发最新技术用到Retrofit网络请求框架，Rxjava异步处理，OkHttp网络请求，加上Gson解析，MVP项目架构，Lambda语法，Dagger2依赖注入，ButterKnife控件的依赖等
 
 什么是Dagger2Dagger2是Da">
@@ -74,13 +74,13 @@
 </div>
     </header>
     <div id="container">
-      <div id="main" class="n" itemscope itemprop="blogPost">
+      <div id="main" class="post" itemscope itemprop="blogPost">
   
 	<article itemprop="articleBody"> 
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/23/Dagger2-笔记/" title="Dagger2 笔记" itemprop="url">Dagger2 笔记</a>
+      <a href="/2016/03/23/Dagger2-笔记/" title="Dagger2笔记" itemprop="url">Dagger2笔记</a>
   </h1>
   <p class="article-author">By
        
@@ -137,7 +137,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://www.lanyimi.com/2016/03/23/Dagger2-笔记/" data-title="Dagger2 笔记 | ppjun&#39;s blog" data-tsina="null" class="share clearfix">
+	  <div data-url="http://www.lanyimi.com/2016/03/23/Dagger2-笔记/" data-title="Dagger2笔记 | ppjun&#39;s blog" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -151,18 +151,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/03/28/U8SDK开发笔记/" title="U8SDK开发笔记">
+ <a href="/2016/03/28/U8SDK开发笔记/" title="U8SDK笔记">
   <strong>上一篇：</strong><br/>
   <span>
-  U8SDK开发笔记</span>
+  U8SDK笔记</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/02/26/Android-Studio使用Lambda表达式/"  title="Android Studio如何配置Lambda">
+<a href="/2016/02/26/Android-Studio使用Lambda表达式/"  title="android studio配置lambda">
  <strong>下一篇：</strong><br/> 
- <span>Android Studio如何配置Lambda
+ <span>android studio配置lambda
 </span>
 </a>
 </div>
@@ -173,6 +173,13 @@
 
 </div>  
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#u4EC0_u4E48_u662FDagger2"><span class="toc-number">1.</span> <span class="toc-text">什么是Dagger2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u4F9D_u8D56_u6CE8_u5165_u597D_u5904"><span class="toc-number">2.</span> <span class="toc-text">依赖注入好处</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dagger2__u4F7F_u7528"><span class="toc-number">3.</span> <span class="toc-text">Dagger2 使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dagger2__u5173_u952E_u8BCD"><span class="toc-number">4.</span> <span class="toc-text">Dagger2 关键词</span></a></li></ol>
+ 
+  </div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
@@ -203,6 +210,10 @@
 		
 			
 				<li><a href="/source/tags/shadowsock/" title="shadowsock">shadowsock<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/retrofit2/" title="retrofit2">retrofit2<sup>1</sup></a></li>
 			
 		
 			
@@ -246,7 +257,9 @@
 			
 		
 			
-				<li><a href="/source/tags/retrofit2/" title="retrofit2">retrofit2<sup>1</sup></a></li>
+				<li><a href="/source/tags/greendao3/" title="greendao3">greendao3<sup>1</sup></a></li>
+			
+		
 			
 		
 		</ul>
@@ -275,7 +288,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">所有文章</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
   </div>
 
 
@@ -356,6 +369,11 @@ $(document).ready(function(){
     o.css("top",Math.max(32,32-$(this).scrollTop()));
   });
   
+        getSize();
+        if (myWidth >= 1024) {
+          c.click();
+        }
+  
   $(window).resize(function(){
     getSize(); 
     if (myWidth >= 1024) {
@@ -398,6 +416,55 @@ $(document).ready(function(){
 });
 </script>
 
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
 
 
 
@@ -484,4 +551,4 @@ $(document).ready(function(){
 <!-- Tiny_search End -->
 
   </body>
- </html>
+</html>

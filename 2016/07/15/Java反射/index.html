@@ -23,7 +23,7 @@ Java反射动态语言程序运行时，通过代码能改变程序结构或变�
 http://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&amp;amp;mid=2650236432&amp;amp;idx=1&amp;amp;sn=1da63ff74cb6082ffe3df5f344f9f5f1&amp;amp;scene=0#wechat_redirect
 
 Java反射动态语言程序运行时，通过代码能改变程序结构或变量类型的语言，一般为动态语言。例如">
-<meta property="og:updated_time" content="2016-07-15T03:30:16.431Z">
+<meta property="og:updated_time" content="2016-11-22T09:08:49.879Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java反射">
 <meta name="twitter:description" content="Java反射
@@ -152,10 +152,10 @@ Java反射动态语言程序运行时，通过代码能改变程序结构或变�
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/08/09/Android中的插件开发/" title="Android中的插件开发">
+ <a href="/2016/08/09/Android中的插件开发/" title="android插件开发">
   <strong>上一篇：</strong><br/>
   <span>
-  Android中的插件开发</span>
+  android插件开发</span>
 </a>
 </div>
 
@@ -214,6 +214,10 @@ Java反射动态语言程序运行时，通过代码能改变程序结构或变�
 			
 		
 			
+				<li><a href="/source/tags/retrofit2/" title="retrofit2">retrofit2<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/source/tags/android-mvp/" title="android.mvp">android.mvp<sup>1</sup></a></li>
 			
 		
@@ -254,7 +258,9 @@ Java反射动态语言程序运行时，通过代码能改变程序结构或变�
 			
 		
 			
-				<li><a href="/source/tags/retrofit2/" title="retrofit2">retrofit2<sup>1</sup></a></li>
+				<li><a href="/source/tags/greendao3/" title="greendao3">greendao3<sup>1</sup></a></li>
+			
+		
 			
 		
 		</ul>
@@ -283,7 +289,7 @@ Java反射动态语言程序运行时，通过代码能改变程序结构或变�
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">所有文章</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
   </div>
 
 
@@ -363,6 +369,11 @@ $(document).ready(function(){
   $(window).scroll(function(){
     o.css("top",Math.max(32,32-$(this).scrollTop()));
   });
+  
+        getSize();
+        if (myWidth >= 1024) {
+          c.click();
+        }
   
   $(window).resize(function(){
     getSize(); 

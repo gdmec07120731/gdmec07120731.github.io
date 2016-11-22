@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>AndroidStudio从入门到精通 | ppjun&#39;s blog</title>
+    <title>android studio详细使用 | ppjun&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="区汇君">
@@ -16,16 +16,16 @@ AndroidStudio下载链接
 不同于eclipse，as是以一个project为一个窗口。
 选择file-">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AndroidStudio从入门到精通">
+<meta property="og:title" content="android studio详细使用">
 <meta property="og:url" content="http://www.lanyimi.com/2016/10/10/AndroidStudio从入门到精通/index.html">
 <meta property="og:site_name" content="ppjun's blog">
 <meta property="og:description" content="Android Studio谷歌官方推荐开发android的编译器，使用更强大的gradle脚本工具，支持Layout Editor更加直观的布局编辑，Constraint layout比relativelayout更加方便的相对布局，Apk Analyzer查看apk中dex体积等。
 AndroidStudio下载链接
 不同于eclipse，as是以一个project为一个窗口。
 选择file-">
-<meta property="og:updated_time" content="2016-11-04T01:31:44.645Z">
+<meta property="og:updated_time" content="2016-11-22T09:12:20.855Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AndroidStudio从入门到精通">
+<meta name="twitter:title" content="android studio详细使用">
 <meta name="twitter:description" content="Android Studio谷歌官方推荐开发android的编译器，使用更强大的gradle脚本工具，支持Layout Editor更加直观的布局编辑，Constraint layout比relativelayout更加方便的相对布局，Apk Analyzer查看apk中dex体积等。
 AndroidStudio下载链接
 不同于eclipse，as是以一个project为一个窗口。
@@ -83,7 +83,7 @@ AndroidStudio下载链接
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/10/10/AndroidStudio从入门到精通/" title="AndroidStudio从入门到精通" itemprop="url">AndroidStudio从入门到精通</a>
+      <a href="/2016/10/10/AndroidStudio从入门到精通/" title="android studio详细使用" itemprop="url">android studio详细使用</a>
   </h1>
   <p class="article-author">By
        
@@ -144,8 +144,7 @@ AndroidStudio下载链接
 <h3 id="u79FB_u9664_u6CA1_u7528_u8D44_u6E90"><a href="#u79FB_u9664_u6CA1_u7528_u8D44_u6E90" class="headerlink" title="移除没用资源"></a>移除没用资源</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">buildTpyes&#123;</span><br><span class="line">    release&#123;</span><br><span class="line">        minifyEnable <span class="keyword">true</span></span><br><span class="line">        shrinkResources <span class="keyword">true</span></span><br><span class="line">      &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 <h3 id="u5FFD_u7565lint_u9519_u8BEF"><a href="#u5FFD_u7565lint_u9519_u8BEF" class="headerlink" title="忽略lint错误"></a>忽略lint错误</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">android&#123;</span><br><span class="line">  lintOptions&#123;</span><br><span class="line">     abortOnError <span class="keyword">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="u58F0_u660E_u7F16_u8BD1java_u7248_u672C"><a href="#u58F0_u660E_u7F16_u8BD1java_u7248_u672C" class="headerlink" title="声明编译java版本"></a>声明编译java版本</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">android&#123;</span><br><span class="line">   compileOptions&#123;</span><br><span class="line">     sourceCompatibility JavaVersion.VERSION_1_8</span><br><span class="line">     targetCompatibility JavaVersion.VERSION_1_8</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="u7B7E_u540D_u914D_u7F6E"><a href="#u7B7E_u540D_u914D_u7F6E" class="headerlink" title="签名配置"></a>签名配置</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">signingConfigs&#123;</span><br><span class="line">  release&#123;</span><br><span class="line">       <span class="function">storeFile <span class="title">file</span><span class="params">(<span class="string">"c:/xx.jks"</span>)</span></span><br><span class="line">       storePassword "123456"</span><br><span class="line">       keyAlias  "xiaom"</span><br><span class="line">       keuPassword "bjuaa"</span><br><span class="line">  &#125;</span><br><span class="line">  debug</span>&#123;</span><br><span class="line">       <span class="function">storeFile <span class="title">file</span><span class="params">(<span class="string">"c:/xx.jks"</span>)</span></span><br><span class="line">       storePassword "123456"</span><br><span class="line">       keyAlias  "xiaom"</span><br><span class="line">       keuPassword "bjuaa"</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">buildTypes</span>&#123;</span><br><span class="line"></span><br><span class="line">  release&#123;</span><br><span class="line">            <span class="function">minifyEnabled <span class="keyword">true</span></span><br><span class="line">            useProguard <span class="keyword">false</span></span><br><span class="line">            shirkResources <span class="keyword">true</span></span><br><span class="line">            proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.pro'</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
-  
+<h3 id="u7B7E_u540D_u914D_u7F6E"><a href="#u7B7E_u540D_u914D_u7F6E" class="headerlink" title="签名配置"></a>签名配置</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">signingConfigs&#123;</span><br><span class="line">  release&#123;</span><br><span class="line">       <span class="function">storeFile <span class="title">file</span><span class="params">(<span class="string">"c:/xx.jks"</span>)</span></span><br><span class="line">       storePassword "123456"</span><br><span class="line">       keyAlias  "xiaom"</span><br><span class="line">       keuPassword "bjuaa"</span><br><span class="line">  &#125;</span><br><span class="line">  debug</span>&#123;</span><br><span class="line">       <span class="function">storeFile <span class="title">file</span><span class="params">(<span class="string">"c:/xx.jks"</span>)</span></span><br><span class="line">       storePassword "123456"</span><br><span class="line">       keyAlias  "xiaom"</span><br><span class="line">       keuPassword "bjuaa"</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">buildTypes</span>&#123;</span><br><span class="line"></span><br><span class="line">  release&#123;</span><br><span class="line">            <span class="function">minifyEnabled <span class="keyword">true</span></span><br><span class="line">            useProguard <span class="keyword">false</span></span><br><span class="line">            shirkResources <span class="keyword">true</span></span><br><span class="line">            proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.pro'</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -157,7 +156,7 @@ AndroidStudio下载链接
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://www.lanyimi.com/2016/10/10/AndroidStudio从入门到精通/" data-title="AndroidStudio从入门到精通 | ppjun&#39;s blog" data-tsina="null" class="share clearfix">
+	  <div data-url="http://www.lanyimi.com/2016/10/10/AndroidStudio从入门到精通/" data-title="android studio详细使用 | ppjun&#39;s blog" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -233,6 +232,10 @@ AndroidStudio下载链接
 			
 		
 			
+				<li><a href="/source/tags/retrofit2/" title="retrofit2">retrofit2<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/source/tags/android-mvp/" title="android.mvp">android.mvp<sup>1</sup></a></li>
 			
 		
@@ -273,7 +276,9 @@ AndroidStudio下载链接
 			
 		
 			
-				<li><a href="/source/tags/retrofit2/" title="retrofit2">retrofit2<sup>1</sup></a></li>
+				<li><a href="/source/tags/greendao3/" title="greendao3">greendao3<sup>1</sup></a></li>
+			
+		
 			
 		
 		</ul>
@@ -302,7 +307,7 @@ AndroidStudio下载链接
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">所有文章</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
   </div>
 
 
@@ -382,6 +387,11 @@ $(document).ready(function(){
   $(window).scroll(function(){
     o.css("top",Math.max(32,32-$(this).scrollTop()));
   });
+  
+        getSize();
+        if (myWidth >= 1024) {
+          c.click();
+        }
   
   $(window).resize(function(){
     getSize(); 

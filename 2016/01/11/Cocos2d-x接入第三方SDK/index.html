@@ -23,7 +23,7 @@ cocos new -p com.ohj.cocos2dx360 -l cpp -d Coco">
 2.环境OS: win10IDE: EclipseAdnroid NDK:r10ecocos2d-x-3.9
 3.创建Cocos2d-x工程运行命令
 cocos new -p com.ohj.cocos2dx360 -l cpp -d Coco">
-<meta property="og:updated_time" content="2016-03-07T04:40:34.504Z">
+<meta property="og:updated_time" content="2016-11-22T09:11:34.789Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cocos2d-x接入第三方SDK">
 <meta name="twitter:description" content="Cocos2d-x游戏接入安卓第三方SDK1.概述U3D游戏和Cocos2dx手游都会接入不同渠道的支付方式，本文运用jni知识以360渠道接入作为演示。
@@ -164,9 +164,9 @@ cocos new -p com.ohj.cocos2dx360 -l cpp -d Coco">
 
 
 <div class="next">
-<a href="/2015/12/10/VirtualBox无法运行/"  title="VirtualBox出现VERR _INTNET _FLT _IF _NOT _FOUND">
+<a href="/2015/12/10/VirtualBox无法运行/"  title="VirtualBox 遇到VERR _INTNET _FLT _IF _NOT _FOUND">
  <strong>下一篇：</strong><br/> 
- <span>VirtualBox出现VERR _INTNET _FLT _IF _NOT _FOUND
+ <span>VirtualBox 遇到VERR _INTNET _FLT _IF _NOT _FOUND
 </span>
 </a>
 </div>
@@ -217,6 +217,10 @@ cocos new -p com.ohj.cocos2dx360 -l cpp -d Coco">
 			
 		
 			
+				<li><a href="/source/tags/retrofit2/" title="retrofit2">retrofit2<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/source/tags/android-mvp/" title="android.mvp">android.mvp<sup>1</sup></a></li>
 			
 		
@@ -257,7 +261,9 @@ cocos new -p com.ohj.cocos2dx360 -l cpp -d Coco">
 			
 		
 			
-				<li><a href="/source/tags/retrofit2/" title="retrofit2">retrofit2<sup>1</sup></a></li>
+				<li><a href="/source/tags/greendao3/" title="greendao3">greendao3<sup>1</sup></a></li>
+			
+		
 			
 		
 		</ul>
@@ -286,7 +292,7 @@ cocos new -p com.ohj.cocos2dx360 -l cpp -d Coco">
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">所有文章</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
   </div>
 
 
@@ -366,6 +372,11 @@ $(document).ready(function(){
   $(window).scroll(function(){
     o.css("top",Math.max(32,32-$(this).scrollTop()));
   });
+  
+        getSize();
+        if (myWidth >= 1024) {
+          c.click();
+        }
   
   $(window).resize(function(){
     getSize(); 
