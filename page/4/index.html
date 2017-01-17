@@ -1,0 +1,509 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>ppjun&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="区汇君">
+    
+
+    
+    <meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ppjun's blog">
+<meta property="og:url" content="http://www.lanyimi.com/page/4/index.html">
+<meta property="og:site_name" content="ppjun's blog">
+<meta property="og:description">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ppjun's blog">
+<meta name="twitter:description">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div id="header">
+     <div id="head_con">
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="ppjun&#39;s blog">ppjun&#39;s blog</a></h1>
+				<h2 class="blog-motto">Thanks for your watching</h2>
+			</div>
+			<div class="navbar"><span class="navbutton navmobile" title="菜单"></span></div>
+		</div>
+		<div id="topnav">
+			<nav class="animated">
+				 <ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">所有文章</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:www.lanyimi.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/01/11/Cocos2d-x接入第三方SDK/" title="Cocos2d-x接入第三方SDK" itemprop="url">Cocos2d-x接入第三方SDK</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
+		
+  <p class="article-time">
+    <time datetime="2016-01-10T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-01-11</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="Cocos2d-x_u6E38_u620F_u63A5_u5165_u5B89_u5353_u7B2C_u4E09_u65B9SDK"><a href="#Cocos2d-x_u6E38_u620F_u63A5_u5165_u5B89_u5353_u7B2C_u4E09_u65B9SDK" class="headerlink" title="Cocos2d-x游戏接入安卓第三方SDK"></a>Cocos2d-x游戏接入安卓第三方SDK</h3><h4 id="1-_u6982_u8FF0"><a href="#1-_u6982_u8FF0" class="headerlink" title="1.概述"></a>1.概述</h4><p>U3D游戏和Cocos2dx手游都会接入不同渠道的支付方式，本文运用jni知识以360渠道接入作为演示。</p>
+<h4 id="2-_u73AF_u5883"><a href="#2-_u73AF_u5883" class="headerlink" title="2.环境"></a>2.环境</h4><p>OS: win10<br>IDE: Eclipse<br>Adnroid NDK:r10e<br>cocos2d-x-3.9</p>
+<h4 id="3-_u521B_u5EFACocos2d-x_u5DE5_u7A0B"><a href="#3-_u521B_u5EFACocos2d-x_u5DE5_u7A0B" class="headerlink" title="3.创建Cocos2d-x工程"></a>3.创建Cocos2d-x工程</h4><p>运行命令</p>
+<pre><code>cocos new -p com.ohj.cocos2dx360 -l cpp -d Cocos2dx360SDK
+</code></pre><p>然后进入Cocos2dx360SDK-MyCppGame-proj.android执行build_native.py 生成.so文件</p>
+<p>编译成功后你会在libs-armeabi看到libcocos2dcpp.so </p>
+<p>最后导入Eclipse，是导入2个工程 ，分别是MyCppGame和库libcocos2dx。（导入EC时注意不要复制工程项目到工作区间）</p>
+<h4 id="4-_u5F00_u59CB_u914D_u7F6E360SDK"><a href="#4-_u5F00_u59CB_u914D_u7F6E360SDK" class="headerlink" title="4.开始配置360SDK"></a>4.开始配置360SDK</h4><p>导入assets、lib文件，配置好AndroidManifest.xml </p>
+<p>在AppActivity.java 的OnCreate初始化</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">   <span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">	<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">	<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">	</span><br><span class="line">	mContext = <span class="keyword">this</span>;</span><br><span class="line">	Matrix.init(<span class="keyword">this</span>);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接着创建静态登录方法，直接调用360的登录方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span>  <span class="title">login360</span><span class="params">()</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	Intent intent = getLoginIntent();</span><br><span class="line">	IDispatcherCallback callback = mLoginCallback;</span><br><span class="line">	Matrix.execute(mContext, intent, callback);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="5-jni_u8C03_u7528_u767B_u5F55_u65B9_u6CD5"><a href="#5-jni_u8C03_u7528_u767B_u5F55_u65B9_u6CD5" class="headerlink" title="5.jni调用登录方法"></a>5.jni调用登录方法</h4><p>在classes下创建SDK360.h 和SDK.cpp</p>
+<p>SDK360.h 代码如下<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">  <span class="preprocessor">#<span class="keyword">ifndef</span> __SDK360_H__</span></span><br><span class="line">  <span class="preprocessor">#<span class="keyword">define</span> __SDK360_H__</span></span><br><span class="line"></span><br><span class="line">  <span class="preprocessor">#<span class="keyword">include</span> <span class="string">"cocos2d.h"</span></span></span><br><span class="line"></span><br><span class="line">  <span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span>  </span></span><br><span class="line">  <span class="keyword">using</span> <span class="keyword">namespace</span> cocos2d;</span><br><span class="line">  <span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line">  <span class="keyword">class</span> SDK360</span><br><span class="line">  &#123;</span><br><span class="line">   <span class="keyword">public</span>:</span><br><span class="line">   SDK360();</span><br><span class="line">   <span class="keyword">virtual</span> ~SDK360();</span><br><span class="line"><span class="function"><span class="keyword">static</span> SDK360*  <span class="title">getInstance</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">login</span><span class="params">()</span></span>;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="preprocessor">#<span class="keyword">endif</span> <span class="comment">// __SDK360_H__</span></span></span><br></pre></td></tr></table></figure></p>
+<p>SDK360.cpp 代码如下<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">    <span class="preprocessor">#<span class="keyword">include</span> <span class="string">"SDK360.h"</span></span></span><br><span class="line">    <span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span>  </span></span><br><span class="line">    <span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;jni.h&gt;</span></span></span><br><span class="line">    <span class="preprocessor">#<span class="keyword">include</span> <span class="string">"cocos2d.h"</span></span></span><br><span class="line">    <span class="preprocessor">#<span class="keyword">include</span> <span class="string">"platform/android/jni/JniHelper.h"</span></span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line">    <span class="keyword">static</span> SDK360* mInstance=<span class="literal">NULL</span>;</span><br><span class="line">    SDK360::SDK360()</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    SDK360::~SDK360()</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    SDK360* SDK360::getInstance()</span><br><span class="line">    &#123;</span><br><span class="line"><span class="keyword">if</span>(<span class="literal">NULL</span>==mInstance)</span><br><span class="line">&#123;</span><br><span class="line">mInstance=<span class="keyword">new</span> SDK360();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> mInstance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">void</span> SDK360::login()</span><br><span class="line">   &#123;</span><br><span class="line"></span><br><span class="line">   <span class="preprocessor">#<span class="keyword">if</span>(CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID)</span></span><br><span class="line">   JniMethodInfo minfo;</span><br><span class="line">   <span class="keyword">bool</span> isHave=JniHelper::getStaticMethodInfo(minfo,<span class="string">"org/cocos2dx/cpp/AppActivity"</span>,<span class="string">"login360"</span>,<span class="string">"()V"</span>);</span><br><span class="line"><span class="keyword">if</span>(!isHave)&#123;</span><br><span class="line">	</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line"> minfo.env-&gt;CallStaticVoidMethod(minfo.classID,minfo.methodID);</span><br><span class="line"> minfo.env-&gt;DeleteLocalRef(minfo.classID);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">   <span class="preprocessor">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们会在原工程右下角调用登录方法，需要修改HelloWorldScence.cpp</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">"SDK360.h"</span></span></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line"> <span class="keyword">void</span> HelloWorld::menuCloseCallback(Ref* pSender)</span><br><span class="line"> &#123;</span><br><span class="line">  SDK360::getInstance()-&gt;login();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p> 最后在工程目录下jni-Android.mk 调用刚写好的SDK360.cpp</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_SRC_FILES := hellocpp/main.cpp \</span><br><span class="line">               ../../Classes/AppDelegate.cpp \</span><br><span class="line">               ../../Classes/SDK360.cpp \</span><br><span class="line">               ../../Classes/HelloWorldScene.cpp</span><br></pre></td></tr></table></figure>
+<p>修改过c++文件都要重新编译一下.so文件<br>执行build_native.py 编译成功后你就可以run运行起来了。</p>
+<p>ps: 调用360支付也同样道理.</p>
+<p><a href="https://github.com/gdmec07120731/Cocos2dx360SDK" target="_blank" rel="external">Demo下载。</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/source/tags/Cocos2dx/">Cocos2dx</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/12/10/VirtualBox无法运行/" title="VirtualBox 遇到VERR _INTNET _FLT _IF _NOT _FOUND" itemprop="url">VirtualBox 遇到VERR _INTNET _FLT _IF _NOT _FOUND</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
+		
+  <p class="article-time">
+    <time datetime="2015-12-10T01:39:47.000Z" itemprop="datePublished"> 发表于 2015-12-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="u89E3_u51B3win10_u5347_u7EA7TH2_u540E_VirtualBox_u51FA_u73B0VERR__INTNET__FLT__IF__NOT__FOUND_u95EE_u9898"><a href="#u89E3_u51B3win10_u5347_u7EA7TH2_u540E_VirtualBox_u51FA_u73B0VERR__INTNET__FLT__IF__NOT__FOUND_u95EE_u9898" class="headerlink" title="解决win10升级TH2后 VirtualBox出现VERR _INTNET _FLT _IF _NOT _FOUND问题"></a>解决win10升级TH2后 VirtualBox出现VERR _INTNET _FLT _IF _NOT _FOUND问题</h3><p>出自</p>
+<p><a href="http://tieba.baidu.com/p/4177034202" title="genymotion吧" target="_blank" rel="external"> http://tieba.baidu.com/p/4177034202 </a></p>
+<p><a href="http://superuser.com/questions/1002160/failed-to-start-virtual-device-in-oracle-virtual-box" target="_blank" rel="external">http://superuser.com/questions/1002160/failed-to-start-virtual-device-in-oracle-virtual-box</a></p>
+<h4 id="u95EE_u9898_u63CF_u8FF0"><a href="#u95EE_u9898_u63CF_u8FF0" class="headerlink" title="问题描述"></a>问题描述</h4><p>win10升级TH2后virtualbox无法正常运行，virtualbox关键错误VERR _INTNET _FLT _IF _NOT _FOUND</p>
+<h4 id="u89E3_u51B3_u529E_u6CD5"><a href="#u89E3_u51B3_u529E_u6CD5" class="headerlink" title="解决办法"></a>解决办法</h4><p>打开 网络和共享中心-更改适配器设置-选择VirtualBox Host-Only Network-右击属性</p>
+<p><strong>把VirtualBox NDIS6 Bridged Networking Driver 选择上就OK可以运行genymotion了</strong></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/source/tags/Genymotion/">Genymotion</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix">
+    <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+  </nav>
+
+</div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="githubbox">
+	<div class="github-card" data-github="gdmec07120731" data-width="100%" data-height="100%" data-theme="medium">
+	<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+</div>
+  </div>
+
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/source/tags/java反射/" title="java反射">java反射<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/frameAnimation/" title="frameAnimation">frameAnimation<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/retrofit/" title="retrofit">retrofit<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/retrofit2/" title="retrofit2">retrofit2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/android-mvp/" title="android.mvp">android.mvp<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/greendao3/" title="greendao3">greendao3<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/Genymotion/" title="Genymotion">Genymotion<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/U8SDK/" title="U8SDK">U8SDK<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/shadowsock/" title="shadowsock">shadowsock<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/eventbus/" title="eventbus">eventbus<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/Dagger2/" title="Dagger2">Dagger2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/Cocos2dx/" title="Cocos2dx">Cocos2dx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/PropertyAnimation/" title="PropertyAnimation">PropertyAnimation<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/插件开发/" title="插件开发">插件开发<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/lambda/" title="lambda">lambda<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/微信支付/" title="微信支付">微信支付<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://github.com/gdmec07120731" target="_blank" title="Github">Github</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.jianshu.com/users/4bc3b1d4f281/latest_articles" target="_blank" title="简书">简书</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">所有文章</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/gdmec07120731" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/ouhuijun" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		
+		<a href="mailto:ouhuijum@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+				
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="undefined" target="_blank" title="github">ppjun</a> © 2017 
+		
+		
+		<a href="/about" target="_blank" title="区汇君">区汇君</a>
+		
+		
+		</p>
+		
+		<div id="totop">
+		     <a title="返回顶部"><img src="/img/scrollup.png"/></a>
+		</div>
+		
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn').removeClass('fadeOut');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('fadeIn').addClass('fadeOut');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');     
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(32,32-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+ </html>

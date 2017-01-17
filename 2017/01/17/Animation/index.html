@@ -1,0 +1,511 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>属性动画第一话 | ppjun&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="区汇君">
+    
+
+    
+    <meta name="description" content="Android属性动画（第一话）3.0前的帧动画，补间动画Android动画能给界面带来很炫的效果，如果我们要实现这些效果，在android3.0版本前实现动画主要有2种方式，帧动画（frame animation）和补间动画（tweened animation）。
+帧动画加载大量图片，对性能有很大要求效率不高，补间动画是对view进行包括缩放，移动，旋转，透明度的绘制。因为补间动画实现不了动画操">
+<meta property="og:type" content="article">
+<meta property="og:title" content="属性动画第一话">
+<meta property="og:url" content="http://www.lanyimi.com/2017/01/17/Animation/index.html">
+<meta property="og:site_name" content="ppjun's blog">
+<meta property="og:description" content="Android属性动画（第一话）3.0前的帧动画，补间动画Android动画能给界面带来很炫的效果，如果我们要实现这些效果，在android3.0版本前实现动画主要有2种方式，帧动画（frame animation）和补间动画（tweened animation）。
+帧动画加载大量图片，对性能有很大要求效率不高，补间动画是对view进行包括缩放，移动，旋转，透明度的绘制。因为补间动画实现不了动画操">
+<meta property="og:updated_time" content="2017-01-17T12:09:45.875Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="属性动画第一话">
+<meta name="twitter:description" content="Android属性动画（第一话）3.0前的帧动画，补间动画Android动画能给界面带来很炫的效果，如果我们要实现这些效果，在android3.0版本前实现动画主要有2种方式，帧动画（frame animation）和补间动画（tweened animation）。
+帧动画加载大量图片，对性能有很大要求效率不高，补间动画是对view进行包括缩放，移动，旋转，透明度的绘制。因为补间动画实现不了动画操">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div id="header">
+     <div id="head_con">
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="ppjun&#39;s blog">ppjun&#39;s blog</a></h1>
+				<h2 class="blog-motto">Thanks for your watching</h2>
+			</div>
+			<div class="navbar"><span class="navbutton navmobile" title="菜单"></span></div>
+		</div>
+		<div id="topnav">
+			<nav class="animated">
+				 <ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">所有文章</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:www.lanyimi.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="property" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/01/17/Animation/" title="属性动画第一话" itemprop="url">属性动画第一话</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
+		
+  <p class="article-time">
+    <time datetime="2017-01-17T08:30:29.000Z" itemprop="datePublished"> 发表于 2017-01-17</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Android_u5C5E_u6027_u52A8_u753B_uFF08_u7B2C_u4E00_u8BDD_uFF09"><span class="toc-number">1.</span> <span class="toc-text">Android属性动画（第一话）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-0_u524D_u7684_u5E27_u52A8_u753B_uFF0C_u8865_u95F4_u52A8_u753B"><span class="toc-number">1.1.</span> <span class="toc-text">3.0前的帧动画，补间动画</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4ECB_u7ECD_u5C5E_u6027_u52A8_u753B"><span class="toc-number">1.2.</span> <span class="toc-text">介绍属性动画</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ValueAnimator"><span class="toc-number">1.2.1.</span> <span class="toc-text">ValueAnimator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ObjectAnimator"><span class="toc-number">1.2.2.</span> <span class="toc-text">ObjectAnimator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AnimatorSet"><span class="toc-number">1.2.3.</span> <span class="toc-text">AnimatorSet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u52A8_u753B_u76D1_u542C_u5668"><span class="toc-number">1.2.4.</span> <span class="toc-text">动画监听器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u8BBE_u7F6EXML_u52A8_u753B"><span class="toc-number">1.2.5.</span> <span class="toc-text">设置XML动画</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">1.3.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="Android_u5C5E_u6027_u52A8_u753B_uFF08_u7B2C_u4E00_u8BDD_uFF09"><a href="#Android_u5C5E_u6027_u52A8_u753B_uFF08_u7B2C_u4E00_u8BDD_uFF09" class="headerlink" title="Android属性动画（第一话）"></a>Android属性动画（第一话）</h1><h2 id="3-0_u524D_u7684_u5E27_u52A8_u753B_uFF0C_u8865_u95F4_u52A8_u753B"><a href="#3-0_u524D_u7684_u5E27_u52A8_u753B_uFF0C_u8865_u95F4_u52A8_u753B" class="headerlink" title="3.0前的帧动画，补间动画"></a>3.0前的帧动画，补间动画</h2><p>Android动画能给界面带来很炫的效果，如果我们要实现这些效果，在android3.0版本前实现动画主要有2种方式，帧动画（frame animation）和补间动画（tweened animation）。</p>
+<p>帧动画加载大量图片，对性能有很大要求效率不高，补间动画是对view进行包括缩放，移动，旋转，透明度的绘制。因为补间动画实现不了动画操作后的view的点击等操作，只是简单在操作后的地方显示一个，并不会加上view原来的属性，比如一个button从父容器左上角移动到右下角，他的点击事件还在左上角。</p>
+<h2 id="u4ECB_u7ECD_u5C5E_u6027_u52A8_u753B"><a href="#u4ECB_u7ECD_u5C5E_u6027_u52A8_u753B" class="headerlink" title="介绍属性动画"></a>介绍属性动画</h2><p>为了解决上述问题，新推出了View的属性动画，原理是改变view的属性，所以我们可以操作缩放移动透明度旋转后的view，原理是在一段时间内不断设置View.setRotation()，下面我们来介绍一下ValueAnimator。</p>
+<h3 id="ValueAnimator"><a href="#ValueAnimator" class="headerlink" title="ValueAnimator"></a>ValueAnimator</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">//动画是200毫秒内view由0过渡到1</span></span><br><span class="line">ValueAnimator valueAnimator = ValueAnimator.ofFloat(<span class="number">0f</span>, <span class="number">1f</span>);</span><br><span class="line">valueAnimator.setDuration(<span class="number">200</span>);</span><br><span class="line">valueAnimator.addUpdateListener(<span class="keyword">new</span> ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationUpdate</span><span class="params">(ValueAnimator animation)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//监听输出动画移动的值</span></span><br><span class="line">        <span class="keyword">float</span> value = (<span class="keyword">float</span>) animation.getAnimatedValue();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">valueAnimator.start();</span><br></pre></td></tr></table></figure>
+<p> 生成ValueAnimator的方法除了ValueAnimator.ofFloat(float);参数要精确到小数点后几位，还有ValueAnimator.ofInt(int);参数是整型比如1，100。</p>
+<p>ValueAnimator还有其他属性，比如设置延迟时间ValueAnimator.setStartDelay(200);设置延时200毫秒，还有循环次数<br>ValueAnimator.setRepeatCount(5);动画循环5次，又或者是动画播放模式正常ValueAnimator.RESTART还是反向播放的<br>ValueAnimator.setRepeatMode(ValueAnimator.REVERSE);发向播放动画。</p>
+<h3 id="ObjectAnimator"><a href="#ObjectAnimator" class="headerlink" title="ObjectAnimator"></a>ObjectAnimator</h3><p>ObjectAnimator继承了ValueAnimator,所以ValueAnimator有的方法ObjectAnimator都有。ObjectAnimator是操作具体的控件比如button，imageview的动画，举几个例子：</p>
+<p>图片从x轴的-500的位置移动到100的位置<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ObjectAnimator  objectAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"translationX"</span>,-<span class="number">500f</span>,<span class="number">100f</span>);</span><br><span class="line">       objectAnimator.setDuration(<span class="number">500</span>);</span><br><span class="line">       objectAnimator.start();</span><br></pre></td></tr></table></figure></p>
+<p> 透明度由1变成0再变成1的动画</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ObjectAnimator  objectAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"alpha"</span>,<span class="number">1f</span>,<span class="number">0f</span>,<span class="number">1f</span>);</span><br><span class="line">       objectAnimator.setDuration(<span class="number">500</span>);</span><br><span class="line">       objectAnimator.start();</span><br></pre></td></tr></table></figure>
+<p> 旋转360度的动画<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ObjectAnimator  objectAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"rotation"</span>,<span class="number">0f</span>,<span class="number">360f</span>);</span><br><span class="line">     objectAnimator.setDuration(<span class="number">500</span>);</span><br><span class="line">     objectAnimator.start();</span><br></pre></td></tr></table></figure></p>
+<p> y轴上缩放3倍的动画<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ObjectAnimator  objectAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"scaleY"</span>,<span class="number">1f</span>,<span class="number">3f</span>);</span><br><span class="line">     objectAnimator.setDuration(<span class="number">500</span>);</span><br><span class="line">     objectAnimator.start();</span><br></pre></td></tr></table></figure></p>
+<p>如果你觉得单单实现一种动画还不够炫，如果你想同时实现多个动画，你要用到动画组合AnimatorSet</p>
+<h3 id="AnimatorSet"><a href="#AnimatorSet" class="headerlink" title="AnimatorSet"></a>AnimatorSet</h3><p>把多个ObjectAnimator按顺序连接起来，比如把上面的缩放，移动，设置透明度组合起来</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ObjectAnimator  scaleYAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"scaleY"</span>,<span class="number">1f</span>,<span class="number">3f</span>);</span><br><span class="line">ObjectAnimator  translationXAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"translationX"</span>,<span class="number">0f</span>,<span class="number">100f</span>);</span><br><span class="line">ObjectAnimator  alphaAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"alpha"</span>,<span class="number">1f</span>,<span class="number">0f</span>,<span class="number">1f</span>);</span><br><span class="line">AnimatorSet animatorSet=<span class="keyword">new</span> AnimatorSet();</span><br><span class="line">animatorSet.play(scaleYAnimator).with(translationXAnimator).with(alphaAnimator);</span><br><span class="line">animatorSet.setDuration(<span class="number">500</span>);</span><br><span class="line">animatorSet.start();</span><br></pre></td></tr></table></figure>
+<p>这里Animator.after将其他动画加到这个动画之后，还可以传入动画设置两个动画的间隔，Animator.with两个动画一起播放，Animator.before插入动画放在这个动画之前。</p>
+<h3 id="u52A8_u753B_u76D1_u542C_u5668"><a href="#u52A8_u753B_u76D1_u542C_u5668" class="headerlink" title="动画监听器"></a>动画监听器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"scaleY"</span>,<span class="number">1f</span>,<span class="number">3f</span>);</span><br><span class="line">objectAnimator.addListener(<span class="keyword">new</span> Animator.AnimatorListener() &#123;</span><br><span class="line"></span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationStart</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">                <span class="comment">//动画的时候</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationEnd</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">                <span class="comment">//动画结束的时候</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationCancel</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">               <span class="comment">//动画取消时</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationRepeat</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">             <span class="comment">//动画循环时</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">     objectAnimator.setDuration(<span class="number">500</span>);</span><br><span class="line">     objectAnimator.start();</span><br></pre></td></tr></table></figure>
+<p>你也可以单独实现一个监听方法，这里的AnimatorListener改为AnimatorListenerAdapter就可以了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">objectAnimator.addListener(<span class="keyword">new</span> AnimatorListenerAdapter() &#123;</span><br><span class="line"></span><br><span class="line">       <span class="annotation">@Override</span></span><br><span class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationEnd</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">               <span class="keyword">super</span>.onAnimationEnd(animation);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="u8BBE_u7F6EXML_u52A8_u753B"><a href="#u8BBE_u7F6EXML_u52A8_u753B" class="headerlink" title="设置XML动画"></a>设置XML动画</h3><p>如果有多个界面的控件要实现相同的动画效果，我们可以通过xml更加有效率来设置动画。<br>在res/animator文件夹下新建animator.xml<br>(注意，res/anim这个文件夹是放帧动画和补间动画的)<br>根标签是一个<objectanimator> 代表一个ObjectAnimator，标签内有duration动画时间，propertyName动画属性translationX，valueFrom原来的值，valueTo变化后的值,valueType值的类型是floatType还是intType这些属性.</objectanimator></p>
+<p><set>标签代表一个AnimatorSet,在set标签内默认按照从上到下顺序加载不同的动画（就是在set设置android:ordering=”sequentially”）,如果你想同步进行就设置android:ordering=”together”</set></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line">&lt;set xmlns:android="http://schemas.android.com/apk/res/android"</span><br><span class="line">   android:ordering="sequentially"&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:duration="500"</span><br><span class="line">        android:propertyName="scaleY"</span><br><span class="line">        android:valueFrom="100f"</span><br><span class="line">        android:valueTo="1f"</span><br><span class="line">        android:valueType="floatType"</span><br><span class="line">    /&gt;</span><br><span class="line">    &lt;set android:ordering="together"&gt;</span><br><span class="line">        &lt;objectAnimator</span><br><span class="line">            android:duration="500"</span><br><span class="line">            android:propertyName="scaleY"</span><br><span class="line">            android:valueFrom="1f"</span><br><span class="line">            android:valueTo="100f"</span><br><span class="line">            android:valueType="floatType"</span><br><span class="line">        /&gt;</span><br><span class="line">    &lt;/set&gt;</span><br><span class="line">&lt;/set&gt;</span><br></pre></td></tr></table></figure>
+<p>xml代码写好了，然后实现可以在类中调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Animator animator = AnimatorInflater.loadAnimator(mContext, R.animator.animator);</span><br><span class="line">animator.setTarget(mImageView);</span><br><span class="line">animator.start();</span><br></pre></td></tr></table></figure>
+<p>最后通过够用AnimatorInflate.loadAnimator，参数分别是Context和R.animator.animator</p>
+<h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><ol>
+<li><p>上述分别讲述了帧动画，补间动画，属性动画的ValueAnimator，ObejectAnimator 和AnimatorSet，还有属性动画的xml写法。</p>
+</li>
+<li><p>从性能效率上来看，优先考虑使用属性动画。</p>
+</li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/source/tags/PropertyAnimation/">PropertyAnimation</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://www.lanyimi.com/2017/01/17/Animation/" data-title="属性动画第一话 | ppjun&#39;s blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/01/17/帧动画Animation/" title="帧动画">
+  <strong>上一篇：</strong><br/>
+  <span>
+  帧动画</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/11/22/greenDAO/"  title="greenDAO">
+ <strong>下一篇：</strong><br/> 
+ <span>greenDAO
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="githubbox">
+	<div class="github-card" data-github="gdmec07120731" data-width="100%" data-height="100%" data-theme="medium">
+	<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+</div>
+  </div>
+
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/source/tags/java反射/" title="java反射">java反射<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/frameAnimation/" title="frameAnimation">frameAnimation<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/retrofit/" title="retrofit">retrofit<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/retrofit2/" title="retrofit2">retrofit2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/android-mvp/" title="android.mvp">android.mvp<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/greendao3/" title="greendao3">greendao3<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/Genymotion/" title="Genymotion">Genymotion<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/U8SDK/" title="U8SDK">U8SDK<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/shadowsock/" title="shadowsock">shadowsock<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/eventbus/" title="eventbus">eventbus<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/Dagger2/" title="Dagger2">Dagger2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/Cocos2dx/" title="Cocos2dx">Cocos2dx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/PropertyAnimation/" title="PropertyAnimation">PropertyAnimation<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/插件开发/" title="插件开发">插件开发<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/lambda/" title="lambda">lambda<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/微信支付/" title="微信支付">微信支付<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://github.com/gdmec07120731" target="_blank" title="Github">Github</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.jianshu.com/users/4bc3b1d4f281/latest_articles" target="_blank" title="简书">简书</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">所有文章</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/gdmec07120731" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/ouhuijun" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		
+		<a href="mailto:ouhuijum@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+				
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="undefined" target="_blank" title="github">ppjun</a> © 2017 
+		
+		
+		<a href="/about" target="_blank" title="区汇君">区汇君</a>
+		
+		
+		</p>
+		
+		<div id="totop">
+		     <a title="返回顶部"><img src="/img/scrollup.png"/></a>
+		</div>
+		
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn').removeClass('fadeOut');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('fadeIn').addClass('fadeOut');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');     
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(32,32-$(this).scrollTop()));
+  });
+  
+        getSize();
+        if (myWidth >= 1024) {
+          c.click();
+        }
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+ </html>
