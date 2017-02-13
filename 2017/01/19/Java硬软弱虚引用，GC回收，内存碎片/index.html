@@ -1,0 +1,578 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Java硬软弱虚引用，GC回收，内存碎片 | ppjun&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="区汇君">
+    
+
+    
+    <meta name="description" content="Java硬软弱虚引用，GC回收，内存碎片GarBageCollection首先说一下java的gc垃圾回收机制，到底什么时候回收，在哪里回收。
+经常说java分别在栈区和堆区存储变量等。其实还有
+程序计数器它是一个字节码的指示器，告诉当前线程下一步要执行哪一行代码。一个没有OOm的区域
+栈区又叫java虚拟机栈区，是每一个方法被执行的时候，创建出一个栈帧用来放的成员变量，操作链表，动态链接，方法出">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java硬软弱虚引用，GC回收，内存碎片">
+<meta property="og:url" content="http://www.lanyimi.com/2017/01/19/Java硬软弱虚引用，GC回收，内存碎片/index.html">
+<meta property="og:site_name" content="ppjun's blog">
+<meta property="og:description" content="Java硬软弱虚引用，GC回收，内存碎片GarBageCollection首先说一下java的gc垃圾回收机制，到底什么时候回收，在哪里回收。
+经常说java分别在栈区和堆区存储变量等。其实还有
+程序计数器它是一个字节码的指示器，告诉当前线程下一步要执行哪一行代码。一个没有OOm的区域
+栈区又叫java虚拟机栈区，是每一个方法被执行的时候，创建出一个栈帧用来放的成员变量，操作链表，动态链接，方法出">
+<meta property="og:updated_time" content="2017-02-13T10:01:08.972Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java硬软弱虚引用，GC回收，内存碎片">
+<meta name="twitter:description" content="Java硬软弱虚引用，GC回收，内存碎片GarBageCollection首先说一下java的gc垃圾回收机制，到底什么时候回收，在哪里回收。
+经常说java分别在栈区和堆区存储变量等。其实还有
+程序计数器它是一个字节码的指示器，告诉当前线程下一步要执行哪一行代码。一个没有OOm的区域
+栈区又叫java虚拟机栈区，是每一个方法被执行的时候，创建出一个栈帧用来放的成员变量，操作链表，动态链接，方法出">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div id="header">
+     <div id="head_con">
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="ppjun&#39;s blog">ppjun&#39;s blog</a></h1>
+				<h2 class="blog-motto">Thanks for your watching</h2>
+			</div>
+			<div class="navbar"><span class="navbutton navmobile" title="菜单"></span></div>
+		</div>
+		<div id="topnav">
+			<nav class="animated">
+				 <ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">所有文章</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:www.lanyimi.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/01/19/Java硬软弱虚引用，GC回收，内存碎片/" title="Java硬软弱虚引用，GC回收，内存碎片" itemprop="url">Java硬软弱虚引用，GC回收，内存碎片</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
+		
+  <p class="article-time">
+    <time datetime="2017-01-19T06:07:37.000Z" itemprop="datePublished"> 发表于 2017-01-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java_u786C_u8F6F_u5F31_u865A_u5F15_u7528_uFF0CGC_u56DE_u6536_uFF0C_u5185_u5B58_u788E_u7247"><span class="toc-number">1.</span> <span class="toc-text">Java硬软弱虚引用，GC回收，内存碎片</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#GarBageCollection"><span class="toc-number">1.0.1.</span> <span class="toc-text">GarBageCollection</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u7A0B_u5E8F_u8BA1_u6570_u5668"><span class="toc-number">1.0.1.1.</span> <span class="toc-text">程序计数器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u6808_u533A"><span class="toc-number">1.0.1.2.</span> <span class="toc-text">栈区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u672C_u5730_u65B9_u6CD5_u6808"><span class="toc-number">1.0.1.3.</span> <span class="toc-text">本地方法栈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u5806_u533A"><span class="toc-number">1.0.1.4.</span> <span class="toc-text">堆区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u65B9_u6CD5_u533A"><span class="toc-number">1.0.1.5.</span> <span class="toc-text">方法区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u8FD0_u884C_u65F6_u5E38_u91CF_u6C60"><span class="toc-number">1.0.1.6.</span> <span class="toc-text">运行时常量池</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u4EC0_u4E48_u65F6_u5019GC"><span class="toc-number">1.0.2.</span> <span class="toc-text">什么时候GC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5185_u5B58_u788E_u7247"><span class="toc-number">1.0.3.</span> <span class="toc-text">内存碎片</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u5185_u90E8_u788E_u7247"><span class="toc-number">1.0.3.1.</span> <span class="toc-text">内部碎片</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u5916_u90E8_u788E_u7247"><span class="toc-number">1.0.3.2.</span> <span class="toc-text">外部碎片</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java_u786C_u8F6F_u5F31_u865A_u5F15_u7528"><span class="toc-number">1.0.4.</span> <span class="toc-text">Java硬软弱虚引用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u786C_u5F15_u7528"><span class="toc-number">1.0.4.1.</span> <span class="toc-text">硬引用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u8F6F_u5F15_u7528"><span class="toc-number">1.0.4.2.</span> <span class="toc-text">软引用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u5F31_u5F15_u7528"><span class="toc-number">1.0.4.3.</span> <span class="toc-text">弱引用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u865A_u5F15_u7528"><span class="toc-number">1.0.4.4.</span> <span class="toc-text">虚引用</span></a></li></ol></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="Java_u786C_u8F6F_u5F31_u865A_u5F15_u7528_uFF0CGC_u56DE_u6536_uFF0C_u5185_u5B58_u788E_u7247"><a href="#Java_u786C_u8F6F_u5F31_u865A_u5F15_u7528_uFF0CGC_u56DE_u6536_uFF0C_u5185_u5B58_u788E_u7247" class="headerlink" title="Java硬软弱虚引用，GC回收，内存碎片"></a>Java硬软弱虚引用，GC回收，内存碎片</h1><h3 id="GarBageCollection"><a href="#GarBageCollection" class="headerlink" title="GarBageCollection"></a>GarBageCollection</h3><p>首先说一下java的gc垃圾回收机制，到底什么时候回收，在哪里回收。</p>
+<p>经常说java分别在栈区和堆区存储变量等。其实还有</p>
+<h4 id="u7A0B_u5E8F_u8BA1_u6570_u5668"><a href="#u7A0B_u5E8F_u8BA1_u6570_u5668" class="headerlink" title="程序计数器"></a>程序计数器</h4><p>它是一个字节码的指示器，告诉当前线程下一步要执行哪一行代码。一个没有OOm的区域</p>
+<h4 id="u6808_u533A"><a href="#u6808_u533A" class="headerlink" title="栈区"></a>栈区</h4><p>又叫java虚拟机栈区，是每一个方法被执行的时候，创建出一个栈帧用来放的成员变量，操作链表，动态链接，方法出口。很多个栈帧又存储在栈区。</p>
+<h4 id="u672C_u5730_u65B9_u6CD5_u6808"><a href="#u672C_u5730_u65B9_u6CD5_u6808" class="headerlink" title="本地方法栈"></a>本地方法栈</h4><p>如果说栈区是一个java的本地方法栈，那么本地方法栈就就是c++的native栈区</p>
+<h4 id="u5806_u533A"><a href="#u5806_u533A" class="headerlink" title="堆区"></a>堆区</h4><p>当类中创建实例变量，就会在堆区中分配内存，堆区又分为新生代，老年代。当新生代没有足够多内存实例对象就是OOM</p>
+<h4 id="u65B9_u6CD5_u533A"><a href="#u65B9_u6CD5_u533A" class="headerlink" title="方法区"></a>方法区</h4><p>用来存放被虚拟机加载的类信息，常量，静态变量。</p>
+<h4 id="u8FD0_u884C_u65F6_u5E38_u91CF_u6C60"><a href="#u8FD0_u884C_u65F6_u5E38_u91CF_u6C60" class="headerlink" title="运行时常量池"></a>运行时常量池</h4><p>运行时常量池用来存放编译期间的常量</p>
+<h3 id="u4EC0_u4E48_u65F6_u5019GC"><a href="#u4EC0_u4E48_u65F6_u5019GC" class="headerlink" title="什么时候GC"></a>什么时候GC</h3><ol>
+<li>在类中每当我们实例化一个变量时，都会在新生区申请足够的内存，如果申请的内存不足以实例化对象，这时候就会minor GC 小规模的回收。</li>
+<li>在太多的对象在老年代，导致没有足够的内存空间加入对象时，就会full GC，并且直到老年代能放得下更大的对象。</li>
+<li>每次minor gc都会检查一下进入老年代的对象和老年代剩余空间，如果不够就会full gc</li>
+<li>手动执行System.gc();</li>
+</ol>
+<h3 id="u5185_u5B58_u788E_u7247"><a href="#u5185_u5B58_u788E_u7247" class="headerlink" title="内存碎片"></a>内存碎片</h3><h4 id="u5185_u90E8_u788E_u7247"><a href="#u5185_u90E8_u788E_u7247" class="headerlink" title="内部碎片"></a>内部碎片</h4><p>分配内存到进程A，内存被进程占据了而不被利用，同时系统也无法利用这块内存，直到进程A被终结，释放内存。</p>
+<h4 id="u5916_u90E8_u788E_u7247"><a href="#u5916_u90E8_u788E_u7247" class="headerlink" title="外部碎片"></a>外部碎片</h4><p>还没被分配出去的内存太少了不足分配给下一个进程，又或者多个不连续的内存总空间长度能满足新申请的进程，但是由于地址是不连续的内存，无法分配给新进程。</p>
+<h3 id="Java_u786C_u8F6F_u5F31_u865A_u5F15_u7528"><a href="#Java_u786C_u8F6F_u5F31_u865A_u5F15_u7528" class="headerlink" title="Java硬软弱虚引用"></a>Java硬软弱虚引用</h3><h4 id="u786C_u5F15_u7528"><a href="#u786C_u5F15_u7528" class="headerlink" title="硬引用"></a>硬引用</h4><p>硬引用是我们用得最普遍的方式，就算应用程序内存不足，需要的内存大于可用的内存发生OOM程序崩溃，也不会去回收这个对象。</p>
+<h4 id="u8F6F_u5F15_u7528"><a href="#u8F6F_u5F15_u7528" class="headerlink" title="软引用"></a>软引用</h4><p>当内存足够就不会去回收这个对象，当内存不够就会去回收这个对象把引用对象加入SoftReference对象，把引用赋值成null，手动调用System.gc()，加不加入ReferenceQueue队列取决于内存够不够用。回收对象都会进入ReferenceQueue。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ReferenceQueue&lt;Object&gt; queue=<span class="keyword">new</span> ReferenceQueue&lt;Object&gt;();</span><br><span class="line">Object object =<span class="keyword">new</span> Object();</span><br><span class="line">SoftReference&lt;Object&gt; softReference=<span class="keyword">new</span> SoftReference&lt;&gt;(object,queue);</span><br><span class="line">obj=<span class="keyword">null</span>;</span><br><span class="line">System.gc();</span><br><span class="line">System.out.println(queue.poll());<span class="comment">//查看队列元素</span></span><br></pre></td></tr></table></figure>
+<h4 id="u5F31_u5F15_u7528"><a href="#u5F31_u5F15_u7528" class="headerlink" title="弱引用"></a>弱引用</h4><p>当回收器扫描出弱引用不管内存是否够用，都会回收这个对象。把弱引用对象加入WeakReference对象，把引用赋值成null，手动调用System.gc()，到最后的才会加入ReferenceQueue队列。回收对象都会进入ReferenceQueue。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ReferenceQueue&lt;Object&gt; queue=<span class="keyword">new</span> ReferenceQueue&lt;Object&gt;();</span><br><span class="line">Object object =<span class="keyword">new</span> Object();</span><br><span class="line">WeakReference&lt;Object&gt; softReference=<span class="keyword">new</span> WeakReference&lt;&gt;(object,queue);</span><br><span class="line">obj=<span class="keyword">null</span>;</span><br><span class="line">System.gc();</span><br><span class="line">System.out.println(queue.poll());<span class="comment">//查看队列元素</span></span><br></pre></td></tr></table></figure>
+<h4 id="u865A_u5F15_u7528"><a href="#u865A_u5F15_u7528" class="headerlink" title="虚引用"></a>虚引用</h4><p>当GC发现了虚引用对象把对象加到PhantomReference对象中，最后将虚引用赋值为null，再手动调用System.gc()，到最后的才会加入ReferenceQueue队列。回收对象都会进入ReferenceQueue。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ReferenceQueue&lt;Object&gt; queue=<span class="keyword">new</span> ReferenceQueue&lt;Object&gt;();</span><br><span class="line">Object object =<span class="keyword">new</span> Object();</span><br><span class="line">PhantomReference&lt;Object&gt; softReference=<span class="keyword">new</span> PhantomReference&lt;&gt;(object,queue);</span><br><span class="line">obj=<span class="keyword">null</span>;</span><br><span class="line">System.gc();</span><br><span class="line">System.out.println(queue.poll());<span class="comment">//查看队列元素</span></span><br></pre></td></tr></table></figure>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/source/tags/java/">java</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://www.lanyimi.com/2017/01/19/Java硬软弱虚引用，GC回收，内存碎片/" data-title="Java硬软弱虚引用，GC回收，内存碎片 | ppjun&#39;s blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/01/19/IPC机制基础/" title="IPC机制基础">
+  <strong>上一篇：</strong><br/>
+  <span>
+  IPC机制基础</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2017/01/17/帧动画Animation/"  title="帧动画">
+ <strong>下一篇：</strong><br/> 
+ <span>帧动画
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java_u786C_u8F6F_u5F31_u865A_u5F15_u7528_uFF0CGC_u56DE_u6536_uFF0C_u5185_u5B58_u788E_u7247"><span class="toc-number">1.</span> <span class="toc-text">Java硬软弱虚引用，GC回收，内存碎片</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#GarBageCollection"><span class="toc-number">1.0.1.</span> <span class="toc-text">GarBageCollection</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u7A0B_u5E8F_u8BA1_u6570_u5668"><span class="toc-number">1.0.1.1.</span> <span class="toc-text">程序计数器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u6808_u533A"><span class="toc-number">1.0.1.2.</span> <span class="toc-text">栈区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u672C_u5730_u65B9_u6CD5_u6808"><span class="toc-number">1.0.1.3.</span> <span class="toc-text">本地方法栈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u5806_u533A"><span class="toc-number">1.0.1.4.</span> <span class="toc-text">堆区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u65B9_u6CD5_u533A"><span class="toc-number">1.0.1.5.</span> <span class="toc-text">方法区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u8FD0_u884C_u65F6_u5E38_u91CF_u6C60"><span class="toc-number">1.0.1.6.</span> <span class="toc-text">运行时常量池</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u4EC0_u4E48_u65F6_u5019GC"><span class="toc-number">1.0.2.</span> <span class="toc-text">什么时候GC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5185_u5B58_u788E_u7247"><span class="toc-number">1.0.3.</span> <span class="toc-text">内存碎片</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u5185_u90E8_u788E_u7247"><span class="toc-number">1.0.3.1.</span> <span class="toc-text">内部碎片</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u5916_u90E8_u788E_u7247"><span class="toc-number">1.0.3.2.</span> <span class="toc-text">外部碎片</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java_u786C_u8F6F_u5F31_u865A_u5F15_u7528"><span class="toc-number">1.0.4.</span> <span class="toc-text">Java硬软弱虚引用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u786C_u5F15_u7528"><span class="toc-number">1.0.4.1.</span> <span class="toc-text">硬引用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u8F6F_u5F15_u7528"><span class="toc-number">1.0.4.2.</span> <span class="toc-text">软引用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u5F31_u5F15_u7528"><span class="toc-number">1.0.4.3.</span> <span class="toc-text">弱引用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u865A_u5F15_u7528"><span class="toc-number">1.0.4.4.</span> <span class="toc-text">虚引用</span></a></li></ol></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="githubbox">
+	<div class="github-card" data-github="gdmec07120731" data-width="100%" data-height="100%" data-theme="medium">
+	<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+</div>
+  </div>
+
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/source/tags/java反射/" title="java反射">java反射<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/frameAnimation/" title="frameAnimation">frameAnimation<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/retrofit/" title="retrofit">retrofit<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/retrofit2/" title="retrofit2">retrofit2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/android-mvp/" title="android.mvp">android.mvp<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/greendao3/" title="greendao3">greendao3<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/Genymotion/" title="Genymotion">Genymotion<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/U8SDK/" title="U8SDK">U8SDK<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/PropertyAnimation/" title="PropertyAnimation">PropertyAnimation<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/shadowsock/" title="shadowsock">shadowsock<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/eventbus/" title="eventbus">eventbus<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/Dagger2/" title="Dagger2">Dagger2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/Cocos2dx/" title="Cocos2dx">Cocos2dx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/插件开发/" title="插件开发">插件开发<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/lambda/" title="lambda">lambda<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/微信支付/" title="微信支付">微信支付<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/java/" title="java">java<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/IPC/" title="IPC">IPC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://github.com/gdmec07120731" target="_blank" title="Github">Github</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.jianshu.com/users/4bc3b1d4f281/latest_articles" target="_blank" title="简书">简书</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">所有文章</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/gdmec07120731" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/ouhuijun" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		
+		<a href="mailto:ouhuijum@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+				
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="undefined" target="_blank" title="github">ppjun</a> © 2017 
+		
+		
+		<a href="/about" target="_blank" title="区汇君">区汇君</a>
+		
+		
+		</p>
+		
+		<div id="totop">
+		     <a title="返回顶部"><img src="/img/scrollup.png"/></a>
+		</div>
+		
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn').removeClass('fadeOut');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('fadeIn').addClass('fadeOut');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');     
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(32,32-$(this).scrollTop()));
+  });
+  
+        getSize();
+        if (myWidth >= 1024) {
+          c.click();
+        }
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

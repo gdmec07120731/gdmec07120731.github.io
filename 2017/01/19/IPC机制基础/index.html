@@ -1,0 +1,588 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>IPC机制基础 | ppjun&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="区汇君">
+    
+
+    
+    <meta name="description" content="IPC基础分享这一章主要讲述多进程的作用，序列化和反序列化，Serializable和Parcelable
+​      IPC叫进程间通信，指的是A进程和B进程交换信息。通常一个android应用是一个进程，一个进程有一个主线程和多个子线程组成，在A进程activity定义变量private static int i=1;并且让i+1,输出2，到了B进程activity，获取到的i的值还是1，这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IPC机制基础">
+<meta property="og:url" content="http://www.lanyimi.com/2017/01/19/IPC机制基础/index.html">
+<meta property="og:site_name" content="ppjun's blog">
+<meta property="og:description" content="IPC基础分享这一章主要讲述多进程的作用，序列化和反序列化，Serializable和Parcelable
+​      IPC叫进程间通信，指的是A进程和B进程交换信息。通常一个android应用是一个进程，一个进程有一个主线程和多个子线程组成，在A进程activity定义变量private static int i=1;并且让i+1,输出2，到了B进程activity，获取到的i的值还是1，这">
+<meta property="og:updated_time" content="2017-02-13T10:02:04.071Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IPC机制基础">
+<meta name="twitter:description" content="IPC基础分享这一章主要讲述多进程的作用，序列化和反序列化，Serializable和Parcelable
+​      IPC叫进程间通信，指的是A进程和B进程交换信息。通常一个android应用是一个进程，一个进程有一个主线程和多个子线程组成，在A进程activity定义变量private static int i=1;并且让i+1,输出2，到了B进程activity，获取到的i的值还是1，这">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div id="header">
+     <div id="head_con">
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="ppjun&#39;s blog">ppjun&#39;s blog</a></h1>
+				<h2 class="blog-motto">Thanks for your watching</h2>
+			</div>
+			<div class="navbar"><span class="navbutton navmobile" title="菜单"></span></div>
+		</div>
+		<div id="topnav">
+			<nav class="animated">
+				 <ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">所有文章</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:www.lanyimi.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/01/19/IPC机制基础/" title="IPC机制基础" itemprop="url">IPC机制基础</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
+		
+  <p class="article-time">
+    <time datetime="2017-01-19T08:54:08.000Z" itemprop="datePublished"> 发表于 2017-01-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#IPC_u57FA_u7840_u5206_u4EAB"><span class="toc-number">1.</span> <span class="toc-text">IPC基础分享</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u591A_u8FDB_u7A0B_u7684_u4F5C_u7528"><span class="toc-number">2.</span> <span class="toc-text">多进程的作用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u5F00_u542F_u591A_u8FDB_u7A0B"><span class="toc-number">2.0.0.1.</span> <span class="toc-text">开启多进程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5E8F_u5217_u5316_u548C_u53CD_u5E8F_u5217_u5316"><span class="toc-number">2.1.</span> <span class="toc-text">序列化和反序列化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Serializable"><span class="toc-number">2.1.1.</span> <span class="toc-text">Serializable</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Parcelable"><span class="toc-number">2.1.2.</span> <span class="toc-text">Parcelable</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u4E24_u8005_u6BD4_u8F83"><span class="toc-number">2.1.3.</span> <span class="toc-text">两者比较</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="IPC_u57FA_u7840_u5206_u4EAB"><a href="#IPC_u57FA_u7840_u5206_u4EAB" class="headerlink" title="IPC基础分享"></a>IPC基础分享</h1><p><code>这一章主要讲述多进程的作用，序列化和反序列化，Serializable和Parcelable</code></p>
+<p>​      <strong>IPC叫进程间通信</strong>，指的是A进程和B进程交换信息。通常一个android应用是一个进程，一个进程有一个主线程和多个子线程组成，在A进程activity定义变量private static int i=1;并且让i+1,输出2，到了B进程activity，获取到的i的值还是1，这是因为Android多进程间不能共享内存。启动多进程期间，会再次启动Application的生命周期，比如application类的oncreate等方法又执行了一次。不过，在android有以下方法进行进程间交换数据</p>
+<ol>
+<li>bundle（用bundle和intent在两个进程传递数据）</li>
+<li>操作文件（读写操作同一个文件）</li>
+<li>AIDL（基于binder的通信方式，用aidl文件更加方便）</li>
+<li>Messenger（封装后的aidl，只需用Messenger.send(message);即可发送信息）</li>
+<li>ContentProvider（读写数据库）</li>
+<li>Socket（启动本地的套接字来通信）</li>
+</ol>
+<h1 id="u591A_u8FDB_u7A0B_u7684_u4F5C_u7528"><a href="#u591A_u8FDB_u7A0B_u7684_u4F5C_u7528" class="headerlink" title="多进程的作用"></a>多进程的作用</h1><ol>
+<li><p>把应用某个单独的功能，单独放在一个进程中。</p>
+</li>
+<li><p>能给应用获取多份内存空间</p>
+</li>
+</ol>
+<h4 id="u5F00_u542F_u591A_u8FDB_u7A0B"><a href="#u5F00_u542F_u591A_u8FDB_u7A0B" class="headerlink" title="开启多进程"></a>开启多进程</h4><p>在AndroidManifest.xml文件给对应的activity或者service设置以下属性，其中值为:remote的进程不能共享进程资源，其他两个值能共享，前提条件是在manifest标签配置相同的sharedUserId比如（android:sharedUserId=”com.ppjun.sharedUserId”），还要让两个应用配置相同的签名。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;android:process=<span class="string">":remote"</span>/&gt;     <span class="comment">//对应的进程名是包名:remote</span></span><br><span class="line">&lt;android:process=<span class="string">".remote"</span>/&gt;    <span class="comment">//对应的进程名是包名.remote</span></span><br><span class="line">&lt;android:process=<span class="string">"com.ppjun.remote"</span>/&gt; <span class="comment">//对应的进程名是com.ppjun.remote</span></span><br></pre></td></tr></table></figure>
+<h2 id="u5E8F_u5217_u5316_u548C_u53CD_u5E8F_u5217_u5316"><a href="#u5E8F_u5217_u5316_u548C_u53CD_u5E8F_u5217_u5316" class="headerlink" title="序列化和反序列化"></a>序列化和反序列化</h2><ol>
+<li>序列化就是永久保存对象数据到文件中。</li>
+<li>在activity或者service之间将对象序列化对象后通过intent等传递。</li>
+<li>在多进程之间也要将对象序列化后才能传递。</li>
+</ol>
+<p>序列化是一个将对象变成字节的过程，发序列化是将这些字节重组成一个对象的过程。在Android中提供了Serializable和Parcelable接口序列化对象。</p>
+<h3 id="Serializable"><a href="#Serializable" class="headerlink" title="Serializable"></a>Serializable</h3><p>让类实现Serializable接口，并且指定一个long类型的serialVersionUID=xxxxL;xxxx为你自定义值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID=<span class="number">213213123L</span></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Student</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>序列化student</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Student student = <span class="keyword">new</span> Student(<span class="string">"jax"</span>);</span><br><span class="line">ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="keyword">new</span> File(<span class="string">"aa.txt"</span>).getName()));</span><br><span class="line">oos.writeObject(student);</span><br><span class="line">oos.close();</span><br></pre></td></tr></table></figure>
+<p>反序列化student</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ObjectInputStream ois=<span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(<span class="string">"aa.txt"</span>)));</span><br><span class="line">Student student2= (Student) ois.readObject();</span><br><span class="line">ois.close();</span><br></pre></td></tr></table></figure>
+<p>此时的student2已经不是原来的student了，是一个新的Student对象了。当然这里没写serialVersionUID序列化和反序列也能成功运行，系统默认会计算出一个serialVersionUID。</p>
+<p>当你要在Student类加入id属性加入，此时系统会计算出新的serialVersionUID，发序列化时，两者serialVersionUID不同，反序列操作时就会报错。所以一定要自定义一个serialVersionUID。</p>
+<h3 id="Parcelable"><a href="#Parcelable" class="headerlink" title="Parcelable"></a>Parcelable</h3><p>android api为我们提供的序列化类，也是要类实现Parcelable接口，重写带参数的构造方法，writeToParcel方法，describeContents方法和new CREATOR对象呢重写createFromParcel方法和newArray方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Book</span> <span class="keyword">implements</span> <span class="title">Parcelable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Creator&lt;Book&gt; CREATOR = <span class="keyword">new</span> Creator&lt;Book&gt;() &#123;</span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Book <span class="title">createFromParcel</span><span class="params">(Parcel source)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Book(source);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">        <span class="keyword">public</span> Book[] newArray(<span class="keyword">int</span> size) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Book[size];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> bookId;</span><br><span class="line">    <span class="keyword">public</span> String bookName;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Book</span><span class="params">(<span class="keyword">int</span> bookId, String bookName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.bookId = bookId;</span><br><span class="line">        <span class="keyword">this</span>.bookName = bookName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="title">Book</span><span class="params">(Parcel parcel)</span> </span>&#123;</span><br><span class="line">        bookId = parcel.readInt();</span><br><span class="line">        bookName = parcel.readString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writeToParcel</span><span class="params">(Parcel dest, <span class="keyword">int</span> flags)</span> </span>&#123;</span><br><span class="line">        dest.writeInt(bookId);</span><br><span class="line">        dest.writeString(bookName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">describeContents</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getBookId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> bookId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBookId</span><span class="params">(<span class="keyword">int</span> bookId)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.bookId = bookId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getBookName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> bookName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBookName</span><span class="params">(String bookName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.bookName = bookName;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="u4E24_u8005_u6BD4_u8F83"><a href="#u4E24_u8005_u6BD4_u8F83" class="headerlink" title="两者比较"></a>两者比较</h3><ol>
+<li>Serializable序列化同时产生大量临时变量，导致gc频繁；Serializable要通过io操作获取获取数据，再写入文件。</li>
+<li>Parcelable是以binder为信息载体，在内存传递上开销小。在读写数据时，Parcelable直接在内存读写，所以Parcelable性能比Serializable好。</li>
+<li>将对象序列化写入文件，序列化对象进行网络传输建议选择Serializable，对象要在activity等组件传递时，建议选择Parcelable。</li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/source/tags/IPC/">IPC</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://www.lanyimi.com/2017/01/19/IPC机制基础/" data-title="IPC机制基础 | ppjun&#39;s blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/02/13/AsyncTask-Analyze/" title="AsyncTask-Analyze">
+  <strong>上一篇：</strong><br/>
+  <span>
+  AsyncTask-Analyze</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2017/01/19/Java硬软弱虚引用，GC回收，内存碎片/"  title="Java硬软弱虚引用，GC回收，内存碎片">
+ <strong>下一篇：</strong><br/> 
+ <span>Java硬软弱虚引用，GC回收，内存碎片
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#IPC_u57FA_u7840_u5206_u4EAB"><span class="toc-number">1.</span> <span class="toc-text">IPC基础分享</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u591A_u8FDB_u7A0B_u7684_u4F5C_u7528"><span class="toc-number">2.</span> <span class="toc-text">多进程的作用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u5F00_u542F_u591A_u8FDB_u7A0B"><span class="toc-number">2.0.0.1.</span> <span class="toc-text">开启多进程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5E8F_u5217_u5316_u548C_u53CD_u5E8F_u5217_u5316"><span class="toc-number">2.1.</span> <span class="toc-text">序列化和反序列化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Serializable"><span class="toc-number">2.1.1.</span> <span class="toc-text">Serializable</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Parcelable"><span class="toc-number">2.1.2.</span> <span class="toc-text">Parcelable</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u4E24_u8005_u6BD4_u8F83"><span class="toc-number">2.1.3.</span> <span class="toc-text">两者比较</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="githubbox">
+	<div class="github-card" data-github="gdmec07120731" data-width="100%" data-height="100%" data-theme="medium">
+	<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+</div>
+  </div>
+
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/source/tags/java反射/" title="java反射">java反射<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/frameAnimation/" title="frameAnimation">frameAnimation<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/retrofit/" title="retrofit">retrofit<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/retrofit2/" title="retrofit2">retrofit2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/android-mvp/" title="android.mvp">android.mvp<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/greendao3/" title="greendao3">greendao3<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/Genymotion/" title="Genymotion">Genymotion<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/U8SDK/" title="U8SDK">U8SDK<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/PropertyAnimation/" title="PropertyAnimation">PropertyAnimation<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/shadowsock/" title="shadowsock">shadowsock<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/eventbus/" title="eventbus">eventbus<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/Dagger2/" title="Dagger2">Dagger2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/Cocos2dx/" title="Cocos2dx">Cocos2dx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/插件开发/" title="插件开发">插件开发<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/lambda/" title="lambda">lambda<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/微信支付/" title="微信支付">微信支付<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/java/" title="java">java<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/IPC/" title="IPC">IPC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://github.com/gdmec07120731" target="_blank" title="Github">Github</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.jianshu.com/users/4bc3b1d4f281/latest_articles" target="_blank" title="简书">简书</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">所有文章</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/gdmec07120731" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/ouhuijun" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		
+		<a href="mailto:ouhuijum@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+				
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="undefined" target="_blank" title="github">ppjun</a> © 2017 
+		
+		
+		<a href="/about" target="_blank" title="区汇君">区汇君</a>
+		
+		
+		</p>
+		
+		<div id="totop">
+		     <a title="返回顶部"><img src="/img/scrollup.png"/></a>
+		</div>
+		
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn').removeClass('fadeOut');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('fadeIn').addClass('fadeOut');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');     
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(32,32-$(this).scrollTop()));
+  });
+  
+        getSize();
+        if (myWidth >= 1024) {
+          c.click();
+        }
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -15,11 +15,11 @@
 帧动画加载大量图片，对性能有很大要求效率不高，补间动画是对view进行包括缩放，移动，旋转，透明度的绘制。因为补间动画实现不了动画操">
 <meta property="og:type" content="article">
 <meta property="og:title" content="属性动画第一话">
-<meta property="og:url" content="http://www.lanyimi.com/2017/01/17/Animation/index.html">
+<meta property="og:url" content="http://www.lanyimi.com/2017/01/17/PropertyAnimation/index.html">
 <meta property="og:site_name" content="ppjun's blog">
 <meta property="og:description" content="Android属性动画（第一话）3.0前的帧动画，补间动画Android动画能给界面带来很炫的效果，如果我们要实现这些效果，在android3.0版本前实现动画主要有2种方式，帧动画（frame animation）和补间动画（tweened animation）。
 帧动画加载大量图片，对性能有很大要求效率不高，补间动画是对view进行包括缩放，移动，旋转，透明度的绘制。因为补间动画实现不了动画操">
-<meta property="og:updated_time" content="2017-01-18T02:43:44.424Z">
+<meta property="og:updated_time" content="2017-01-18T08:52:07.085Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="属性动画第一话">
 <meta name="twitter:description" content="Android属性动画（第一话）3.0前的帧动画，补间动画Android动画能给界面带来很炫的效果，如果我们要实现这些效果，在android3.0版本前实现动画主要有2种方式，帧动画（frame animation）和补间动画（tweened animation）。
@@ -77,7 +77,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/01/17/Animation/" title="属性动画第一话" itemprop="url">属性动画第一话</a>
+      <a href="/2017/01/17/PropertyAnimation/" title="属性动画第一话" itemprop="url">属性动画第一话</a>
   </h1>
   <p class="article-author">By
        
@@ -93,7 +93,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Android_u5C5E_u6027_u52A8_u753B_uFF08_u7B2C_u4E00_u8BDD_uFF09"><span class="toc-number">1.</span> <span class="toc-text">Android属性动画（第一话）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-0_u524D_u7684_u5E27_u52A8_u753B_uFF0C_u8865_u95F4_u52A8_u753B"><span class="toc-number">1.1.</span> <span class="toc-text">3.0前的帧动画，补间动画</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4ECB_u7ECD_u5C5E_u6027_u52A8_u753B"><span class="toc-number">1.2.</span> <span class="toc-text">介绍属性动画</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ValueAnimator"><span class="toc-number">1.2.1.</span> <span class="toc-text">ValueAnimator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ObjectAnimator"><span class="toc-number">1.2.2.</span> <span class="toc-text">ObjectAnimator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AnimatorSet"><span class="toc-number">1.2.3.</span> <span class="toc-text">AnimatorSet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u52A8_u753B_u76D1_u542C_u5668"><span class="toc-number">1.2.4.</span> <span class="toc-text">动画监听器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u8BBE_u7F6EXML_u52A8_u753B"><span class="toc-number">1.2.5.</span> <span class="toc-text">设置XML动画</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">1.3.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Android_u5C5E_u6027_u52A8_u753B_uFF08_u7B2C_u4E00_u8BDD_uFF09"><span class="toc-number">1.</span> <span class="toc-text">Android属性动画（第一话）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-0_u524D_u7684_u5E27_u52A8_u753B_uFF0C_u8865_u95F4_u52A8_u753B"><span class="toc-number">1.1.</span> <span class="toc-text">3.0前的帧动画，补间动画</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4ECB_u7ECD_u5C5E_u6027_u52A8_u753B"><span class="toc-number">1.2.</span> <span class="toc-text">介绍属性动画</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ValueAnimator"><span class="toc-number">1.2.1.</span> <span class="toc-text">ValueAnimator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ObjectAnimator"><span class="toc-number">1.2.2.</span> <span class="toc-text">ObjectAnimator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AnimatorSet"><span class="toc-number">1.2.3.</span> <span class="toc-text">AnimatorSet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u52A8_u753B_u76D1_u542C_u5668"><span class="toc-number">1.2.4.</span> <span class="toc-text">动画监听器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u8BBE_u7F6EXML_u52A8_u753B"><span class="toc-number">1.2.5.</span> <span class="toc-text">设置XML动画</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ViewPropertyAnimator"><span class="toc-number">1.2.6.</span> <span class="toc-text">ViewPropertyAnimator</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">1.3.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
 		
 		</div>
 		
@@ -121,6 +121,9 @@
 <p>xml代码写好了，然后实现可以在类中调用</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Animator animator = AnimatorInflater.loadAnimator(mContext, R.animator.animator);</span><br><span class="line">animator.setTarget(mImageView);</span><br><span class="line">animator.start();</span><br></pre></td></tr></table></figure>
 <p>最后通过够用AnimatorInflate.loadAnimator，参数分别是Context和R.animator.animator</p>
+<h3 id="ViewPropertyAnimator"><a href="#ViewPropertyAnimator" class="headerlink" title="ViewPropertyAnimator"></a>ViewPropertyAnimator</h3><p>在android3.1系统推出了view通过调用animator方法来设置不同的动画</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mImageView.animate().alpha(<span class="number">0f</span>).setDuration(<span class="number">500</span>);<span class="comment">//这时候不用start即可</span></span><br><span class="line">mImageView.animate().x(<span class="number">100</span>).y(<span class="number">100</span>).setDuration(<span class="number">500</span>);<span class="comment">//这时候不用start即可</span></span><br></pre></td></tr></table></figure>
+<p>但是这时候的链接不支持透明度从1f到0f再到1f。就算一个控件多次调用animate().alpha也会以最后一次动画为准。有点鸡肋。</p>
 <h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><ol>
 <li><p>上述分别讲述了帧动画，补间动画，属性动画的ValueAnimator，ObejectAnimator 和AnimatorSet，还有属性动画的xml写法。</p>
 </li>
@@ -144,7 +147,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://www.lanyimi.com/2017/01/17/Animation/" data-title="属性动画第一话 | ppjun&#39;s blog" data-tsina="null" class="share clearfix">
+	  <div data-url="http://www.lanyimi.com/2017/01/17/PropertyAnimation/" data-title="属性动画第一话 | ppjun&#39;s blog" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -237,6 +240,10 @@
 			
 		
 			
+				<li><a href="/source/tags/PropertyAnimation/" title="PropertyAnimation">PropertyAnimation<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/source/tags/shadowsock/" title="shadowsock">shadowsock<sup>1</sup></a></li>
 			
 		
@@ -253,10 +260,6 @@
 			
 		
 			
-				<li><a href="/source/tags/PropertyAnimation/" title="PropertyAnimation">PropertyAnimation<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/source/tags/插件开发/" title="插件开发">插件开发<sup>1</sup></a></li>
 			
 		
@@ -266,6 +269,18 @@
 		
 			
 				<li><a href="/source/tags/微信支付/" title="微信支付">微信支付<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/java/" title="java">java<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/IPC/" title="IPC">IPC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -294,7 +309,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">所有文章</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
   </div>
 
 

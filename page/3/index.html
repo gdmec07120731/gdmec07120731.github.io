@@ -75,6 +75,202 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/08/15/Android热修复/" title="android hotfix" itemprop="url">android hotfix</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
+		
+  <p class="article-time">
+    <time datetime="2016-08-15T07:00:41.000Z" itemprop="datePublished"> 发表于 2016-08-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="Android_u70ED_u4FEE_u590D"><a href="#Android_u70ED_u4FEE_u590D" class="headerlink" title="Android热修复"></a>Android热修复</h2><blockquote>
+<p>热修复就是在用户运行app时候不知不觉，将apk里面错误代码纠正，无需再重新从应用市场下载最新版本。而且还有减少了开发者从打多个渠道包，上架多个应用渠道的工作。</p>
+</blockquote>
+<h3 id="u70ED_u4FEE_u590D_u539F_u7406"><a href="#u70ED_u4FEE_u590D_u539F_u7406" class="headerlink" title="热修复原理"></a>热修复原理</h3><p>首先你的app必须经过分包（在eclipse你可以自定义ant分包，在as你可以用multix分包），把Application和Mainactivity放在主classes.dex，把Bug.class放在Classes2.dex，要修改Bug.class内容只要执行dx.bat命令得到新的Classes2.dex文件，在app正常运行时，使用ClassLoader加载类方法。</p>
+<p>BaseDexClassLoader子类分为PathClassLoader加载已安装到系统的apk和DexClassLoader可以加载未安装到系统的jar、dex和apk。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#baseDexClassLoader</span><br><span class="line">  protected Class&lt;?&gt; findClass(String name)throws ClassNotFoundException&#123;</span><br><span class="line">   Class clazz=pathList.findClassLIE(name);</span><br><span class="line">  if(clazz==null)</span><br><span class="line">    throw new ClassNotFoundException(name);</span><br><span class="line">  return clazz;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#DexPathList</span><br><span class="line">  public Class findClass(String name)&#123;</span><br><span class="line">     for(Element element:dexElements)&#123;</span><br><span class="line">  if(dex!=null)&#123;</span><br><span class="line">  Class clazz=dex.loadClassBinaryName(name,definingContext);</span><br><span class="line">    if(clazz!=null)&#123;</span><br><span class="line">  return clazz;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">  return null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#DexFile</span><br><span class="line">  public Class loadClassBinaryName(String name,ClassLoader loader)&#123;</span><br><span class="line">  return defineClass(name,loader,mCookie);</span><br><span class="line">&#125;</span><br><span class="line">private native static Class defineClass(String name,ClassLoader loader,int cookie);</span><br></pre></td></tr></table></figure>
+<p>一个ClassLoader可以包含多个dex文件，每个dex文件是一个element，多个dex组成一个有序的dexElement数组，当找类的时候会遍历整个数组来找，如果在当前dex找到类了，就返回该类，不去其他dex找类了，所以补丁dex放在最前面遍历，不会覆盖这个类。</p>
+<p>这里还有一个CLASS_ISPREVERIFIED 问题就是有其他类引用到Bug.class 要取消CLASS_ISPREVERIFIED 标记其他类。</p>
+<h3 id="CLASS_ISPREVERIFIED__u662F_u4EC0_u4E48_uFF1F"><a href="#CLASS_ISPREVERIFIED__u662F_u4EC0_u4E48_uFF1F" class="headerlink" title="CLASS_ISPREVERIFIED 是什么？"></a>CLASS_ISPREVERIFIED 是什么？</h3><p>A类调用到B类方法 AB都在同一个在同一个dex里面 A类就会打上CLASS_ISPREVERIFIED标记</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/08/09/Android中的插件开发/" title="android插件开发" itemprop="url">android插件开发</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
+		
+  <p class="article-time">
+    <time datetime="2016-08-09T08:57:38.000Z" itemprop="datePublished"> 发表于 2016-08-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <blockquote>
+<p>插件化的好处就是满足各类用户的特定需求，动态加载内容。好像锤子桌面里面有很多主题，如主题ABCD有的人喜欢安装A，有的人喜欢安装C这时候就用到插件开发，又比如qq有很多皮肤，有的是商务皮肤，有的是可爱皮肤，有的是运动皮肤，根据个人爱好下载不同的皮肤。</p>
+</blockquote>
+<p>想获取已安装的app的apk，路径就在data/app/包名-1/base.apk  qq就是这样子发送已安装的apk</p>
+<h2 id="u4EE5_u52A0_u8F7Dapk_u4E3A_u4F8B_u5B50"><a href="#u4EE5_u52A0_u8F7Dapk_u4E3A_u4F8B_u5B50" class="headerlink" title="以加载apk为例子"></a>以加载apk为例子</h2><p>插件可以以zip jar dex apk等形式存在，首先下载好插件的apk到你app缓存根目录</p>
+<p>加载<strong>已安装的apk</strong>获取里面的资源文件先获取插件apk的context再获取里面资源。可以用到Context pluginContext=this.createPackageContext(“包名”,flag);</p>
+<p>加载未安装的apk呢就用DexClassLoader</p>
+<h2 id="u539F_u7406"><a href="#u539F_u7406" class="headerlink" title="原理"></a>原理</h2><p>原理根据是普通apk里面的getResoure.getDrawable(R.drawable.bg);getResource肯定有获取apk资源的方法。查看系统代码发现 getResource里面根据AssetManager添加自己apk的路径返回resource，通过resource就可以访问R文件下的所有对象属性。</p>
+<p>这里只要新建一个pluginResurces继承Resources和AssetManager.</p>
+<p>让AssetManager.addAssetPath为插件apk的路径，通过pluginResurces构造函数实例化pluginResurces，插件Reources有了，就差插件R文件里面的属性id，</p>
+<p>根据DexClassloader加载包名+R$drawable 获取class 再获取field判断field和插进R文件的属性相同就int drawableId=field.getInt(R.drawable.class);</p>
+<p>Drawable drawable= resource.getDrawable(drawableId);然后你的按钮就可以设置background了。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/source/tags/插件开发/">插件开发</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/15/Java反射/" title="Java反射" itemprop="url">Java反射</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-15T03:28:51.000Z" itemprop="datePublished"> 发表于 2016-07-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <blockquote>
+<p>Java反射</p>
+<p><a href="http://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&amp;mid=2650236432&amp;idx=1&amp;sn=1da63ff74cb6082ffe3df5f344f9f5f1&amp;scene=0#wechat_redirect" target="_blank" rel="external">http://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&amp;mid=2650236432&amp;idx=1&amp;sn=1da63ff74cb6082ffe3df5f344f9f5f1&amp;scene=0#wechat_redirect</a></p>
+</blockquote>
+<h1 id="Java_u53CD_u5C04"><a href="#Java_u53CD_u5C04" class="headerlink" title="Java反射"></a>Java反射</h1><h2 id="u52A8_u6001_u8BED_u8A00"><a href="#u52A8_u6001_u8BED_u8A00" class="headerlink" title="动态语言"></a>动态语言</h2><p>程序运行时，通过代码能改变程序结构或变量类型的语言，一般为动态语言。例如Perl,Python,Ruby是动态语言，反之c++,java,C#是静态语言。java有个特点能在运行时加载，编译期间完全未知的class。就是java程序运行时可以加载未知名称的class，获取类的构造方法，类属性，类方法。</p>
+<h2 id="java_u53CD_u5C04"><a href="#java_u53CD_u5C04" class="headerlink" title="java反射"></a>java反射</h2><p>要让java程序运行，就要让java类被java虚拟机加载，java不被虚拟机加载，就不能正常运行。正常情况下，我们运行的所有程序在编译期间已经把那个类加载好了。<strong>java反射就是在程序编译期间不加载用到的类，而在程序运行的时候才加载这个类</strong>。使用的是在编译期并不知道的类。</p>
+<h2 id="u53CD_u5C04_u7684_u4F5C_u7528"><a href="#u53CD_u5C04_u7684_u4F5C_u7528" class="headerlink" title="反射的作用"></a>反射的作用</h2><p>如果AB两个程序员合作，A写程序时用到B写的类，如果B没写A用到的类，A的代码就不能通过编译了，此时用到java反射机制，就可以让A在获取不到B写的类是，来让自己代码通过编译，就是在运行时才加载用到类。</p>
+<h2 id="u53CD_u5C04_u7684_u5B9E_u8D28"><a href="#u53CD_u5C04_u7684_u5B9E_u8D28" class="headerlink" title="反射的实质"></a>反射的实质</h2><p> java反射会将代码解析成java类，要使用java反射就要用到Class（大写C）这个类，当一个java类被加载,java虚拟机就会自动生成一个Class对象，通过Class对象我们就能获取加载到java虚拟机当前Class对象的构造方法，类方法，类属性。<strong>在运行期间拿到这个类的构造方法类属性和类方法</strong></p>
+<h2 id="u53CD_u5C04_u7684_u4F7F_u7528"><a href="#u53CD_u5C04_u7684_u4F7F_u7528" class="headerlink" title="反射的使用"></a>反射的使用</h2><p>获取本apk的类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Class clazz=ClassLoader.getSystemClassLoader().loadClass(<span class="string">"com.ppjun.Test"</span>);<span class="comment">//通过系统的   ClassLoader来加载Class，返回Class对象</span></span><br><span class="line"></span><br><span class="line">Coustructor constructor=clazz.getConstructor(String.class);<span class="comment">//获取构造函数，参数是String类型</span></span><br><span class="line"></span><br><span class="line"> Object obj=constructor.newInstance(<span class="string">"ppjun"</span>); <span class="comment">//往构造函数传入参数ppjun</span></span><br><span class="line"></span><br><span class="line">Method method=clazz.getMethod(<span class="string">"display"</span>,<span class="keyword">null</span>);<span class="comment">//获取clazz对象叫display的方法，没有返回值</span></span><br><span class="line"></span><br><span class="line">method.invoke(obj,<span class="keyword">null</span>);<span class="comment">//执行display的方法，会输出ppjun`</span></span><br></pre></td></tr></table></figure>
+<p>反射也可以在A.apk 调用B.apk的方法</p>
+<p>首先在A.apk写一个类Share</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Share</span></span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">(String s)</span></span>&#123;</span><br><span class="line"></span><br><span class="line"> Log.i(<span class="string">"display"</span>,<span class="string">"from A.apk"</span>)&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后再AndroidManifest的MainActivity的<intent-filter>声明</intent-filter></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;action android:name=<span class="string">"com.ppjun"</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>来扑抓这个activity</p>
+<p>在B.apk</p>
+<p>调用以下方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getFromRemote</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">   Intent intent=<span class="keyword">new</span> Intent(<span class="string">"com.ppjun"</span>);</span><br><span class="line"></span><br><span class="line">   PackageManager pm=getPackageManager();</span><br><span class="line"></span><br><span class="line">   List&lt;ResolveInfo&gt; resolveInfos=pm.queryIntentActivities(intent,<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">   ResolveInfo resolveInfo=resolveInfos.get(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">   ActivityInfo activityInfo=resolveInfo.activityInfo;</span><br><span class="line"></span><br><span class="line">   String packageName=activityInfo.packageName;</span><br><span class="line"></span><br><span class="line">   String dexPath=activityInfo.applicationInfo.sourceDir;</span><br><span class="line"></span><br><span class="line">   String dexOutputDir=getApplicationInfo().dataDir;</span><br><span class="line"></span><br><span class="line">   String nativeLibraryDir=activityInfo.applicationInfo.nativeLibraryDir;</span><br><span class="line"></span><br><span class="line">   ClassLoader classLoader=getClassLoader();</span><br><span class="line"></span><br><span class="line">   DexClassLoader dc1=<span class="keyword">new</span> DexClassLoader(dexPath,dexOutputDir,nativeLibraryDir,classLoader);</span><br><span class="line"></span><br><span class="line">   <span class="keyword">try</span>&#123;</span><br><span class="line"></span><br><span class="line">   Class&lt;?&gt; clazz=dcl.loadClass(packageName+<span class="string">".Share"</span>);</span><br><span class="line"></span><br><span class="line">   Constructor&lt;?&gt; constructor=clazz.getConstructor();</span><br><span class="line"></span><br><span class="line">    Object o=constructor.newInstance();</span><br><span class="line"></span><br><span class="line">   Method display=clazz.getMethod(<span class="string">"display"</span>,String.class);</span><br><span class="line"></span><br><span class="line">   display.invoke(o,<span class="string">"ppjun"</span>)</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line"></span><br><span class="line">   e.printStackTrace();</span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/source/tags/java反射/">java反射</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/05/31/Git常用命令/" title="Git常用命令" itemprop="url">Git常用命令</a>
   </h1>
   <p class="article-author">By
@@ -457,203 +653,6 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/23/Dagger2-笔记/" title="Dagger2笔记" itemprop="url">Dagger2笔记</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-23T03:39:14.000Z" itemprop="datePublished"> 发表于 2016-03-23</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>本文摘要自<a href="http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html" target="_blank" rel="external">http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html</a><br>目前安卓开发最新技术用到Retrofit网络请求框架，Rxjava异步处理，OkHttp网络请求，加上Gson解析，MVP项目架构，Lambda语法，Dagger2依赖注入，ButterKnife控件的依赖等</p>
-</blockquote>
-<h3 id="u4EC0_u4E48_u662FDagger2"><a href="#u4EC0_u4E48_u662FDagger2" class="headerlink" title="什么是Dagger2"></a>什么是Dagger2</h3><p><a href="https://github.com/google/dagger/" target="_blank" rel="external">Dagger2</a>是Dagger1的分支，由谷歌公司接手开发，目前的版本是2.0。Dagger2是受到AutoValue项目的启发。 刚开始，Dagger2解决问题的基本思想是：利用生成和写的代码混合达到看似所有的产生和提供依赖的代码都是手写的样子。</p>
-<h3 id="u4F9D_u8D56_u6CE8_u5165_u597D_u5904"><a href="#u4F9D_u8D56_u6CE8_u5165_u597D_u5904" class="headerlink" title="依赖注入好处"></a>依赖注入好处</h3><p>依赖注入好处就是大大方便解耦，方便修改代码，为什么要用Dagger2利用编译期的注解处理来生成依赖注入的代码，尽可能的减少了反射的使用，提高app性能。</p>
-<h3 id="Dagger2__u4F7F_u7528"><a href="#Dagger2__u4F7F_u7528" class="headerlink" title="Dagger2 使用"></a>Dagger2 使用</h3><p>在AndroidStudio 使用<br>在build:gradle(Moudle:app)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">    apply plugin: <span class="string">'com.neenbedankt.android-apt'</span> </span><br><span class="line"></span><br><span class="line">    dependencies &#123;</span><br><span class="line">           compile <span class="string">'com.google.dagger:dagger:2.1'</span> <span class="comment">// dagger2</span></span><br><span class="line">           apt <span class="string">'com.google.dagger:dagger-compiler:2.1'</span> <span class="comment">// dagger2</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在build:gradle(Project:项目名)<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">     dependencies &#123;</span><br><span class="line">            classpath <span class="string">'com.android.tools.build:gradle:2.1.0-alpha3'</span></span><br><span class="line">            classpath <span class="string">'com.neenbedankt.gradle.plugins:android-apt:1.8'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>以上配置完毕</p>
-<h3 id="Dagger2__u5173_u952E_u8BCD"><a href="#Dagger2__u5173_u952E_u8BCD" class="headerlink" title="Dagger2 关键词"></a>Dagger2 关键词</h3><p> <strong><em>@Inject</em></strong>  通常需要依赖的地方使用这个注解，换句话来说它告诉dagger这个类或者字段需要依赖，这样子 dagger就会造这个类的实例来满足依赖。例如在MainActivity类里 实例化 GitHubService ,下面就可以直接使用mGitHubService。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Inject</span></span><br><span class="line">GitHubService mGitHubService;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p> <strong><em>@Module</em></strong>  Modules类里面的方法专门提供依赖，所以我们定义一个类用@Module注解，这样Dagger构建类的实例的时候，就知道从哪里找到需要的依赖，module的一个重要特征是他们设计为分区并结合使用，比如在Modules包下 有MainModule ,ApiModule或者DBModule这些类都注解了@Module<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApiModule</span> </span>&#123;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p><strong><em>@Provides</em></strong>  我们为在Module类中 定义的方法使用这个注解 ，来告诉dagger我们构造对象并且提供这些方法依赖<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApiModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Provides</span></span><br><span class="line">    <span class="annotation">@Singleton</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> GitHubService <span class="title">provideGitHubService</span><span class="params">()</span> </span>&#123;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p><strong><em>@Component</em></strong>  @Component从根本上来说是一个注解器，也就是说@Inject和@Module的桥梁，它的主要作用就是连接这两个部分，@Component可以提供所有定义了类型的实例，比如：我们必须用@Component注解一个接口，然后列出所有的@Module组成改组件，如果缺失任何一块都会在编译的时候报错，所有的组件都可以通过他的@Module知道依赖范围。例子中定义DemoComponent接口 用@Component注解所有的@Module类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Singleton</span></span><br><span class="line"><span class="annotation">@Component</span>(modules = &#123;MainModule.class, ApiModule.class&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DemoComponent</span> <span class="keyword">extends</span> <span class="title">DemoGraph</span> </span>&#123;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p><strong><em>@Scope</em></strong> Dagger可以通过自定义注解来限定注解作用域，这是一个非常强大的特点，，因为就如前面说的一样，没必要让每个对象都去了解如何管理他们的实例，在Scope例子中，我们自定义@PerActivity注解一个类，所以这个对象存活时间就和activity一样，简单来说就是我们定义所有范围的粒度（@Perfragment,@preUser等）</p>
-<hr>
-<p><strong><em>@Qualifier</em></strong> 当类的类型不足以鉴别一个依赖的时候，我们就可以用这个注解来标示，例如：我们会用不同类型的Context 所以我们就可以定义 Qualifier注解@ForApplication 和@ForActivity<br>这样当注入一个Context的时候，我们就可以告诉dagger我们想要哪种类型的Context</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/source/tags/Dagger2/">Dagger2</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/02/26/Android-Studio使用Lambda表达式/" title="android studio配置lambda" itemprop="url">android studio配置lambda</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
-		
-  <p class="article-time">
-    <time datetime="2016-02-26T09:51:51.000Z" itemprop="datePublished"> 发表于 2016-02-26</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h4 id="1_u3001_u4EC0_u4E48_u662FLambda"><a href="#1_u3001_u4EC0_u4E48_u662FLambda" class="headerlink" title="1、什么是Lambda"></a>1、什么是Lambda</h4><p>Java 8的一个大亮点是引入Lambda表达式，使用它设计的代码会更加简洁。当开发者在编写Lambda表达式时，也会随之被编译成一个函数式接口。下面这个例子就是使用Lambda语法来代替匿名的内部类，代码不仅简洁，而且还可读。_来源百度百科</p>
-<p>使用Lambda前<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">button.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">     <span class="annotation">@Override</span></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">          <span class="comment">//dosomething</span></span><br><span class="line">     &#125;</span><br><span class="line"> &#125;);</span><br></pre></td></tr></table></figure></p>
-<p>使用lambda后<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">button.setOnClickListener(</span><br><span class="line">              v -&gt; &#123;</span><br><span class="line">         <span class="comment">//dosomething</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<h4 id="2_u3001AndroidStudio_u600E_u4E48_u914D_u7F6ELambda"><a href="#2_u3001AndroidStudio_u600E_u4E48_u914D_u7F6ELambda" class="headerlink" title="2、AndroidStudio怎么配置Lambda"></a>2、AndroidStudio怎么配置Lambda</h4><p>   在build.gradle(Moudle:app) </p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">apply <span class="string">plugin:</span><span class="string">'me.tatarka.retrolambda'</span></span><br><span class="line"></span><br><span class="line">android&#123;</span><br><span class="line">   compileOptions&#123;</span><br><span class="line">      sourceCompatibility org.gradle.api.JavaVersion.VERSION_1_8</span><br><span class="line">      targetCompatibility org.gradle.api.JavaVersion.VERSION_1_8</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在build.gradle(Project:项目名)  </p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">    classpath <span class="string">'com.android.tools.build:gradle:2.0.0-beta6'</span></span><br><span class="line">    classpath <span class="string">'me.tatarka:gradle-retrolambda:3.2.4'</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>以上配置完毕。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/source/tags/lambda/">lambda</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/02/24/如何科学上网/" title="如何科学上网" itemprop="url">如何科学上网</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
-		
-  <p class="article-time">
-    <time datetime="2016-02-24T03:33:51.000Z" itemprop="datePublished"> 发表于 2016-02-24</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="u5728window_u4E0A_u7684_u79D1_u5B66_u4E0A_u7F51"><a href="#u5728window_u4E0A_u7684_u79D1_u5B66_u4E0A_u7F51" class="headerlink" title="在window上的科学上网"></a>在window上的科学上网</h3><h4 id="u65B9_u6CD5_u4E00__uFF1A_u5F71_u68ADShadowSocks"><a href="#u65B9_u6CD5_u4E00__uFF1A_u5F71_u68ADShadowSocks" class="headerlink" title="方法一 ：影梭ShadowSocks"></a>方法一 ：影梭ShadowSocks</h4><p>1、下载shadowsocks软件</p>
-<p>百度网盘<a href="http://pan.baidu.com/s/1bsrCZW" target="_blank" rel="external">下载链接</a></p>
-<p>2、打开shadowsocks 输入shadowsocks账号</p>
-<p>ps ：免费账号获取方式 打开<a href="http://www.ishadowsocks.com/" title="ishadowsocks" target="_blank" rel="external">链接</a> 进入ishadowsocks （每6小时更换一次密码 中午12点左右换一次的）</p>
-<h4 id="u65B9_u6CD5_u4E8C__uFF1A_u84DD_u706FLantern"><a href="#u65B9_u6CD5_u4E8C__uFF1A_u84DD_u706FLantern" class="headerlink" title="方法二 ：蓝灯Lantern"></a>方法二 ：蓝灯Lantern</h4><p>Lantern是一个免费的应用程序。它能帮助你随时随地快速、可靠、安全地访问互联网。</p>
-<p>蓝灯官网（需翻墙）<a href="https://getlantern.org/" target="_blank" rel="external"> https://getlantern.org/</a><br>蓝灯github <a href="https://github.com/getlantern/lantern" target="_blank" rel="external">https://github.com/getlantern/lantern</a></p>
-<p>下载window版本安装后无需配置就可以直接科学上网 <a href="https://raw.githubusercontent.com/getlantern/lantern-binaries/master/lantern-installer-beta.exe" target="_blank" rel="external">https://raw.githubusercontent.com/getlantern/lantern-binaries/master/lantern-installer-beta.exe</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/source/tags/shadowsock/">shadowsock</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
@@ -718,6 +717,10 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
 			
 		
 			
+				<li><a href="/source/tags/PropertyAnimation/" title="PropertyAnimation">PropertyAnimation<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/source/tags/shadowsock/" title="shadowsock">shadowsock<sup>1</sup></a></li>
 			
 		
@@ -734,10 +737,6 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
 			
 		
 			
-				<li><a href="/source/tags/PropertyAnimation/" title="PropertyAnimation">PropertyAnimation<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/source/tags/插件开发/" title="插件开发">插件开发<sup>1</sup></a></li>
 			
 		
@@ -747,6 +746,18 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
 		
 			
 				<li><a href="/source/tags/微信支付/" title="微信支付">微信支付<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/java/" title="java">java<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/IPC/" title="IPC">IPC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -775,7 +786,7 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">所有文章</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
   </div>
 
 

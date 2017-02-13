@@ -71,6 +71,266 @@
 
    
     
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/02/13/AsyncTask-Analyze/" title="AsyncTask-Analyze" itemprop="url">AsyncTask-Analyze</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
+		
+  <p class="article-time">
+    <time datetime="2017-02-13T09:05:04.000Z" itemprop="datePublished"> 发表于 2017-02-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>我们在初学Android都用过AsyncTask 一个很方便用来请求网络改变UI控件的类。面试官不多不少也会问到AsyncTask的内容，下面来分析一下这个类内部的逻辑。</p>
+<h1 id="AsyncTask_u8BF4_u660E"><a href="#AsyncTask_u8BF4_u660E" class="headerlink" title="AsyncTask说明"></a>AsyncTask说明</h1><p>AsyncTask内部封装了Handler和Thread分别原来改变ui线程和在子线程做耗时操作。同时AsyncTask是一个抽象的泛型类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AsyncTask</span>&lt;<span class="title">Params</span>,<span class="title">Progress</span>,<span class="title">Result</span>&gt;</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>Params代表参数类型（doInBackground的参数）通常是请求的url</li>
+<li>Progress代表进度类型（onProgressUpdate的参数）通常是Integer</li>
+<li>Result代表结果返回类型（onPostExecute的参数），如果asynctask不需要传递参数就用Void来代替上述三个参数类型</li>
+</ol>
+<p>AsyncTask 4个核心方法</p>
+<ol>
+<li>onPreExecute() 异步开始前会执行该方法，用于显示dialog</li>
+<li>doInBackground(Params… params) 在线程池执行的异步任务，在此方法内调用publishProgress 传入int进度值来更新进度，返回结果给onPostExecute，这里的省略号是可以传入多个相同类型的参数。</li>
+<li>onPorgressUpdate(Progress… progress) 此方法在主线程执行，当任务发生进度改变就会调用此方法，比如显示下载进度</li>
+<li>onPostExecute(Result… result) 主线程执行，但异步方法执行完就会调用的方法。传入参数为doInBackground的返回值.</li>
+</ol>
+<p>ps:  当doInBackground的线程被取消就会回调给onCancelled这个方法，此方法被调用onPostExecute就不会调用了。</p>
+<p>总结：</p>
+<ol>
+<li>asynctask对象要在主线程创建，并调用execute方法</li>
+<li>不能直接调用doinbackground方法</li>
+<li>一个asynctask对象只执行一次</li>
+<li>3.0之前asynctask用并行线程池执行，3.0后asynctask改用串行线程池，当然你可以通过asynctask.executeOnExecutor来并行执行任务</li>
+</ol>
+<h1 id="u6E90_u7801_u5165_u53E3execute"><a href="#u6E90_u7801_u5165_u53E3execute" class="headerlink" title="源码入口execute"></a>源码入口execute</h1><p>AsyncTask开始执行的方法是在new AsyncTask().execute(url1)，execute又调用了executeOnExetutor方法 传入一个串行的线程池SDefaultExecutor和url参数。以下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@MainThread</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> AsyncTask&lt;Params, Progress, Result&gt; execute(Params... params) &#123;</span><br><span class="line">    <span class="keyword">return</span> executeOnExecutor(sDefaultExecutor, params);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的sDefaultExecute就是new一个SerialExecute类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Executor SERIAL_EXECUTOR = <span class="keyword">new</span> SerialExecutor();</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Executor sDefaultExecutor = SERIAL_EXECUTOR;</span><br></pre></td></tr></table></figure>
+<p>进入SerialExecutor类，我们看到这个类有个mTask 里面的Runnable会排队执行。并且判断执行完开始执行下一个任务。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SerialExecutor</span> <span class="keyword">implements</span> <span class="title">Executor</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> ArrayDeque&lt;Runnable&gt; mTasks = <span class="keyword">new</span> ArrayDeque&lt;Runnable&gt;();</span><br><span class="line">    Runnable mActive;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(<span class="keyword">final</span> Runnable r)</span> </span>&#123;</span><br><span class="line">        mTasks.offer(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    r.run();</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    scheduleNext();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">if</span> (mActive == <span class="keyword">null</span>) &#123;</span><br><span class="line">            scheduleNext();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">scheduleNext</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> ((mActive = mTasks.poll()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">            THREAD_POOL_EXECUTOR.execute(mActive);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接来下，回到executeOnExetutor 这个方法里面  我们可以看到一个mStatus来记录当前任务的状态，期间不断改变状态。</p>
+<p>每个AsyncTask最先执行onPreExecute方法，然后线程池exec.execute(mFuture);开始执行。这里的mFuture就是一个Runnable</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@MainThread</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> AsyncTask&lt;Params, Progress, Result&gt; executeOnExecutor(Executor exec,</span><br><span class="line">        Params... params) &#123;</span><br><span class="line">    <span class="keyword">if</span> (mStatus != Status.PENDING) &#123;</span><br><span class="line">        <span class="keyword">switch</span> (mStatus) &#123;</span><br><span class="line">            <span class="keyword">case</span> RUNNING:</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Cannot execute task:"</span></span><br><span class="line">                        + <span class="string">" the task is already running."</span>);</span><br><span class="line">            <span class="keyword">case</span> FINISHED:</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Cannot execute task:"</span></span><br><span class="line">                        + <span class="string">" the task has already been executed "</span></span><br><span class="line">                        + <span class="string">"(a task can be executed only once)"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mStatus = Status.RUNNING;</span><br><span class="line"></span><br><span class="line">    onPreExecute();</span><br><span class="line"></span><br><span class="line">    mWorker.mParams = params;</span><br><span class="line">    exec.execute(mFuture);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接着将mFuture传入SerialExecutor的execute方法执行，将之前的mFuture对象插入队列mTask里面,判断当前有没有任务在进行，没活动就调用schedulNext方法执行下一个asynctask任务。</p>
+<p>Asynctask里面有2个线程池(一个用于排队的serialexecutor和用于真正执行任务的THREAD_POOL_EXECUTOR )和(负责线程调度的)internalHandler</p>
+<p> 然后在Asynctask的构造方法 mWork会调用call方法将mTaskInvoked设置为true，再调用doinbackground 得到返回值再调用onpostexecute方法，</p>
+<p> 在postResult方法里面会发送message到sHandle来执行finish task还是更新进度条，这里的finish有2种情况分别是调用onCancelled 和onPostexecute.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">AsyncTask</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mWorker = <span class="keyword">new</span> WorkerRunnable&lt;Params, Result&gt;() &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> Result <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">            mTaskInvoked.set(<span class="keyword">true</span>);</span><br><span class="line">            Result result = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);</span><br><span class="line">                <span class="comment">//noinspection unchecked</span></span><br><span class="line">                result = doInBackground(mParams);</span><br><span class="line">                Binder.flushPendingCommands();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Throwable tr) &#123;</span><br><span class="line">                mCancelled.set(<span class="keyword">true</span>);</span><br><span class="line">                <span class="keyword">throw</span> tr;</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                postResult(result);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/source/tags/AsyncTask/">AsyncTask</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/01/19/IPC机制基础/" title="IPC机制基础" itemprop="url">IPC机制基础</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
+		
+  <p class="article-time">
+    <time datetime="2017-01-19T08:54:08.000Z" itemprop="datePublished"> 发表于 2017-01-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="IPC_u57FA_u7840_u5206_u4EAB"><a href="#IPC_u57FA_u7840_u5206_u4EAB" class="headerlink" title="IPC基础分享"></a>IPC基础分享</h1><p><code>这一章主要讲述多进程的作用，序列化和反序列化，Serializable和Parcelable</code></p>
+<p>​      <strong>IPC叫进程间通信</strong>，指的是A进程和B进程交换信息。通常一个android应用是一个进程，一个进程有一个主线程和多个子线程组成，在A进程activity定义变量private static int i=1;并且让i+1,输出2，到了B进程activity，获取到的i的值还是1，这是因为Android多进程间不能共享内存。启动多进程期间，会再次启动Application的生命周期，比如application类的oncreate等方法又执行了一次。不过，在android有以下方法进行进程间交换数据</p>
+<ol>
+<li>bundle（用bundle和intent在两个进程传递数据）</li>
+<li>操作文件（读写操作同一个文件）</li>
+<li>AIDL（基于binder的通信方式，用aidl文件更加方便）</li>
+<li>Messenger（封装后的aidl，只需用Messenger.send(message);即可发送信息）</li>
+<li>ContentProvider（读写数据库）</li>
+<li>Socket（启动本地的套接字来通信）</li>
+</ol>
+<h1 id="u591A_u8FDB_u7A0B_u7684_u4F5C_u7528"><a href="#u591A_u8FDB_u7A0B_u7684_u4F5C_u7528" class="headerlink" title="多进程的作用"></a>多进程的作用</h1><ol>
+<li><p>把应用某个单独的功能，单独放在一个进程中。</p>
+</li>
+<li><p>能给应用获取多份内存空间</p>
+</li>
+</ol>
+<h4 id="u5F00_u542F_u591A_u8FDB_u7A0B"><a href="#u5F00_u542F_u591A_u8FDB_u7A0B" class="headerlink" title="开启多进程"></a>开启多进程</h4><p>在AndroidManifest.xml文件给对应的activity或者service设置以下属性，其中值为:remote的进程不能共享进程资源，其他两个值能共享，前提条件是在manifest标签配置相同的sharedUserId比如（android:sharedUserId=”com.ppjun.sharedUserId”），还要让两个应用配置相同的签名。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;android:process=<span class="string">":remote"</span>/&gt;     <span class="comment">//对应的进程名是包名:remote</span></span><br><span class="line">&lt;android:process=<span class="string">".remote"</span>/&gt;    <span class="comment">//对应的进程名是包名.remote</span></span><br><span class="line">&lt;android:process=<span class="string">"com.ppjun.remote"</span>/&gt; <span class="comment">//对应的进程名是com.ppjun.remote</span></span><br></pre></td></tr></table></figure>
+<h2 id="u5E8F_u5217_u5316_u548C_u53CD_u5E8F_u5217_u5316"><a href="#u5E8F_u5217_u5316_u548C_u53CD_u5E8F_u5217_u5316" class="headerlink" title="序列化和反序列化"></a>序列化和反序列化</h2><ol>
+<li>序列化就是永久保存对象数据到文件中。</li>
+<li>在activity或者service之间将对象序列化对象后通过intent等传递。</li>
+<li>在多进程之间也要将对象序列化后才能传递。</li>
+</ol>
+<p>序列化是一个将对象变成字节的过程，发序列化是将这些字节重组成一个对象的过程。在Android中提供了Serializable和Parcelable接口序列化对象。</p>
+<h3 id="Serializable"><a href="#Serializable" class="headerlink" title="Serializable"></a>Serializable</h3><p>让类实现Serializable接口，并且指定一个long类型的serialVersionUID=xxxxL;xxxx为你自定义值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID=<span class="number">213213123L</span></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Student</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>序列化student</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Student student = <span class="keyword">new</span> Student(<span class="string">"jax"</span>);</span><br><span class="line">ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="keyword">new</span> File(<span class="string">"aa.txt"</span>).getName()));</span><br><span class="line">oos.writeObject(student);</span><br><span class="line">oos.close();</span><br></pre></td></tr></table></figure>
+<p>反序列化student</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ObjectInputStream ois=<span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(<span class="string">"aa.txt"</span>)));</span><br><span class="line">Student student2= (Student) ois.readObject();</span><br><span class="line">ois.close();</span><br></pre></td></tr></table></figure>
+<p>此时的student2已经不是原来的student了，是一个新的Student对象了。当然这里没写serialVersionUID序列化和反序列也能成功运行，系统默认会计算出一个serialVersionUID。</p>
+<p>当你要在Student类加入id属性加入，此时系统会计算出新的serialVersionUID，发序列化时，两者serialVersionUID不同，反序列操作时就会报错。所以一定要自定义一个serialVersionUID。</p>
+<h3 id="Parcelable"><a href="#Parcelable" class="headerlink" title="Parcelable"></a>Parcelable</h3><p>android api为我们提供的序列化类，也是要类实现Parcelable接口，重写带参数的构造方法，writeToParcel方法，describeContents方法和new CREATOR对象呢重写createFromParcel方法和newArray方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Book</span> <span class="keyword">implements</span> <span class="title">Parcelable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Creator&lt;Book&gt; CREATOR = <span class="keyword">new</span> Creator&lt;Book&gt;() &#123;</span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Book <span class="title">createFromParcel</span><span class="params">(Parcel source)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Book(source);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">        <span class="keyword">public</span> Book[] newArray(<span class="keyword">int</span> size) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Book[size];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> bookId;</span><br><span class="line">    <span class="keyword">public</span> String bookName;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Book</span><span class="params">(<span class="keyword">int</span> bookId, String bookName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.bookId = bookId;</span><br><span class="line">        <span class="keyword">this</span>.bookName = bookName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="title">Book</span><span class="params">(Parcel parcel)</span> </span>&#123;</span><br><span class="line">        bookId = parcel.readInt();</span><br><span class="line">        bookName = parcel.readString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writeToParcel</span><span class="params">(Parcel dest, <span class="keyword">int</span> flags)</span> </span>&#123;</span><br><span class="line">        dest.writeInt(bookId);</span><br><span class="line">        dest.writeString(bookName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">describeContents</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getBookId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> bookId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBookId</span><span class="params">(<span class="keyword">int</span> bookId)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.bookId = bookId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getBookName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> bookName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBookName</span><span class="params">(String bookName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.bookName = bookName;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="u4E24_u8005_u6BD4_u8F83"><a href="#u4E24_u8005_u6BD4_u8F83" class="headerlink" title="两者比较"></a>两者比较</h3><ol>
+<li>Serializable序列化同时产生大量临时变量，导致gc频繁；Serializable要通过io操作获取获取数据，再写入文件。</li>
+<li>Parcelable是以binder为信息载体，在内存传递上开销小。在读写数据时，Parcelable直接在内存读写，所以Parcelable性能比Serializable好。</li>
+<li>将对象序列化写入文件，序列化对象进行网络传输建议选择Serializable，对象要在activity等组件传递时，建议选择Parcelable。</li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/source/tags/IPC/">IPC</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/01/19/Java硬软弱虚引用，GC回收，内存碎片/" title="Java硬软弱虚引用，GC回收，内存碎片" itemprop="url">Java硬软弱虚引用，GC回收，内存碎片</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
+		
+  <p class="article-time">
+    <time datetime="2017-01-19T06:07:37.000Z" itemprop="datePublished"> 发表于 2017-01-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Java_u786C_u8F6F_u5F31_u865A_u5F15_u7528_uFF0CGC_u56DE_u6536_uFF0C_u5185_u5B58_u788E_u7247"><a href="#Java_u786C_u8F6F_u5F31_u865A_u5F15_u7528_uFF0CGC_u56DE_u6536_uFF0C_u5185_u5B58_u788E_u7247" class="headerlink" title="Java硬软弱虚引用，GC回收，内存碎片"></a>Java硬软弱虚引用，GC回收，内存碎片</h1><h3 id="GarBageCollection"><a href="#GarBageCollection" class="headerlink" title="GarBageCollection"></a>GarBageCollection</h3><p>首先说一下java的gc垃圾回收机制，到底什么时候回收，在哪里回收。</p>
+<p>经常说java分别在栈区和堆区存储变量等。其实还有</p>
+<h4 id="u7A0B_u5E8F_u8BA1_u6570_u5668"><a href="#u7A0B_u5E8F_u8BA1_u6570_u5668" class="headerlink" title="程序计数器"></a>程序计数器</h4><p>它是一个字节码的指示器，告诉当前线程下一步要执行哪一行代码。一个没有OOm的区域</p>
+<h4 id="u6808_u533A"><a href="#u6808_u533A" class="headerlink" title="栈区"></a>栈区</h4><p>又叫java虚拟机栈区，是每一个方法被执行的时候，创建出一个栈帧用来放的成员变量，操作链表，动态链接，方法出口。很多个栈帧又存储在栈区。</p>
+<h4 id="u672C_u5730_u65B9_u6CD5_u6808"><a href="#u672C_u5730_u65B9_u6CD5_u6808" class="headerlink" title="本地方法栈"></a>本地方法栈</h4><p>如果说栈区是一个java的本地方法栈，那么本地方法栈就就是c++的native栈区</p>
+<h4 id="u5806_u533A"><a href="#u5806_u533A" class="headerlink" title="堆区"></a>堆区</h4><p>当类中创建实例变量，就会在堆区中分配内存，堆区又分为新生代，老年代。当新生代没有足够多内存实例对象就是OOM</p>
+<h4 id="u65B9_u6CD5_u533A"><a href="#u65B9_u6CD5_u533A" class="headerlink" title="方法区"></a>方法区</h4><p>用来存放被虚拟机加载的类信息，常量，静态变量。</p>
+<h4 id="u8FD0_u884C_u65F6_u5E38_u91CF_u6C60"><a href="#u8FD0_u884C_u65F6_u5E38_u91CF_u6C60" class="headerlink" title="运行时常量池"></a>运行时常量池</h4><p>运行时常量池用来存放编译期间的常量</p>
+<h3 id="u4EC0_u4E48_u65F6_u5019GC"><a href="#u4EC0_u4E48_u65F6_u5019GC" class="headerlink" title="什么时候GC"></a>什么时候GC</h3><ol>
+<li>在类中每当我们实例化一个变量时，都会在新生区申请足够的内存，如果申请的内存不足以实例化对象，这时候就会minor GC 小规模的回收。</li>
+<li>在太多的对象在老年代，导致没有足够的内存空间加入对象时，就会full GC，并且直到老年代能放得下更大的对象。</li>
+<li>每次minor gc都会检查一下进入老年代的对象和老年代剩余空间，如果不够就会full gc</li>
+<li>手动执行System.gc();</li>
+</ol>
+<h3 id="u5185_u5B58_u788E_u7247"><a href="#u5185_u5B58_u788E_u7247" class="headerlink" title="内存碎片"></a>内存碎片</h3><h4 id="u5185_u90E8_u788E_u7247"><a href="#u5185_u90E8_u788E_u7247" class="headerlink" title="内部碎片"></a>内部碎片</h4><p>分配内存到进程A，内存被进程占据了而不被利用，同时系统也无法利用这块内存，直到进程A被终结，释放内存。</p>
+<h4 id="u5916_u90E8_u788E_u7247"><a href="#u5916_u90E8_u788E_u7247" class="headerlink" title="外部碎片"></a>外部碎片</h4><p>还没被分配出去的内存太少了不足分配给下一个进程，又或者多个不连续的内存总空间长度能满足新申请的进程，但是由于地址是不连续的内存，无法分配给新进程。</p>
+<h3 id="Java_u786C_u8F6F_u5F31_u865A_u5F15_u7528"><a href="#Java_u786C_u8F6F_u5F31_u865A_u5F15_u7528" class="headerlink" title="Java硬软弱虚引用"></a>Java硬软弱虚引用</h3><h4 id="u786C_u5F15_u7528"><a href="#u786C_u5F15_u7528" class="headerlink" title="硬引用"></a>硬引用</h4><p>硬引用是我们用得最普遍的方式，就算应用程序内存不足，需要的内存大于可用的内存发生OOM程序崩溃，也不会去回收这个对象。</p>
+<h4 id="u8F6F_u5F15_u7528"><a href="#u8F6F_u5F15_u7528" class="headerlink" title="软引用"></a>软引用</h4><p>当内存足够就不会去回收这个对象，当内存不够就会去回收这个对象把引用对象加入SoftReference对象，把引用赋值成null，手动调用System.gc()，加不加入ReferenceQueue队列取决于内存够不够用。回收对象都会进入ReferenceQueue。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ReferenceQueue&lt;Object&gt; queue=<span class="keyword">new</span> ReferenceQueue&lt;Object&gt;();</span><br><span class="line">Object object =<span class="keyword">new</span> Object();</span><br><span class="line">SoftReference&lt;Object&gt; softReference=<span class="keyword">new</span> SoftReference&lt;&gt;(object,queue);</span><br><span class="line">obj=<span class="keyword">null</span>;</span><br><span class="line">System.gc();</span><br><span class="line">System.out.println(queue.poll());<span class="comment">//查看队列元素</span></span><br></pre></td></tr></table></figure>
+<h4 id="u5F31_u5F15_u7528"><a href="#u5F31_u5F15_u7528" class="headerlink" title="弱引用"></a>弱引用</h4><p>当回收器扫描出弱引用不管内存是否够用，都会回收这个对象。把弱引用对象加入WeakReference对象，把引用赋值成null，手动调用System.gc()，到最后的才会加入ReferenceQueue队列。回收对象都会进入ReferenceQueue。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ReferenceQueue&lt;Object&gt; queue=<span class="keyword">new</span> ReferenceQueue&lt;Object&gt;();</span><br><span class="line">Object object =<span class="keyword">new</span> Object();</span><br><span class="line">WeakReference&lt;Object&gt; softReference=<span class="keyword">new</span> WeakReference&lt;&gt;(object,queue);</span><br><span class="line">obj=<span class="keyword">null</span>;</span><br><span class="line">System.gc();</span><br><span class="line">System.out.println(queue.poll());<span class="comment">//查看队列元素</span></span><br></pre></td></tr></table></figure>
+<h4 id="u865A_u5F15_u7528"><a href="#u865A_u5F15_u7528" class="headerlink" title="虚引用"></a>虚引用</h4><p>当GC发现了虚引用对象把对象加到PhantomReference对象中，最后将虚引用赋值为null，再手动调用System.gc()，到最后的才会加入ReferenceQueue队列。回收对象都会进入ReferenceQueue。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ReferenceQueue&lt;Object&gt; queue=<span class="keyword">new</span> ReferenceQueue&lt;Object&gt;();</span><br><span class="line">Object object =<span class="keyword">new</span> Object();</span><br><span class="line">PhantomReference&lt;Object&gt; softReference=<span class="keyword">new</span> PhantomReference&lt;&gt;(object,queue);</span><br><span class="line">obj=<span class="keyword">null</span>;</span><br><span class="line">System.gc();</span><br><span class="line">System.out.println(queue.poll());<span class="comment">//查看队列元素</span></span><br></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/source/tags/java/">java</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
     <article class="post-expand frame" itemprop="articleBody"> 
         <header class="article-info clearfix">
   <h1 itemprop="name">
@@ -133,7 +393,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/01/17/Animation/" title="属性动画第一话" itemprop="url">属性动画第一话</a>
+      <a href="/2017/01/17/PropertyAnimation/" title="属性动画第一话" itemprop="url">属性动画第一话</a>
   </h1>
   <p class="article-author">By
        
@@ -170,6 +430,9 @@
 <p>xml代码写好了，然后实现可以在类中调用</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Animator animator = AnimatorInflater.loadAnimator(mContext, R.animator.animator);</span><br><span class="line">animator.setTarget(mImageView);</span><br><span class="line">animator.start();</span><br></pre></td></tr></table></figure>
 <p>最后通过够用AnimatorInflate.loadAnimator，参数分别是Context和R.animator.animator</p>
+<h3 id="ViewPropertyAnimator"><a href="#ViewPropertyAnimator" class="headerlink" title="ViewPropertyAnimator"></a>ViewPropertyAnimator</h3><p>在android3.1系统推出了view通过调用animator方法来设置不同的动画</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mImageView.animate().alpha(<span class="number">0f</span>).setDuration(<span class="number">500</span>);<span class="comment">//这时候不用start即可</span></span><br><span class="line">mImageView.animate().x(<span class="number">100</span>).y(<span class="number">100</span>).setDuration(<span class="number">500</span>);<span class="comment">//这时候不用start即可</span></span><br></pre></td></tr></table></figure>
+<p>但是这时候的链接不支持透明度从1f到0f再到1f。就算一个控件多次调用animate().alpha也会以最后一次动画为准。有点鸡肋。</p>
 <h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><ol>
 <li><p>上述分别讲述了帧动画，补间动画，属性动画的ValueAnimator，ObejectAnimator 和AnimatorSet，还有属性动画的xml写法。</p>
 </li>
@@ -292,262 +555,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/11/21/retrofit/" title="How to use retrofit2?" itemprop="url">How to use retrofit2?</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
-		
-  <p class="article-time">
-    <time datetime="2016-11-21T02:16:15.000Z" itemprop="datePublished"> 发表于 2016-11-21</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p><a href="http://square.github.io/retrofit/" target="_blank" rel="external">retrofit2.1</a></p>
-<blockquote>
-<p>retrofit安全的http客户端for Android和java.</p>
-</blockquote>
-<h3 id="u5982_u4F55_u4F7F_u7528Retrofit"><a href="#u5982_u4F55_u4F7F_u7528Retrofit" class="headerlink" title="如何使用Retrofit"></a>如何使用Retrofit</h3><p>在app/build.gradle</p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:retrofit:2.1.0'</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:converter-gson:2.1.0'</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:adapter-rxjava:2.1.0'</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">'io.reactivex:rxandroid:1.2.1'</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">'io.reactivex:rxjava:1.2.1'</span></span><br></pre></td></tr></table></figure>
-<p>新建Git包，含括Git.java ，GitApi.java 和GitService.java</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Git.java（单例类，包括retrofit GitService的实例化）</span><br><span class="line">GitApi<span class="class">.java</span> (请求需要的URl)</span><br><span class="line">GitService<span class="class">.java</span> （各种get post方法）</span><br></pre></td></tr></table></figure>
-<h3 id="Git-java"><a href="#Git-java" class="headerlink" title="Git.java"></a>Git.java</h3><ol>
-<li><p>新建单例类Git 私有化构造函数， 新建public static final Git mGit;  和public static Git getInstane()的方法</p>
-</li>
-<li><p>新建全局变量mGitService ，和getService的方法返回mGitService???</p>
-</li>
-<li><p>在Git的构造函数需要实例化 retrofit主要用到几个参数包括url，okhttpClient，new GsonConverterFactory?RxJavaCallAdapterFactory ，还要实例化GitService。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Git</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Git mInstance = <span class="keyword">new</span> Git();</span><br><span class="line">    <span class="keyword">private</span> GitService mGitService;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Git</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        OkHttpClient.Builder client= <span class="keyword">new</span> OkHttpClient().newBuilder();</span><br><span class="line">       OkHttpClient c= setCertificates(client,<span class="keyword">new</span> Buffer().writeUtf8(GitApi.CER).inputStream()).build();</span><br><span class="line">        Retrofit retrofit = <span class="keyword">new</span> Retrofit.Builder().baseUrl(GitApi.BASE_URL)</span><br><span class="line">                .client(c)</span><br><span class="line">                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())</span><br><span class="line">                .addConverterFactory(GsonConverterFactory.create())</span><br><span class="line">                .build();</span><br><span class="line">        mGitService = retrofit.create(GitService.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Git <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (mInstance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            Git mIns = mInstance;</span><br><span class="line">            <span class="keyword">synchronized</span> (Git.class) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (mIns == <span class="keyword">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">                    mIns = <span class="keyword">new</span> Git();</span><br><span class="line">                    mInstance = mIns;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> mInstance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> GitService <span class="title">getGitService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mGitService;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<p>​</p>
-</li>
-</ol>
-<h3 id="GitApi-java"><a href="#GitApi-java" class="headerlink" title="GitApi.java"></a>GitApi.java</h3><p>这里的URL需要注意要以/结尾 要以/结尾 要以/结尾。这样子GitService注解里面的就不用/开头了</p>
-<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span> BASE_URL=<span class="string">"https://api.github.com/"</span>;</span><br></pre></td></tr></table></figure>
-<h3 id="GitService-java"><a href="#GitService-java" class="headerlink" title="GitService.java"></a>GitService.java</h3><p>要写这个类首先学会@GET  @POST  @FormUrlEncoded这些注解。</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@GET</span>(<span class="string">"users/&#123;user&#125;/repos"</span>)</span><br><span class="line">Call&lt;List&lt;Repos&gt;&gt; <span class="function">listRepos</span>(<span class="variable">@Path</span>(<span class="string">"user"</span>) String user);</span><br><span class="line"></span><br><span class="line"><span class="variable">@GET</span></span><br><span class="line">Call&lt;String&gt; <span class="function">get</span>(<span class="variable">@Url</span> String url);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable">@POST</span></span><br><span class="line"><span class="variable">@FormUrlEncoded</span></span><br><span class="line">Call&lt;GitReturnCode&gt; <span class="function">init</span>(<span class="variable">@Url</span> String url,</span><br><span class="line">                         <span class="variable">@Field</span>(<span class="string">"id"</span>) String id,</span><br><span class="line">                         <span class="variable">@Field</span>(<span class="string">"key"</span>) String key);</span><br></pre></td></tr></table></figure>
-<p>详细的各种注解要看这里<a href="http://www.lanyimi.com/2016/10/08/retrofit%E6%B3%A8%E8%A7%A3%E4%BD%BF%E7%94%A8/">retrofit注解的使用</a></p>
-<p>最后在Presenter层调用方法，返回List<repos></repos></p>
-<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Git.getInstance().getGitService().listRepos(<span class="string">"gdmec07120731"</span>).enqueue(<span class="keyword">new</span> Callback&lt;List&lt;Repos&gt;&gt;() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    <span class="keyword">public</span> void onResponse(<span class="keyword">Call</span>&lt;List&lt;Repos&gt;&gt; <span class="keyword">call</span>, <span class="built_in">Response</span>&lt;List&lt;Repos&gt;&gt; <span class="built_in">response</span>) &#123;</span><br><span class="line"></span><br><span class="line">                        <span class="built_in">Log</span>.i(<span class="string">"TAG"</span>, <span class="built_in">response</span>.body().<span class="keyword">get</span>(<span class="number">0</span>).getName());</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    @Override</span><br><span class="line">                    <span class="keyword">public</span> void onFailure(<span class="keyword">Call</span>&lt;List&lt;Repos&gt;&gt; <span class="keyword">call</span>, Throwable t) &#123;</span><br><span class="line">                        <span class="built_in">Log</span>.i(<span class="string">"TAG"</span>, t.toString());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br></pre></td></tr></table></figure>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/source/tags/retrofit2/">retrofit2</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand 5分钟熟悉android" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/11/01/mvp/" title="5mins熟悉mvp架构" itemprop="url">5mins熟悉mvp架构</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
-		
-  <p class="article-time">
-    <time datetime="2016-11-01T08:48:10.000Z" itemprop="datePublished"> 发表于 2016-11-01</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p> MvpDemo<br>简单的mvp架构登录demo，根据功能分包，参考自<a href="https://github.com/googlesamples/android-architecture" target="_blank" rel="external">google mvp</a></p>
-<blockquote>
-<p>主要面向有mvp经验的读者，阅读时间大约 <strong>5 min</strong></p>
-</blockquote>
-<p>mvp 的思想是把显示和业务逻辑从activity，fragment这些View中分离。让model和view的通信通过Presenter来搞定，这样子就降低了一个activity成千代码量的可能，以后修改业务逻辑，新增方法只要model层实现好，然后在Presenter层暴露接口给view调用就好了，mvp相比mvc会提项目结构易读性，也有一些不足就是要多写类来协助开发，不太熟悉的同学就会拉慢开发速度。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">View&lt;===&gt;Presenter&lt;===&gt;Model</span><br></pre></td></tr></table></figure></p>
-<h3 id="u9879_u76EE_u4E3B_u8981_u6709_u4EE5_u4E0B_u7C7B_u7EC4_u6210"><a href="#u9879_u76EE_u4E3B_u8981_u6709_u4EE5_u4E0B_u7C7B_u7EC4_u6210" class="headerlink" title="项目主要有以下类组成"></a>项目主要有以下类组成</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">----login</span><br><span class="line">      |----LoginActivity.java</span><br><span class="line">      |----LoginContract.java</span><br><span class="line">      |----LoginPresenter.java</span><br><span class="line">----BaseView.java</span><br><span class="line">----BasePresenter.java</span><br></pre></td></tr></table></figure>
-<h3 id="u65B0_u5EFA_u7C7BBaseView-java"><a href="#u65B0_u5EFA_u7C7BBaseView-java" class="headerlink" title="新建类BaseView.java"></a>新建类BaseView.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BaseView</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">//在view层 给LoginConstract.Presenter赋值</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setPresenter</span><span class="params">(T presenter)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="u65B0_u5EFA_u7C7BBasePresenter-java"><a href="#u65B0_u5EFA_u7C7BBasePresenter-java" class="headerlink" title="新建类BasePresenter.java"></a>新建类BasePresenter.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BasePresenter</span> </span>&#123;</span><br><span class="line"><span class="comment">//start方法表示进行数据初始化，这方法感觉没用</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">start</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这两个base类是所有模块都用到的基类。这里我们就不动它，然后具体某个模块(比如登陆模块用到的方法就在Login这个包里面新建LoginConstract。</p>
-<p>然后新建两个接口分别是继承BaseView的view接口，注意这里的BaseView带泛型指向下面同级新建好的Presenter就行了。</p>
-<p>以及继承BasePresenter的Presenter接口，把操作ui界面的方法和业务逻辑的方法写进对应的view和presenter接口，就有了下面的LoginConstract类)</p>
-<h3 id="u65B0_u5EFA_u7C7BLoginConstract-java"><a href="#u65B0_u5EFA_u7C7BLoginConstract-java" class="headerlink" title="新建类LoginConstract.java"></a>新建类LoginConstract.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">LoginConstract</span></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">View</span> <span class="keyword">extends</span> <span class="title">BaseView</span>&lt;<span class="title">Presenter</span>&gt;</span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">showProgressBar</span><span class="params">()</span></span>;<span class="comment">//show进度条的方法</span></span><br><span class="line">     <span class="function"><span class="keyword">void</span> hideProgressBar</span><br><span class="line">     <span class="keyword">void</span> <span class="title">onLoginSuccess</span><span class="params">()</span></span>;<span class="comment">//登录成功的方法</span></span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">onLoginError</span><span class="params">()</span></span>;</span><br><span class="line">     <span class="comment">//...</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Presenter</span> <span class="keyword">extends</span> <span class="title">BasePresenter</span></span>&#123;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">login</span><span class="params">(String username,String password)</span></span>;  <span class="comment">//登录的方法</span></span><br><span class="line">     <span class="comment">//...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="u65B0_u5EFA_u7C7BLoginPresenter-java"><a href="#u65B0_u5EFA_u7C7BLoginPresenter-java" class="headerlink" title="新建类LoginPresenter.java"></a>新建类LoginPresenter.java</h3><p>LoginPresenter会实现LoginContract.Presenter接口，在login方法写网络请求的逻辑代码。可以理解为持有view对象，并且操作业务逻辑(登陆，注册，获取列表数据)的类，有一个LoginConstract.View的全局变量mView。这个对象要赋值才能使用，所以我们会在LoginPresenter构造方法给mView赋值。并且在构造函数调用mView的setPresenter给View层的负责登陆业务的Presenter赋值。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginPresenter</span> <span class="keyword">implements</span> <span class="title">LoginConstract</span>.<span class="title">Presenter</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> LoginConstract.View mView;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LoginPresenter</span><span class="params">(LoginConstract.View view)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mView = view;</span><br><span class="line">        <span class="keyword">this</span>.mView.setPresenter(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">login</span><span class="params">(<span class="keyword">final</span> String username, <span class="keyword">final</span> String password)</span> </span>&#123;</span><br><span class="line">           <span class="comment">//判断username pwd这些参数合法性</span></span><br><span class="line">           <span class="comment">//期间调用mView.showProgressBar();等操作ui的方法</span></span><br><span class="line">           <span class="comment">//发送网络请求</span></span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="u65B0_u5EFA_u7C7BLoginActivity-java"><a href="#u65B0_u5EFA_u7C7BLoginActivity-java" class="headerlink" title="新建类LoginActivity.java"></a>新建类LoginActivity.java</h3><p>类要实现LoginConstract.View接口，期间会实现大量在LoginConstract.View的ui方法例如showProgressBar()啊。并且有2个全局变量分别是LoginConstract.Presenter类型的mPresenter 和LoginPresenter类型的mLoginPresenter变量。</p>
-<ol>
-<li><p>在setPresenter要给mPresenter 赋值。</p>
-</li>
-<li><p>在onCreate要实例化就是要new一个mLoginPresenter，之后才能在点击事件调用login方法拉起登录，在点击事件调用mPresenter.login(…);。</p>
-</li>
-<li><p>然后就是正常逻辑的initViews() 和initListeners()方法，给控件实例化，和注册点击事件等。</p>
-</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> <span class="keyword">implements</span> <span class="title">LoginConstract</span>.<span class="title">View</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> LoginConstract.Presenter mPresenter;</span><br><span class="line">    <span class="keyword">private</span> LoginPresenter mLoginPresenter;</span><br><span class="line">    <span class="keyword">private</span> EditText mUsername;</span><br><span class="line">   <span class="comment">//...</span></span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_login);</span><br><span class="line">        initViews();</span><br><span class="line">        initListeners();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initListeners</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mLogin.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">                mPresenter.login(mUsername.getText().toString(), mPassword.getText().toString());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initViews</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        mUsername = (EditText) findViewById(R.id.ed_username);</span><br><span class="line">       <span class="comment">//...</span></span><br><span class="line">        mLoginPresenter = <span class="keyword">new</span> LoginPresenter(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPresenter</span><span class="params">(LoginConstract.Presenter presenter)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mPresenter = presenter;</span><br><span class="line">    &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>实现了LoginConstract.View接口就要重写setPresenter方法给LoginConstract.Presenter 类型的全局变量赋值。要调用mPresenter.login方法必须先实例化mLoginPresenter这个对象。</p>
-<p>注意，mPresenter主要是为了让view绑定Presenter，一定要先实例化mLoginPresenter，因为在LoginPresenter的构造函数中，会传入mView,才会让LoginPresenter的mView有值，执行LoginPresenter里面的login方法不会报错。</p>
-<p>&gt;</p>
-<blockquote>
-<p>注释</p>
-</blockquote>
-<ul>
-<li><p>LoginConstract.View  mView;                    <strong>掌控view操作ui的所有方法的对象</strong>。</p>
-</li>
-<li><p>LoginConstract.Presenter mPresenter;   <strong>掌控view中操作业务逻辑的所有方法的对象</strong>。</p>
-</li>
-<li>LoginPresenter mLoginPresenter;            <strong>让view绑定Presenter</strong></li>
-</ul>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/source/tags/android-mvp/">android.mvp</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/10/28/5分钟接入微信支付/" title="5mins接入微信支付" itemprop="url">5mins接入微信支付</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
-		
-  <p class="article-time">
-    <time datetime="2016-10-28T08:36:45.000Z" itemprop="datePublished"> 发表于 2016-10-28</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>现在app最流行微信支付，支付宝支付，都是大部分消费类型app计费方式首选。现在5分钟教你接入微信支付。</p>
-<p>接入前请准备好</p>
-<ul>
-<li>微信appid</li>
-<li>微信appkey</li>
-<li>微信商户id</li>
-<li>微信商户APIkey  需要在商户后台自定义32位key</li>
-<li>上传app的签名.jks文件  MD5值</li>
-</ul>
-<p><a href="https://res.wx.qq.com/open/zh_CN/htmledition/res/dev/download/sdk/WeChatSDK_sample_Android221cbf.zip" target="_blank" rel="external">官网微信支付demo下载链接</a></p>
-<h3 id="u914D_u7F6E_u9879_u76EE_u914D_u7F6E_u6587_u4EF6"><a href="#u914D_u7F6E_u9879_u76EE_u914D_u7F6E_u6587_u4EF6" class="headerlink" title="配置项目配置文件"></a>配置项目配置文件</h3><p>首先，把demo中的libammsdk.jar加入项目中libs文件夹，右击as library</p>
-<p>AndroidManifest.xml加入权限</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.INTERNET"</span> /&gt;</span><br><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.MODIFY_AUDIO_SETTINGS"</span>/&gt;</span><br><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span>/&gt;</span><br></pre></td></tr></table></figure>
-<p>注册广播接收器</p>
-<pre><code>&lt;receiver
-           android:name=&quot;包名.AppRegister&quot;&gt;
-           &lt;intent-filter&gt;
-               &lt;action android:name=&quot;com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP&quot; /&gt;
-           &lt;/intent-filter&gt;
-       &lt;/receiver&gt;
-</code></pre><p>注册支付结果回调actiivty  ，<strong>此处activity命名规则必须是包名+wxapi.WXPayEntryActivity</strong> ，否则无法得到支付结果。</p>
-<pre><code>&lt;activity
-        android:name=&quot;包名.wxapi.WXPayEntryActivity&quot;
-        android:exported=&quot;true&quot;
-        android:launchMode=&quot;singleTop&quot;/&gt;
-</code></pre><p>在调用微信支付的activity 的intent-filter标签加上</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;data android:scheme=<span class="string">"微信appid"</span>/&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="u8C03_u7528_u652F_u4ED8_u65B9_u6CD5"><a href="#u8C03_u7528_u652F_u4ED8_u65B9_u6CD5" class="headerlink" title="调用支付方法"></a>调用支付方法</h3><p>前提，微信生成预订单prepay_id要在app服务器完成，这样子好处是客户端不保存微信appkey，商户key，商户id等信息让支付更加安全可靠。操作就是客户端把商品名称，金额提交给app服务器返回预订单。</p>
-<p>在调用支付方法view定义</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">      <span class="keyword">private</span>  PayReq mReq</span><br><span class="line">      <span class="keyword">private</span>  IWXAPI mWxapi</span><br><span class="line">  	<span class="annotation">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">           mReq=<span class="keyword">new</span> PayReq();</span><br><span class="line">           mWxapi=WXAPIFactory.createWXAPI(<span class="keyword">this</span>,<span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pay</span><span class="params">()</span></span>&#123;</span><br><span class="line">         <span class="comment">//判断微信是否安装</span></span><br><span class="line">         <span class="keyword">if</span>(!isSupportPay())&#123;</span><br><span class="line">              <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">//向app服务器提交商品名金额，获取预订单，商户id，加密信息，时间戳等后...</span></span><br><span class="line"></span><br><span class="line">           mReq.appId = <span class="string">"appid"</span>;</span><br><span class="line">		  mReq.partnerId = <span class="string">"mch_id"</span>;</span><br><span class="line">		  mReq.prepayId = <span class="string">"prepay_id"</span>;</span><br><span class="line">		  mReq.packageValue = <span class="string">"Sign=WXPay"</span>;</span><br><span class="line">		  mReq.nonceStr =<span class="string">"nonce_str"</span>;</span><br><span class="line">		  mReq.timeStamp = <span class="string">"TimeStamp"</span>;</span><br><span class="line">           mReq.sign = <span class="string">"signParams"</span>;</span><br><span class="line">           mWxapi.registerApp(<span class="string">"appid"</span>);</span><br><span class="line">           mWxapi.sendReq(req);<span class="comment">//拉起微信支付界面</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isSupportPay</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(mWxapi.isWXAppInstalled()&amp;&amp;mWxapi.isWXAppSupportAPI())&#123;</span><br><span class="line">               <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">	   Toast.makeText(mContext, <span class="string">"请安装最新版微信"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">  WXPayEntryActivity.java</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> IWXAPI wxapi;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WXPayEntryActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> <span class="keyword">implements</span> <span class="title">IWXAPIEventHandler</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">      <span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">         wxapi = WXAPIFactory.createWXAPI(<span class="keyword">this</span>, <span class="string">"wxappid"</span>);</span><br><span class="line">	 wxapi.handleIntent(getIntent(), <span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">   <span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onNewIntent</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">super</span>.onNewIntent(intent);</span><br><span class="line">    wxapi.handleIntent(intent, <span class="keyword">this</span>);</span><br><span class="line"> &#125;</span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReq</span><span class="params">(BaseReq req)</span> </span>&#123;</span><br><span class="line">	<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//微信通知app客户端</span></span><br><span class="line"><span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResp</span><span class="params">(BaseResp resp)</span> </span>&#123;</span><br><span class="line"> 	<span class="keyword">if</span> (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) &#123;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">switch</span>(resp.errCode)&#123;</span><br><span class="line">     <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">       <span class="comment">//支付成功</span></span><br><span class="line">       <span class="keyword">break</span>;</span><br><span class="line">     <span class="keyword">case</span> -<span class="number">1</span>:</span><br><span class="line">       <span class="comment">//未签名app</span></span><br><span class="line">       <span class="keyword">break</span>;</span><br><span class="line">     <span class="keyword">case</span> -<span class="number">2</span>:</span><br><span class="line">       <span class="comment">//取消支付</span></span><br><span class="line">       <span class="keyword">break</span>;</span><br><span class="line">     <span class="keyword">default</span>:</span><br><span class="line">       <span class="comment">//支付失败</span></span><br><span class="line">       <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="u652F_u4ED8_u76F8_u5173_u9519_u8BEF_u7801"><a href="#u652F_u4ED8_u76F8_u5173_u9519_u8BEF_u7801" class="headerlink" title="支付相关错误码"></a>支付相关错误码</h3><p>如果resp.errCode返回-1，此时app签名和微信open平台签名文件的md5值不一致造成，所以要确保app使用open平台相同签名文件。</p>
-<p>如遇到其他复杂情况可以清空微信app缓存，进行测试。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/source/tags/微信支付/">微信支付</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -612,6 +619,10 @@
 			
 		
 			
+				<li><a href="/source/tags/PropertyAnimation/" title="PropertyAnimation">PropertyAnimation<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/source/tags/shadowsock/" title="shadowsock">shadowsock<sup>1</sup></a></li>
 			
 		
@@ -628,10 +639,6 @@
 			
 		
 			
-				<li><a href="/source/tags/PropertyAnimation/" title="PropertyAnimation">PropertyAnimation<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/source/tags/插件开发/" title="插件开发">插件开发<sup>1</sup></a></li>
 			
 		
@@ -641,6 +648,18 @@
 		
 			
 				<li><a href="/source/tags/微信支付/" title="微信支付">微信支付<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/java/" title="java">java<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/IPC/" title="IPC">IPC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -669,7 +688,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">所有文章</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
   </div>
 
 
