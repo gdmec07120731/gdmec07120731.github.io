@@ -75,6 +75,82 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/10/08/retrofit注解使用/" title="retrofit注解使用" itemprop="url">retrofit注解使用</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
+		
+  <p class="article-time">
+    <time datetime="2016-10-08T03:00:00.000Z" itemprop="datePublished"> 发表于 2016-10-08</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>在用到retrofit请求json时，通常在GankService.java类用到@GET，@POST，@Path这些注解，具体怎么用，可以看看下面。</p>
+<h3 id="@GET"><a href="#@GET" class="headerlink" title="@GET"></a>@GET</h3><p> 用于get请求</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="at_rule">@<span class="keyword">GET("user")</span></span><br><span class="line">Observable&lt;Result&gt; <span class="function">getUsers</span>()</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="@Query"><a href="#@Query" class="headerlink" title="@Query"></a>@Query</h3><p>用于url后面?key=value</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@GET</span>(<span class="string">"user"</span>)</span><br><span class="line">Observable&lt;Result&gt; <span class="function">getUsers</span>(<span class="variable">@Query</span>(<span class="string">"id"</span>) String userId);</span><br></pre></td></tr></table></figure>
+<p>相当于</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="at_rule">@<span class="keyword">GET("user?id=userId")</span></span><br><span class="line">Observable&lt;Result&gt; <span class="function">getUsers</span>()</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="@Field"><a href="#@Field" class="headerlink" title="@Field"></a>@Field</h3><p>@POST 用于post请求，我们通常都是post一个表单形式的参数。这时候就用到@Field来连接键值对，@FormUrlEncoded来告诉服务器这是表单提交参数。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@FormUrlEncoded</span></span><br><span class="line"><span class="variable">@POST</span>(<span class="string">"user"</span>)</span><br><span class="line">Observable&lt;Result&gt; <span class="function">getUsers</span>(<span class="variable">@Field</span>(<span class="string">"id"</span>) String userId);</span><br></pre></td></tr></table></figure>
+<h3 id="@Body"><a href="#@Body" class="headerlink" title="@Body"></a>@Body</h3><p>会把自定义对象，作为requestbody，并转换成指定格式。</p>
+<p>好像依赖了这个包com.squareup.retrofit2:converter-gson  就会被gson转换成json格式。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@POST</span>(<span class="string">"users/new"</span>)</span><br><span class="line">Call&lt;User&gt; <span class="function">createUser</span>(<span class="variable">@Body</span> User user);</span><br></pre></td></tr></table></figure>
+<h3 id="@Part"><a href="#@Part" class="headerlink" title="@Part"></a>@Part</h3><p>part和multipart一起使用，用于文件上传</p>
+<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Multipart</span><br><span class="line">@PUT(<span class="string">"user/photo"</span>)</span><br><span class="line">Call&lt;User&gt; updateUser(@<span class="keyword">Part</span> MultipartBody.<span class="keyword">Part</span> photo, @<span class="keyword">Part</span>(<span class="string">"description"</span>) RequestBody description);</span><br><span class="line"></span><br><span class="line"><span class="keyword">File</span> file=new <span class="keyword">File</span>(<span class="keyword">Environment</span>.getExternalStorageDirectory(),<span class="string">"aa.png"</span>);</span><br><span class="line">RequestBody body=RequestBody.create(MediaType.parse(<span class="string">"image/png"</span>),file);</span><br><span class="line">MultipartyBody.<span class="keyword">Part</span> photo=MultipartBody.<span class="keyword">Part</span>.createFromData(<span class="string">"photo"</span>,<span class="string">"icon.png"</span>,body);</span><br></pre></td></tr></table></figure>
+<h3 id="@PartMap"><a href="#@PartMap" class="headerlink" title="@PartMap"></a>@PartMap</h3><p>用于多个文件上传，多个MultipartBody<br><figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Multipart</span><br><span class="line">@PUT(<span class="string">"user/photo"</span>)</span><br><span class="line">Call&lt;User&gt; updateUser(@PartMap <span class="keyword">Map</span>&lt;<span class="typename">String</span> RequestBody&gt; <span class="keyword">map</span>, @Part(<span class="string">"description"</span>) RequestBody description);</span><br><span class="line"></span><br><span class="line"><span class="keyword">File</span> file1=<span class="keyword">new</span> <span class="keyword">File</span>(Environment.getExternalStorageDirectory(),<span class="string">"aa.png"</span>);</span><br><span class="line"><span class="keyword">File</span> file2=<span class="keyword">new</span> <span class="keyword">File</span>(Environment.getExternalStorageDirectory(),<span class="string">"bb.png"</span>);</span><br><span class="line">RequestBody body1=RequestBody.create(MediaType.parse(<span class="string">"image/png"</span>),file1);</span><br><span class="line">RequestBody body2=RequestBody.create(MediaType.parse(<span class="string">"image/png"</span>),file2);</span><br><span class="line"><span class="keyword">Map</span>&lt;<span class="typename">String</span> ,RequestBody&gt; <span class="keyword">map</span>=<span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"><span class="keyword">map</span>.put(<span class="string">"photos"</span>,body1);</span><br><span class="line"><span class="keyword">map</span>.put(<span class="string">"photo2"</span>,body2);</span><br></pre></td></tr></table></figure></p>
+<h3 id="@Hearders"><a href="#@Hearders" class="headerlink" title="@Hearders"></a>@Hearders</h3><p>设置头文件内容</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@Headers</span>(<span class="string">"Cache-Control: max-age=640000"</span>)</span><br><span class="line"><span class="variable">@GET</span>(<span class="string">"widget/list"</span>)</span><br><span class="line">Call&lt;List&lt;Widget&gt;&gt; <span class="function">widgetList</span>();</span><br></pre></td></tr></table></figure>
+<p>如果你要设置头文件多个内容</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Headers</span>(&#123;</span><br><span class="line">    <span class="string">"Accept: application/vnd.github.v3.full+json"</span>,</span><br><span class="line">    <span class="string">"User-Agent: Retrofit-Sample-App"</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="@Header"><a href="#@Header" class="headerlink" title="@Header"></a>@Header</h3><p>设置头文件内容</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@GET</span>(<span class="string">"user"</span>)</span><br><span class="line">Call&lt;User&gt; <span class="function">getUser</span>(<span class="variable">@Header</span>(<span class="string">"Authorization"</span>) String authorization);</span><br></pre></td></tr></table></figure>
+<p>等价于</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@Headers</span>(<span class="string">"Authorization :Authorization"</span>)</span><br><span class="line"><span class="variable">@GET</span>(<span class="string">"user"</span>)</span><br><span class="line">Call&lt;User&gt; <span class="function">getUser</span>();</span><br></pre></td></tr></table></figure>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/source/tags/retrofit/">retrofit</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/08/15/Android热修复/" title="android hotfix" itemprop="url">android hotfix</a>
   </h1>
   <p class="article-author">By
@@ -594,65 +670,6 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/28/U8SDK开发笔记/" title="U8SDK笔记" itemprop="url">U8SDK笔记</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="区汇君" target="_blank" itemprop="author">区汇君</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-28T02:53:17.000Z" itemprop="datePublished"> 发表于 2016-03-28</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="u4EC0_u4E48_u662FU8SDK"><a href="#u4EC0_u4E48_u662FU8SDK" class="headerlink" title="什么是U8SDK"></a>什么是U8SDK</h2><p>集成各个渠道比如（uc,小米，360）的sdk ，一次接入，打包出不同渠道的APK，大大减少游戏接入渠道的繁琐操作。</p>
-<p>统一的接入框架，<br>各个SDK的接入<br> 一键打包工具(python)，<br>统一的登录验证中心支付中心，<br>多个平台（unity,coco2dx）的支持.</p>
-<h2 id="u5DE5_u4F5C_u539F_u7406"><a href="#u5DE5_u4F5C_u539F_u7406" class="headerlink" title="工作原理"></a>工作原理</h2><p>初始化时根据不同渠道U8Server自定义U8id,U8key分配给U8SDK<br>U8SDK抽象层实现各个渠道的登录，获取登录信息后 u8server登录验证返回验证结果，返回给游戏。<br>U8SDK调用各个渠道的支付后，渠道支付首先通知U8server,U8server再通知游戏服务器。</p>
-<p>打包工具用到的jar等<br>aapt.exe,android.jar,apktool.jar,baksmail.jar,dx.bat,zipalign.exe</p>
-<h2 id="u5DE5_u4F5C_u6D41_u7A0B"><a href="#u5DE5_u4F5C_u6D41_u7A0B" class="headerlink" title="工作流程"></a>工作流程</h2><p>游戏母包接入U8sdk,反编译母包，复制各个渠道sdk的res，assets，资源到母包，各个渠道.dx转smali后复制到母包，合并AndroidManifest.xml权限，Service,Activity等。修改包名（.activity，.service），合并资源后重新生成R文件，回编译母包，签名母包。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/source/tags/U8SDK/">U8SDK</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
@@ -685,7 +702,7 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
 		<ul class="clearfix">
 		
 			
-				<li><a href="/source/tags/java反射/" title="java反射">java反射<sup>1</sup></a></li>
+				<li><a href="/source/tags/java/" title="java">java<sup>1</sup></a></li>
 			
 		
 			
@@ -702,6 +719,10 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
 		
 			
 				<li><a href="/source/tags/android-mvp/" title="android.mvp">android.mvp<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/Java线程/" title="Java线程">Java线程<sup>1</sup></a></li>
 			
 		
 			
@@ -725,6 +746,14 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
 			
 		
 			
+				<li><a href="/source/tags/java反射/" title="java反射">java反射<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/IPC/" title="IPC">IPC<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/source/tags/eventbus/" title="eventbus">eventbus<sup>1</sup></a></li>
 			
 		
@@ -737,6 +766,10 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
 			
 		
 			
+				<li><a href="/source/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/source/tags/插件开发/" title="插件开发">插件开发<sup>1</sup></a></li>
 			
 		
@@ -746,18 +779,6 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
 		
 			
 				<li><a href="/source/tags/微信支付/" title="微信支付">微信支付<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/source/tags/java/" title="java">java<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/source/tags/IPC/" title="IPC">IPC<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/source/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -786,7 +807,7 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">所有文章</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li></ul>
   </div>
 
 
