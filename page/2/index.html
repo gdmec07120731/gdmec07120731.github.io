@@ -216,6 +216,134 @@
             
               
                 
+                <a class="post-title-link" href="/2017/01/17/PropertyAnimation/" itemprop="url">
+                  属性动画第一话
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-01-17T16:30:29+08:00" content="2017-01-17">
+              2017-01-17
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/01/17/PropertyAnimation/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/17/PropertyAnimation/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Android_u5C5E_u6027_u52A8_u753B_uFF08_u7B2C_u4E00_u8BDD_uFF09"><a href="#Android_u5C5E_u6027_u52A8_u753B_uFF08_u7B2C_u4E00_u8BDD_uFF09" class="headerlink" title="Android属性动画（第一话）"></a>Android属性动画（第一话）</h1><h2 id="3-0_u524D_u7684_u5E27_u52A8_u753B_uFF0C_u8865_u95F4_u52A8_u753B"><a href="#3-0_u524D_u7684_u5E27_u52A8_u753B_uFF0C_u8865_u95F4_u52A8_u753B" class="headerlink" title="3.0前的帧动画，补间动画"></a>3.0前的帧动画，补间动画</h2><p>Android动画能给界面带来很炫的效果，如果我们要实现这些效果，在android3.0版本前实现动画主要有2种方式，帧动画（frame animation）和补间动画（tweened animation）。</p>
+<p>帧动画加载大量图片，对性能有很大要求效率不高，补间动画是对view进行包括缩放，移动，旋转，透明度的绘制。因为补间动画实现不了动画操作后的view的点击等操作，只是简单在操作后的地方显示一个，并不会加上view原来的属性，比如一个button从父容器左上角移动到右下角，他的点击事件还在左上角。</p>
+<h2 id="u4ECB_u7ECD_u5C5E_u6027_u52A8_u753B"><a href="#u4ECB_u7ECD_u5C5E_u6027_u52A8_u753B" class="headerlink" title="介绍属性动画"></a>介绍属性动画</h2><p>为了解决上述问题，新推出了View的属性动画，原理是改变view的属性，所以我们可以操作缩放移动透明度旋转后的view，原理是在一段时间内不断设置View.setRotation()，下面我们来介绍一下ValueAnimator。</p>
+<h3 id="ValueAnimator"><a href="#ValueAnimator" class="headerlink" title="ValueAnimator"></a>ValueAnimator</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">//动画是200毫秒内view由0过渡到1</span></span><br><span class="line">ValueAnimator valueAnimator = ValueAnimator.ofFloat(<span class="number">0f</span>, <span class="number">1f</span>);</span><br><span class="line">valueAnimator.setDuration(<span class="number">200</span>);</span><br><span class="line">valueAnimator.addUpdateListener(<span class="keyword">new</span> ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationUpdate</span><span class="params">(ValueAnimator animation)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//监听输出动画移动的值</span></span><br><span class="line">        <span class="keyword">float</span> value = (<span class="keyword">float</span>) animation.getAnimatedValue();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">valueAnimator.start();</span><br></pre></td></tr></table></figure>
+<p> 生成ValueAnimator的方法除了ValueAnimator.ofFloat(float);参数要精确到小数点后几位，还有ValueAnimator.ofInt(int);参数是整型比如1，100。</p>
+<p>ValueAnimator还有其他属性，比如设置延迟时间ValueAnimator.setStartDelay(200);设置延时200毫秒，还有循环次数<br>ValueAnimator.setRepeatCount(5);动画循环5次，又或者是动画播放模式正常ValueAnimator.RESTART还是反向播放的<br>ValueAnimator.setRepeatMode(ValueAnimator.REVERSE);发向播放动画。</p>
+<h3 id="ObjectAnimator"><a href="#ObjectAnimator" class="headerlink" title="ObjectAnimator"></a>ObjectAnimator</h3><p>ObjectAnimator继承了ValueAnimator,所以ValueAnimator有的方法ObjectAnimator都有。ObjectAnimator是操作具体的控件比如button，imageview的动画，举几个例子：</p>
+<p>图片从x轴的-500的位置移动到100的位置<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ObjectAnimator  objectAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"translationX"</span>,-<span class="number">500f</span>,<span class="number">100f</span>);</span><br><span class="line">       objectAnimator.setDuration(<span class="number">500</span>);</span><br><span class="line">       objectAnimator.start();</span><br></pre></td></tr></table></figure></p>
+<p> 透明度由1变成0再变成1的动画</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ObjectAnimator  objectAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"alpha"</span>,<span class="number">1f</span>,<span class="number">0f</span>,<span class="number">1f</span>);</span><br><span class="line">       objectAnimator.setDuration(<span class="number">500</span>);</span><br><span class="line">       objectAnimator.start();</span><br></pre></td></tr></table></figure>
+<p> 旋转360度的动画<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ObjectAnimator  objectAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"rotation"</span>,<span class="number">0f</span>,<span class="number">360f</span>);</span><br><span class="line">     objectAnimator.setDuration(<span class="number">500</span>);</span><br><span class="line">     objectAnimator.start();</span><br></pre></td></tr></table></figure></p>
+<p> y轴上缩放3倍的动画<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ObjectAnimator  objectAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"scaleY"</span>,<span class="number">1f</span>,<span class="number">3f</span>);</span><br><span class="line">     objectAnimator.setDuration(<span class="number">500</span>);</span><br><span class="line">     objectAnimator.start();</span><br></pre></td></tr></table></figure></p>
+<p>如果你觉得单单实现一种动画还不够炫，如果你想同时实现多个动画，你要用到动画组合AnimatorSet</p>
+<h3 id="AnimatorSet"><a href="#AnimatorSet" class="headerlink" title="AnimatorSet"></a>AnimatorSet</h3><p>把多个ObjectAnimator按顺序连接起来，比如把上面的缩放，移动，设置透明度组合起来</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ObjectAnimator  scaleYAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"scaleY"</span>,<span class="number">1f</span>,<span class="number">3f</span>);</span><br><span class="line">ObjectAnimator  translationXAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"translationX"</span>,<span class="number">0f</span>,<span class="number">100f</span>);</span><br><span class="line">ObjectAnimator  alphaAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"alpha"</span>,<span class="number">1f</span>,<span class="number">0f</span>,<span class="number">1f</span>);</span><br><span class="line">AnimatorSet animatorSet=<span class="keyword">new</span> AnimatorSet();</span><br><span class="line">animatorSet.play(scaleYAnimator).with(translationXAnimator).with(alphaAnimator);</span><br><span class="line">animatorSet.setDuration(<span class="number">500</span>);</span><br><span class="line">animatorSet.start();</span><br></pre></td></tr></table></figure>
+<p>这里Animator.after将其他动画加到这个动画之后，还可以传入动画设置两个动画的间隔，Animator.with两个动画一起播放，Animator.before插入动画放在这个动画之前。</p>
+<h3 id="u52A8_u753B_u76D1_u542C_u5668"><a href="#u52A8_u753B_u76D1_u542C_u5668" class="headerlink" title="动画监听器"></a>动画监听器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"scaleY"</span>,<span class="number">1f</span>,<span class="number">3f</span>);</span><br><span class="line">objectAnimator.addListener(<span class="keyword">new</span> Animator.AnimatorListener() &#123;</span><br><span class="line"></span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationStart</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">                <span class="comment">//动画的时候</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationEnd</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">                <span class="comment">//动画结束的时候</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationCancel</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">               <span class="comment">//动画取消时</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationRepeat</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">             <span class="comment">//动画循环时</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">     objectAnimator.setDuration(<span class="number">500</span>);</span><br><span class="line">     objectAnimator.start();</span><br></pre></td></tr></table></figure>
+<p>你也可以单独实现一个监听方法，这里的AnimatorListener改为AnimatorListenerAdapter就可以了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">objectAnimator.addListener(<span class="keyword">new</span> AnimatorListenerAdapter() &#123;</span><br><span class="line"></span><br><span class="line">       <span class="annotation">@Override</span></span><br><span class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationEnd</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">               <span class="keyword">super</span>.onAnimationEnd(animation);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="u8BBE_u7F6EXML_u52A8_u753B"><a href="#u8BBE_u7F6EXML_u52A8_u753B" class="headerlink" title="设置XML动画"></a>设置XML动画</h3><p>如果有多个界面的控件要实现相同的动画效果，我们可以通过xml更加有效率来设置动画。<br>在res/animator文件夹下新建animator.xml<br>(注意，res/anim这个文件夹是补间动画，res/drawable放帧动画)<br>根标签是一个<objectanimator> 代表一个ObjectAnimator，标签内有duration动画时间，propertyName动画属性translationX，valueFrom原来的值，valueTo变化后的值,valueType值的类型是floatType还是intType这些属性.</objectanimator></p>
+<p><set>标签代表一个AnimatorSet,在set标签内默认按照从上到下顺序加载不同的动画（就是在set设置android:ordering=”sequentially”）,如果你想同步进行就设置android:ordering=”together”</set></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line">&lt;set xmlns:android="http://schemas.android.com/apk/res/android"</span><br><span class="line">   android:ordering="sequentially"&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:duration="500"</span><br><span class="line">        android:propertyName="scaleY"</span><br><span class="line">        android:valueFrom="100f"</span><br><span class="line">        android:valueTo="1f"</span><br><span class="line">        android:valueType="floatType"</span><br><span class="line">    /&gt;</span><br><span class="line">    &lt;set android:ordering="together"&gt;</span><br><span class="line">        &lt;objectAnimator</span><br><span class="line">            android:duration="500"</span><br><span class="line">            android:propertyName="scaleY"</span><br><span class="line">            android:valueFrom="1f"</span><br><span class="line">            android:valueTo="100f"</span><br><span class="line">            android:valueType="floatType"</span><br><span class="line">        /&gt;</span><br><span class="line">    &lt;/set&gt;</span><br><span class="line">&lt;/set&gt;</span><br></pre></td></tr></table></figure>
+<p>xml代码写好了，然后实现可以在类中调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Animator animator = AnimatorInflater.loadAnimator(mContext, R.animator.animator);</span><br><span class="line">animator.setTarget(mImageView);</span><br><span class="line">animator.start();</span><br></pre></td></tr></table></figure>
+<p>最后通过够用AnimatorInflate.loadAnimator，参数分别是Context和R.animator.animator</p>
+<h3 id="ViewPropertyAnimator"><a href="#ViewPropertyAnimator" class="headerlink" title="ViewPropertyAnimator"></a>ViewPropertyAnimator</h3><p>在android3.1系统推出了view通过调用animator方法来设置不同的动画</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mImageView.animate().alpha(<span class="number">0f</span>).setDuration(<span class="number">500</span>);<span class="comment">//这时候不用start即可</span></span><br><span class="line">mImageView.animate().x(<span class="number">100</span>).y(<span class="number">100</span>).setDuration(<span class="number">500</span>);<span class="comment">//这时候不用start即可</span></span><br></pre></td></tr></table></figure>
+<p>但是这时候的链接不支持透明度从1f到0f再到1f。就算一个控件多次调用animate().alpha也会以最后一次动画为准。有点鸡肋。</p>
+<h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><ol>
+<li><p>上述分别讲述了帧动画，补间动画，属性动画的ValueAnimator，ObejectAnimator 和AnimatorSet，还有属性动画的xml写法。</p>
+</li>
+<li><p>从性能效率上来看，优先考虑使用属性动画。</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/11/22/greenDAO/" itemprop="url">
                   greenDAO
                 </a>
@@ -835,147 +963,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/10/AndroidStudio从入门到精通/" itemprop="url">
-                  android studio详细使用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-10-10T09:31:58+08:00" content="2016-10-10">
-              2016-10-10
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/10/10/AndroidStudio从入门到精通/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/10/AndroidStudio从入门到精通/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Android Studio谷歌官方推荐开发android的编译器，使用更强大的gradle脚本工具，支持Layout Editor更加直观的布局编辑，Constraint layout比relativelayout更加方便的相对布局，Apk Analyzer查看apk中dex体积等。</p>
-<p><a href="https://developer.android.com/studio/index.html?hl=zh-cn" target="_blank" rel="external">AndroidStudio下载链接</a></p>
-<h3 id="u4E0D_u540C_u4E8Eeclipse_uFF0Cas_u662F_u4EE5_u4E00_u4E2Aproject_u4E3A_u4E00_u4E2A_u7A97_u53E3_u3002"><a href="#u4E0D_u540C_u4E8Eeclipse_uFF0Cas_u662F_u4EE5_u4E00_u4E2Aproject_u4E3A_u4E00_u4E2A_u7A97_u53E3_u3002" class="headerlink" title="不同于eclipse，as是以一个project为一个窗口。"></a>不同于eclipse，as是以一个project为一个窗口。</h3><ul>
-<li>选择file-new-new project 新建as项目，</li>
-<li>选择file-new-import project 导入eclipse项目，</li>
-<li>选择file-open 打开as项目，</li>
-<li>选择file-new-Project from Version Control-github 来导入git上的项目。</li>
-</ul>
-<h3 id="as_u7684_u9879_u76EE_u7ED3_u6784_uFF0Capp_u9879_u76EE_u4E3B_u76EE_u5F55__u3002"><a href="#as_u7684_u9879_u76EE_u7ED3_u6784_uFF0Capp_u9879_u76EE_u4E3B_u76EE_u5F55__u3002" class="headerlink" title="as的项目结构，app项目主目录 。"></a>as的项目结构，app项目主目录 。</h3><ul>
-<li>app/libs jar 存放位置，</li>
-<li>app/src/java  放java代码，</li>
-<li>app/src/res 放图片xml等文件，</li>
-<li>app/src/res/mipmap-xhdpi 用来放launcher的logo</li>
-<li>app/src/res/drawable-xhdpi 用来放项目用到的图片文件</li>
-<li>app/build.gradle 负责定义项目的编译sdk版本，包名，版本号，打包签名，还有jar在maven上的引用。</li>
-<li>build.gradle  负责整个引用项目的gradle插件版本。</li>
-<li>settings.gradle 包含主项目和moudle项目</li>
-</ul>
-<h3 id="as_u8BBE_u7F6E"><a href="#as_u8BBE_u7F6E" class="headerlink" title="as设置"></a>as设置</h3><p><strong>as修改包名</strong></p>
-<p>选择show option menu就是绿色运行那个三角形下2行的那个齿轮按钮，把Compat Empty middle packages的改为不选中状态，修改包名java/com/xxx.xxx最后修改build.gradle上的applicationId为你的包名。</p>
-<p><strong>添加每个java类的头文件</strong></p>
-<p>在settings搜索File and Code Templates找到includle -file Header<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span> Package :$&#123;PACKAGE_NAME&#125;</span><br><span class="line"> <span class="keyword">*</span> Description :</span><br><span class="line"> <span class="keyword">*</span> Author :$&#123;USER&#125;</span><br><span class="line"> <span class="keyword">*</span> Created at :$&#123;DATE&#125; $&#123;HOUR&#125;:$&#123;MINUTE&#125;.</span><br><span class="line"> <span class="keyword">*</span>/</span><br></pre></td></tr></table></figure></p>
-<p><strong>自定义代码模板</strong></p>
-<p>在settings搜索 Live Templates 点开Android ，点击右上角绿色的加号，，例如我要添加一个swith的代码片段。</p>
-<p>在Abbreviation 输入片段的缩写：如switchinit； </p>
-<p>在description 输入片段作用的描述：如ontouchevent的switch语句。</p>
-<p>然后在Template text输入代码:</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">switch</span> (event.getAction()) &#123;</span><br><span class="line">    <span class="keyword">case</span> MotionEvent.<span class="string">ACTION_DOWN:</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> MotionEvent.<span class="string">ACTION_MOVE:</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> MotionEvent.<span class="string">ACTION_UP:</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>as的快捷键</strong>，我选择default，下面是几个常用的快捷键</p>
-<p>Ctrl+Alt+L                                     format code</p>
-<p>Alt+Shift+鼠标光标                      多行多光标编辑</p>
-<p>Alt+enter                                      解决代码报错，用于强制类型转换，导包，生成方法等</p>
-<h3 id="u5F15_u7528aar_u5305"><a href="#u5F15_u7528aar_u5305" class="headerlink" title="引用aar包"></a>引用aar包</h3><p>把aar包复制到libs文件夹下,修改module的build.gradle</p>
-<p><strong>注</strong> ：apply plugin:com.android.library的项目才能gengerate出aar</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">repositories&#123;</span><br><span class="line">    flatDir&#123;</span><br><span class="line">        dirs <span class="string">'libs'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies&#123;</span><br><span class="line">  compile(name:<span class="string">'aaa.aar'</span>,ext:<span class="string">'aar'</span>)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="u6392_u9664_u4F9D_u8D56"><a href="#u6392_u9664_u4F9D_u8D56" class="headerlink" title="排除依赖"></a>排除依赖</h3><p>但出现依赖冲突时候，可以通过排除依赖解决：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">compile (name:<span class="string">'aaa'</span>,ext:<span class="string">'aar'</span>)&#123;</span><br><span class="line">        exclude group:<span class="string">'com.android.support'</span>,module:<span class="string">'recyclerview-v7'</span></span><br><span class="line">&#125;<span class="comment">//这样子可以解决aaa.aar包使用recyclerview，到此项目因为类重复而编译失败.</span></span><br></pre></td></tr></table></figure>
-<h3 id="dex_u5206_u5305_uFF08_u89E3_u51B365k_uFF09"><a href="#dex_u5206_u5305_uFF08_u89E3_u51B365k_uFF09" class="headerlink" title="dex分包（解决65k）"></a>dex分包（解决65k）</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">buildConfig&#123;</span><br><span class="line"></span><br><span class="line">  multiDexEnable <span class="keyword">true</span></span><br><span class="line">&#125;</span><br><span class="line">dependencies&#123;</span><br><span class="line"></span><br><span class="line">  compile <span class="string">'com.google.support:multidex:1.0.0'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//自定义application继承MultiDexApplication。即可</span></span><br><span class="line"><span class="comment">//或者在你原来的Application重写attachBaseContext方法加入</span></span><br><span class="line"><span class="comment">//MultiDex.install(this);</span></span><br></pre></td></tr></table></figure>
-<h3 id="u79FB_u9664_u6CA1_u7528_u8D44_u6E90"><a href="#u79FB_u9664_u6CA1_u7528_u8D44_u6E90" class="headerlink" title="移除没用资源"></a>移除没用资源</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">buildTpyes&#123;</span><br><span class="line">    release&#123;</span><br><span class="line">        minifyEnable <span class="keyword">true</span></span><br><span class="line">        shrinkResources <span class="keyword">true</span></span><br><span class="line">      &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="u5FFD_u7565lint_u9519_u8BEF"><a href="#u5FFD_u7565lint_u9519_u8BEF" class="headerlink" title="忽略lint错误"></a>忽略lint错误</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">android&#123;</span><br><span class="line">  lintOptions&#123;</span><br><span class="line">     abortOnError <span class="keyword">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="u58F0_u660E_u7F16_u8BD1java_u7248_u672C"><a href="#u58F0_u660E_u7F16_u8BD1java_u7248_u672C" class="headerlink" title="声明编译java版本"></a>声明编译java版本</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">android&#123;</span><br><span class="line">   compileOptions&#123;</span><br><span class="line">     sourceCompatibility JavaVersion.VERSION_1_8</span><br><span class="line">     targetCompatibility JavaVersion.VERSION_1_8</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="u7B7E_u540D_u914D_u7F6E"><a href="#u7B7E_u540D_u914D_u7F6E" class="headerlink" title="签名配置"></a>签名配置</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">signingConfigs&#123;</span><br><span class="line">  release&#123;</span><br><span class="line">       <span class="function">storeFile <span class="title">file</span><span class="params">(<span class="string">"c:/xx.jks"</span>)</span></span><br><span class="line">       storePassword "123456"</span><br><span class="line">       keyAlias  "xiaom"</span><br><span class="line">       keuPassword "bjuaa"</span><br><span class="line">  &#125;</span><br><span class="line">  debug</span>&#123;</span><br><span class="line">       <span class="function">storeFile <span class="title">file</span><span class="params">(<span class="string">"c:/xx.jks"</span>)</span></span><br><span class="line">       storePassword "123456"</span><br><span class="line">       keyAlias  "xiaom"</span><br><span class="line">       keuPassword "bjuaa"</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">buildTypes</span>&#123;</span><br><span class="line"></span><br><span class="line">  release&#123;</span><br><span class="line">            <span class="function">minifyEnabled <span class="keyword">true</span></span><br><span class="line">            useProguard <span class="keyword">false</span></span><br><span class="line">            shirkResources <span class="keyword">true</span></span><br><span class="line">            proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.pro'</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1016,7 +1008,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -1026,7 +1018,7 @@
           
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">標籤</span>
               
             </div>

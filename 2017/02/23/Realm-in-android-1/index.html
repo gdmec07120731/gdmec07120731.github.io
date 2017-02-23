@@ -1,0 +1,821 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Realm," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="Realm介绍
+Realm官网链接https://realm.io/
+开源地址https://github.com/realm/realm-java
+官方使用文档https://realm.io/docs/java/latest/
+
+Realm是一个开源的ORM概念的（对象关系映射）移动数据库，可以在Android ，ios ，java各个平台上使用，性能秒杀sqlite等数据库比如（greend">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Realm-in-android-1">
+<meta property="og:url" content="http://www.lanyimi.com/2017/02/23/Realm-in-android-1/index.html">
+<meta property="og:site_name" content="ppjun's blog">
+<meta property="og:description" content="Realm介绍
+Realm官网链接https://realm.io/
+开源地址https://github.com/realm/realm-java
+官方使用文档https://realm.io/docs/java/latest/
+
+Realm是一个开源的ORM概念的（对象关系映射）移动数据库，可以在Android ，ios ，java各个平台上使用，性能秒杀sqlite等数据库比如（greend">
+<meta property="og:updated_time" content="2017-02-23T10:36:33.349Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Realm-in-android-1">
+<meta name="twitter:description" content="Realm介绍
+Realm官网链接https://realm.io/
+开源地址https://github.com/realm/realm-java
+官方使用文档https://realm.io/docs/java/latest/
+
+Realm是一个开源的ORM概念的（对象关系映射）移动数据库，可以在Android ，ios ，java各个平台上使用，性能秒杀sqlite等数据库比如（greend">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Realm-in-android-1 | ppjun's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?cef14f34097ee96d1c421c93f49f83b9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ppjun's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Thanks for your watching</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Realm-in-android-1
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-02-23T15:19:00+08:00" content="2017-02-23">
+              2017-02-23
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/02/23/Realm-in-android-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/23/Realm-in-android-1/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Realm_u4ECB_u7ECD"><a href="#Realm_u4ECB_u7ECD" class="headerlink" title="Realm介绍"></a>Realm介绍</h1><ul>
+<li>Realm官网链接<a href="https://realm.io/" target="_blank" rel="external">https://realm.io/</a></li>
+<li>开源地址<a href="https://github.com/realm/realm-java" target="_blank" rel="external">https://github.com/realm/realm-java</a></li>
+<li>官方使用文档<a href="https://realm.io/docs/java/latest/" target="_blank" rel="external">https://realm.io/docs/java/latest/</a></li>
+</ul>
+<p>Realm是一个开源的ORM概念的（对象关系映射）移动数据库，可以在Android ，ios ，java各个平台上使用，性能秒杀sqlite等数据库比如（greendao）。</p>
+<h1 id="u5FEB_u901F_u5165_u95E8"><a href="#u5FEB_u901F_u5165_u95E8" class="headerlink" title="快速入门"></a>快速入门</h1><p>只需<strong>两步</strong></p>
+<p>在项目的build.gradle中dependencies输入classpath “io.realm:realm-gradle-plugin:2.3.1”，这里要双引号。这里要双引号。这里要双引号。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">buildscript</span> &#123;</span><br><span class="line">    <span class="keyword">repositories</span> &#123;</span><br><span class="line"></span><br><span class="line">        jcenter()</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">dependencies</span> &#123;</span><br><span class="line">        <span class="keyword">classpath</span> <span class="string">'com.android.tools.build:gradle:2.2.3'</span></span><br><span class="line">        <span class="keyword">classpath</span> <span class="string">"io.realm:realm-gradle-plugin:2.3.1"</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// <span class="doctag">NOTE:</span> Do not place your application dependencies here; they belong</span></span><br><span class="line">        <span class="comment">// in the individual module build.gradle files</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在app的bulid.gradle输入apply plugin: ‘realm-android’</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apply <span class="string">plugin:</span> <span class="string">'realm-android'</span></span><br></pre></td></tr></table></figure>
+<p>★以上操作完成了realm在as的配置了。</p>
+<h1 id="Realm_u7684_u6A21_u578B"><a href="#Realm_u7684_u6A21_u578B" class="headerlink" title="Realm的模型"></a>Realm的模型</h1><p>自定义类要继承RealmObject，注意这里必须要有一个无参数的构造方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dog</span> <span class="keyword">extends</span> <span class="title">RealmObject</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Dog</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Dog</span><span class="params">(String name, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果类A中包含着其他类的集合这时候要用到ResultList<e>，比如</e></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">extends</span> <span class="title">RealmObject</span> </span>&#123;</span><br><span class="line">    <span class="annotation">@PrimaryKey</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> RealmList&lt;Dog&gt; mDogRealmList;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>如果你的自定义类已经继承了其他父类，你也可以实现RealmModel来建造realm对象模型。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@RealmClass</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">implements</span> <span class="title">RealmModel</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Realm_u6CE8_u89E3_u8BF4_u660E"><a href="#Realm_u6CE8_u89E3_u8BF4_u660E" class="headerlink" title="Realm注解说明"></a>Realm注解说明</h1><p>@RealmClass 当实现RealmModel接口的类要加上这个注解。</p>
+<p>@Required 修饰不能为空的成员变量</p>
+<p>@Ignore 修饰不写入数据库的变量</p>
+<p>@PrimaryKey 设置该成员变量为类的主键</p>
+<p>@Index 加快查询速度，不过会让插入数据时变慢</p>
+<h1 id="Realm_u521D_u59CB_u5316"><a href="#Realm_u521D_u59CB_u5316" class="headerlink" title="Realm初始化"></a>Realm初始化</h1><p>在自定义Applciation中Realm.init(this);</p>
+<p>获取Realm实例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">realm = Realm.getDefaultInstance();</span><br></pre></td></tr></table></figure>
+<p>这是获取默认配置的Realm，默认保存在data/data/packageName/files/default.realm 你也可以自定义RealmConfiguration，通常是自定义文件名，加密的key，数据库版本号和是否删除合并前的数据等。Realm实现了closeable接口，所以每次的getInstance，到最后关闭使用后都要调用close方法。比如在activity的ondestroy调用realm.close();</p>
+<h1 id="Realm_u5199_u5165"><a href="#Realm_u5199_u5165" class="headerlink" title="Realm写入"></a>Realm写入</h1><p>Realm是一个MVCC架构，同一线程的读写操作不影响获取数据，但是多线程读取写入操作就要用到事务来确保获取数据一致性和线程安全。的是放在事务transcation里面执行，确保整个事务的操作都被提交或者全部取消操作调用realm.cancelTranscation();，确保数据的一致性。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">realm = Realm.getDefaultInstance();</span><br><span class="line">realm.beginTransaction();</span><br><span class="line">Dog d=<span class="keyword">new</span> Dog(<span class="string">"a"</span>,<span class="number">1</span>);</span><br><span class="line">Dog b=realm.copyToRealm(d);<span class="comment">//这里的copyToRealm相当于深拷贝了一个d变量。对原来的d变量没任何影响。</span></span><br><span class="line">b.setName(<span class="string">"b"</span>);</span><br><span class="line">realm.commitTransaction(); <span class="comment">//最后往数据库写入一个dog变量b</span></span><br></pre></td></tr></table></figure>
+<p>♥copyToRealm会深拷贝一个变量到数据库包括主键，如果主键重复就会抛出异常，拷贝之后主键不能修改。</p>
+<p>当两个线程同时进行写入操作，另外一个会造成主线程阻塞，所以要调用异步事务避免主线程阻塞。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//同步新增数据</span></span><br><span class="line">realm.executeTransaction(<span class="keyword">new</span> Realm.Transaction() &#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Realm realm)</span> </span>&#123;</span><br><span class="line">        Dog dog = realm.copyToRealm(<span class="keyword">new</span> Dog(<span class="number">1</span>, <span class="string">"2"</span>, <span class="number">3</span>));</span><br><span class="line">        dog.setName(<span class="string">"pp"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//异步修改 查询</span></span><br><span class="line">realm.executeTransactionAsync(<span class="keyword">new</span> Realm.Transaction() &#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Realm realm)</span> </span>&#123;</span><br><span class="line">        Dog dog = realm.copyToRealm(dogOne);</span><br><span class="line">        dog.setName(<span class="string">"apple"</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;, <span class="keyword">new</span> Realm.Transaction.OnSuccess() &#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        RealmResults&lt;Dog&gt; list = realm.where(Dog.class).findAll();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; list.size(); i++) &#123;</span><br><span class="line">            Log.i(TAG, <span class="string">"onSuccess: "</span> + list.toString());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>realm的主键，在oncreate方法加入设置主键的RealmObject方法，下次调用oncreate没有判断主键是否exist就加入数据库就会报错。而在oncreate方法没加入没设置主键的realmobject类 ，下次调用oncreate方法就会在自启动数据库文件追加。</p>
+<h1 id="Realm__u67E5_u8BE2"><a href="#Realm__u67E5_u8BE2" class="headerlink" title="Realm 查询"></a>Realm 查询</h1><p>查询都是返回一个RealmResults<e>对象支持以下查询条件。</e></p>
+<ol>
+<li>between()，greaterThan()， lessThan()， greaterThanOrEqualTo() 和lessThanOrEqualTo();</li>
+<li>equalTo()和notEqualTo()</li>
+<li>contains()，beginsWith()和endsWith()</li>
+<li>isNull()和isNotNull()</li>
+<li>isEmpty()和isNotEmpty()</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RealmResults&lt;Dog&gt; list=realm.where(Dog.class).lessThan(<span class="string">"age"</span>,<span class="number">1</span>).findAll();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; list.size(); i++) &#123;</span><br><span class="line">    Log.i(TAG, <span class="string">"execute: "</span>+list.get(i).getName());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Realm_u4FEE_u6539"><a href="#Realm_u4FEE_u6539" class="headerlink" title="Realm修改"></a>Realm修改</h1><p>修改操作要在一个事务里面完成。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">dog = <span class="keyword">new</span> Dog(<span class="number">1</span>, <span class="string">"a"</span>, <span class="number">1</span>);</span><br><span class="line">      realm.executeTransaction(<span class="keyword">new</span> Realm.Transaction() &#123;</span><br><span class="line">          <span class="annotation">@Override</span></span><br><span class="line">          <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Realm realm)</span> </span>&#123;</span><br><span class="line">              dog = realm.copyToRealm(dog);</span><br><span class="line">              dog.setAge(<span class="number">2</span>);</span><br><span class="line">              dog.setName(<span class="string">"kiki"</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">              RealmResults&lt;Dog&gt; list = realm.where(Dog.class).equalTo(<span class="string">"id"</span>, <span class="number">1</span>).findAll();</span><br><span class="line">              list.get(<span class="number">0</span>).setName(<span class="string">"ab"</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             </span><br><span class="line">          &#125;</span><br><span class="line">      &#125;);</span><br></pre></td></tr></table></figure>
+<h1 id="RealmResult_u7684changeListener"><a href="#RealmResult_u7684changeListener" class="headerlink" title="RealmResult<E>的changeListener"></a>RealmResult<e>的changeListener</e></h1><p>监听RealmResult内容变化。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">RealmResults&lt;Dog&gt; list = realm.where(Dog.class).lessThan(<span class="string">"id"</span>, <span class="number">3</span>).findAll();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">realm.executeTransaction(<span class="keyword">new</span> Realm.Transaction() &#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Realm realm)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Dog dog = realm.createObject(Dog.class);</span><br><span class="line">        dog.setId(<span class="number">2</span>);</span><br><span class="line">        dog.setName(<span class="string">"aaaa"</span>);</span><br><span class="line">        dog.setAge(<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">list.addChangeListener(<span class="keyword">new</span> RealmChangeListener&lt;RealmResults&lt;Dog&gt;&gt;() &#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onChange</span><span class="params">(RealmResults&lt;Dog&gt; element)</span> </span>&#123;</span><br><span class="line">        Log.i(TAG, <span class="string">"onChange: "</span> + element.toString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h1 id="Realm_u7684_u5220_u9664"><a href="#Realm_u7684_u5220_u9664" class="headerlink" title="Realm的删除"></a>Realm的删除</h1><p>继续上面的例子查询id小于3的realmresult集合 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">list.addChangeListener(<span class="keyword">new</span> RealmChangeListener&lt;RealmResults&lt;Dog&gt;&gt;() &#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onChange</span><span class="params">(RealmResults&lt;Dog&gt; element)</span> </span>&#123;</span><br><span class="line">        element.deleteFirstFromRealm();<span class="comment">//删除第一条数据</span></span><br><span class="line">        element.deleteAllFromRealm();<span class="comment">//删除全部数据</span></span><br><span class="line">        element.deleteFromRealm(<span class="number">0</span>);<span class="comment">//删除指定数据</span></span><br><span class="line">        element.deleteLastFromRealm();<span class="comment">//删除最后一条数据</span></span><br><span class="line">        element.get(<span class="number">1</span>).deleteFromRealm();<span class="comment">//删除指定obejct</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h1 id="Realm_u6DFB_u52A0_u4E00_u4E2Ajson_u5B57_u7B26_u4E32"><a href="#Realm_u6DFB_u52A0_u4E00_u4E2Ajson_u5B57_u7B26_u4E32" class="headerlink" title="Realm添加一个json字符串"></a>Realm添加一个json字符串</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">realm.executeTransaction(<span class="keyword">new</span> Realm.Transaction() &#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Realm realm)</span> </span>&#123;</span><br><span class="line">        realm.createObjectFromJson(Dog.class,<span class="string">"&#123;\n"</span> +</span><br><span class="line">                <span class="string">"    \"id\": 1,\n"</span> +</span><br><span class="line">                <span class="string">"    \"name\": \"bili\",\n"</span> +</span><br><span class="line">                <span class="string">"    \"age\": 12\n"</span> +</span><br><span class="line">                <span class="string">"&#125;"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h1 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h1><ol>
+<li>Realm很多种情况修改数据要配合事务使用。</li>
+<li>Realm以一个RealmObject作为一个表的功能。</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/source/tags/Realm/" rel="tag">#Realm</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/15/java线程中的Runnable，Callable，Future，FutureTask/" rel="next" title="java线程中的Runnable，Callable，Future，FutureTask">
+                <i class="fa fa-chevron-left"></i> java线程中的Runnable，Callable，Future，FutureTask
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/23/Realm-in-android-1/"
+           data-title="Realm-in-android-1" data-url="http://www.lanyimi.com/2017/02/23/Realm-in-android-1/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://tp2.sinaimg.cn/1856098257/180/40040512434/1"
+               alt="区汇君" />
+          <p class="site-author-name" itemprop="name">区汇君</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">標籤</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/gdmec07120731" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1856098257?is_all=1" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> Weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Realm_u4ECB_u7ECD"><span class="nav-number">1.</span> <span class="nav-text">Realm介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u5FEB_u901F_u5165_u95E8"><span class="nav-number">2.</span> <span class="nav-text">快速入门</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Realm_u7684_u6A21_u578B"><span class="nav-number">3.</span> <span class="nav-text">Realm的模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Realm_u6CE8_u89E3_u8BF4_u660E"><span class="nav-number">4.</span> <span class="nav-text">Realm注解说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Realm_u521D_u59CB_u5316"><span class="nav-number">5.</span> <span class="nav-text">Realm初始化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Realm_u5199_u5165"><span class="nav-number">6.</span> <span class="nav-text">Realm写入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Realm__u67E5_u8BE2"><span class="nav-number">7.</span> <span class="nav-text">Realm 查询</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Realm_u4FEE_u6539"><span class="nav-number">8.</span> <span class="nav-text">Realm修改</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RealmResult_u7684changeListener"><span class="nav-number">9.</span> <span class="nav-text">RealmResult的changeListener</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Realm_u7684_u5220_u9664"><span class="nav-number">10.</span> <span class="nav-text">Realm的删除</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Realm_u6DFB_u52A0_u4E00_u4E2Ajson_u5B57_u7B26_u4E32"><span class="nav-number">11.</span> <span class="nav-text">Realm添加一个json字符串</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u603B_u7ED3"><span class="nav-number">12.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">区汇君</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ouhuijun"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

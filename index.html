@@ -216,6 +216,155 @@
             
               
                 
+                <a class="post-title-link" href="/2017/02/23/Realm-in-android-1/" itemprop="url">
+                  Realm-in-android-1
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-02-23T15:19:00+08:00" content="2017-02-23">
+              2017-02-23
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/02/23/Realm-in-android-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/23/Realm-in-android-1/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Realm_u4ECB_u7ECD"><a href="#Realm_u4ECB_u7ECD" class="headerlink" title="Realm介绍"></a>Realm介绍</h1><ul>
+<li>Realm官网链接<a href="https://realm.io/" target="_blank" rel="external">https://realm.io/</a></li>
+<li>开源地址<a href="https://github.com/realm/realm-java" target="_blank" rel="external">https://github.com/realm/realm-java</a></li>
+<li>官方使用文档<a href="https://realm.io/docs/java/latest/" target="_blank" rel="external">https://realm.io/docs/java/latest/</a></li>
+</ul>
+<p>Realm是一个开源的ORM概念的（对象关系映射）移动数据库，可以在Android ，ios ，java各个平台上使用，性能秒杀sqlite等数据库比如（greendao）。</p>
+<h1 id="u5FEB_u901F_u5165_u95E8"><a href="#u5FEB_u901F_u5165_u95E8" class="headerlink" title="快速入门"></a>快速入门</h1><p>只需<strong>两步</strong></p>
+<p>在项目的build.gradle中dependencies输入classpath “io.realm:realm-gradle-plugin:2.3.1”，这里要双引号。这里要双引号。这里要双引号。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">buildscript</span> &#123;</span><br><span class="line">    <span class="keyword">repositories</span> &#123;</span><br><span class="line"></span><br><span class="line">        jcenter()</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">dependencies</span> &#123;</span><br><span class="line">        <span class="keyword">classpath</span> <span class="string">'com.android.tools.build:gradle:2.2.3'</span></span><br><span class="line">        <span class="keyword">classpath</span> <span class="string">"io.realm:realm-gradle-plugin:2.3.1"</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// <span class="doctag">NOTE:</span> Do not place your application dependencies here; they belong</span></span><br><span class="line">        <span class="comment">// in the individual module build.gradle files</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在app的bulid.gradle输入apply plugin: ‘realm-android’</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apply <span class="string">plugin:</span> <span class="string">'realm-android'</span></span><br></pre></td></tr></table></figure>
+<p>★以上操作完成了realm在as的配置了。</p>
+<h1 id="Realm_u7684_u6A21_u578B"><a href="#Realm_u7684_u6A21_u578B" class="headerlink" title="Realm的模型"></a>Realm的模型</h1><p>自定义类要继承RealmObject，注意这里必须要有一个无参数的构造方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dog</span> <span class="keyword">extends</span> <span class="title">RealmObject</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Dog</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Dog</span><span class="params">(String name, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果类A中包含着其他类的集合这时候要用到ResultList<e>，比如</e></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">extends</span> <span class="title">RealmObject</span> </span>&#123;</span><br><span class="line">    <span class="annotation">@PrimaryKey</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> RealmList&lt;Dog&gt; mDogRealmList;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>如果你的自定义类已经继承了其他父类，你也可以实现RealmModel来建造realm对象模型。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@RealmClass</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">implements</span> <span class="title">RealmModel</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Realm_u6CE8_u89E3_u8BF4_u660E"><a href="#Realm_u6CE8_u89E3_u8BF4_u660E" class="headerlink" title="Realm注解说明"></a>Realm注解说明</h1><p>@RealmClass 当实现RealmModel接口的类要加上这个注解。</p>
+<p>@Required 修饰不能为空的成员变量</p>
+<p>@Ignore 修饰不写入数据库的变量</p>
+<p>@PrimaryKey 设置该成员变量为类的主键</p>
+<p>@Index 加快查询速度，不过会让插入数据时变慢</p>
+<h1 id="Realm_u521D_u59CB_u5316"><a href="#Realm_u521D_u59CB_u5316" class="headerlink" title="Realm初始化"></a>Realm初始化</h1><p>在自定义Applciation中Realm.init(this);</p>
+<p>获取Realm实例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">realm = Realm.getDefaultInstance();</span><br></pre></td></tr></table></figure>
+<p>这是获取默认配置的Realm，默认保存在data/data/packageName/files/default.realm 你也可以自定义RealmConfiguration，通常是自定义文件名，加密的key，数据库版本号和是否删除合并前的数据等。Realm实现了closeable接口，所以每次的getInstance，到最后关闭使用后都要调用close方法。比如在activity的ondestroy调用realm.close();</p>
+<h1 id="Realm_u5199_u5165"><a href="#Realm_u5199_u5165" class="headerlink" title="Realm写入"></a>Realm写入</h1><p>Realm是一个MVCC架构，同一线程的读写操作不影响获取数据，但是多线程读取写入操作就要用到事务来确保获取数据一致性和线程安全。的是放在事务transcation里面执行，确保整个事务的操作都被提交或者全部取消操作调用realm.cancelTranscation();，确保数据的一致性。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">realm = Realm.getDefaultInstance();</span><br><span class="line">realm.beginTransaction();</span><br><span class="line">Dog d=<span class="keyword">new</span> Dog(<span class="string">"a"</span>,<span class="number">1</span>);</span><br><span class="line">Dog b=realm.copyToRealm(d);<span class="comment">//这里的copyToRealm相当于深拷贝了一个d变量。对原来的d变量没任何影响。</span></span><br><span class="line">b.setName(<span class="string">"b"</span>);</span><br><span class="line">realm.commitTransaction(); <span class="comment">//最后往数据库写入一个dog变量b</span></span><br></pre></td></tr></table></figure>
+<p>♥copyToRealm会深拷贝一个变量到数据库包括主键，如果主键重复就会抛出异常，拷贝之后主键不能修改。</p>
+<p>当两个线程同时进行写入操作，另外一个会造成主线程阻塞，所以要调用异步事务避免主线程阻塞。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//同步新增数据</span></span><br><span class="line">realm.executeTransaction(<span class="keyword">new</span> Realm.Transaction() &#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Realm realm)</span> </span>&#123;</span><br><span class="line">        Dog dog = realm.copyToRealm(<span class="keyword">new</span> Dog(<span class="number">1</span>, <span class="string">"2"</span>, <span class="number">3</span>));</span><br><span class="line">        dog.setName(<span class="string">"pp"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//异步修改 查询</span></span><br><span class="line">realm.executeTransactionAsync(<span class="keyword">new</span> Realm.Transaction() &#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Realm realm)</span> </span>&#123;</span><br><span class="line">        Dog dog = realm.copyToRealm(dogOne);</span><br><span class="line">        dog.setName(<span class="string">"apple"</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;, <span class="keyword">new</span> Realm.Transaction.OnSuccess() &#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        RealmResults&lt;Dog&gt; list = realm.where(Dog.class).findAll();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; list.size(); i++) &#123;</span><br><span class="line">            Log.i(TAG, <span class="string">"onSuccess: "</span> + list.toString());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>realm的主键，在oncreate方法加入设置主键的RealmObject方法，下次调用oncreate没有判断主键是否exist就加入数据库就会报错。而在oncreate方法没加入没设置主键的realmobject类 ，下次调用oncreate方法就会在自启动数据库文件追加。</p>
+<h1 id="Realm__u67E5_u8BE2"><a href="#Realm__u67E5_u8BE2" class="headerlink" title="Realm 查询"></a>Realm 查询</h1><p>查询都是返回一个RealmResults<e>对象支持以下查询条件。</e></p>
+<ol>
+<li>between()，greaterThan()， lessThan()， greaterThanOrEqualTo() 和lessThanOrEqualTo();</li>
+<li>equalTo()和notEqualTo()</li>
+<li>contains()，beginsWith()和endsWith()</li>
+<li>isNull()和isNotNull()</li>
+<li>isEmpty()和isNotEmpty()</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RealmResults&lt;Dog&gt; list=realm.where(Dog.class).lessThan(<span class="string">"age"</span>,<span class="number">1</span>).findAll();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; list.size(); i++) &#123;</span><br><span class="line">    Log.i(TAG, <span class="string">"execute: "</span>+list.get(i).getName());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Realm_u4FEE_u6539"><a href="#Realm_u4FEE_u6539" class="headerlink" title="Realm修改"></a>Realm修改</h1><p>修改操作要在一个事务里面完成。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">dog = <span class="keyword">new</span> Dog(<span class="number">1</span>, <span class="string">"a"</span>, <span class="number">1</span>);</span><br><span class="line">      realm.executeTransaction(<span class="keyword">new</span> Realm.Transaction() &#123;</span><br><span class="line">          <span class="annotation">@Override</span></span><br><span class="line">          <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Realm realm)</span> </span>&#123;</span><br><span class="line">              dog = realm.copyToRealm(dog);</span><br><span class="line">              dog.setAge(<span class="number">2</span>);</span><br><span class="line">              dog.setName(<span class="string">"kiki"</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">              RealmResults&lt;Dog&gt; list = realm.where(Dog.class).equalTo(<span class="string">"id"</span>, <span class="number">1</span>).findAll();</span><br><span class="line">              list.get(<span class="number">0</span>).setName(<span class="string">"ab"</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             </span><br><span class="line">          &#125;</span><br><span class="line">      &#125;);</span><br></pre></td></tr></table></figure>
+<h1 id="RealmResult_u7684changeListener"><a href="#RealmResult_u7684changeListener" class="headerlink" title="RealmResult<E>的changeListener"></a>RealmResult<e>的changeListener</e></h1><p>监听RealmResult内容变化。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">RealmResults&lt;Dog&gt; list = realm.where(Dog.class).lessThan(<span class="string">"id"</span>, <span class="number">3</span>).findAll();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">realm.executeTransaction(<span class="keyword">new</span> Realm.Transaction() &#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Realm realm)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Dog dog = realm.createObject(Dog.class);</span><br><span class="line">        dog.setId(<span class="number">2</span>);</span><br><span class="line">        dog.setName(<span class="string">"aaaa"</span>);</span><br><span class="line">        dog.setAge(<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">list.addChangeListener(<span class="keyword">new</span> RealmChangeListener&lt;RealmResults&lt;Dog&gt;&gt;() &#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onChange</span><span class="params">(RealmResults&lt;Dog&gt; element)</span> </span>&#123;</span><br><span class="line">        Log.i(TAG, <span class="string">"onChange: "</span> + element.toString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h1 id="Realm_u7684_u5220_u9664"><a href="#Realm_u7684_u5220_u9664" class="headerlink" title="Realm的删除"></a>Realm的删除</h1><p>继续上面的例子查询id小于3的realmresult集合 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">list.addChangeListener(<span class="keyword">new</span> RealmChangeListener&lt;RealmResults&lt;Dog&gt;&gt;() &#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onChange</span><span class="params">(RealmResults&lt;Dog&gt; element)</span> </span>&#123;</span><br><span class="line">        element.deleteFirstFromRealm();<span class="comment">//删除第一条数据</span></span><br><span class="line">        element.deleteAllFromRealm();<span class="comment">//删除全部数据</span></span><br><span class="line">        element.deleteFromRealm(<span class="number">0</span>);<span class="comment">//删除指定数据</span></span><br><span class="line">        element.deleteLastFromRealm();<span class="comment">//删除最后一条数据</span></span><br><span class="line">        element.get(<span class="number">1</span>).deleteFromRealm();<span class="comment">//删除指定obejct</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h1 id="Realm_u6DFB_u52A0_u4E00_u4E2Ajson_u5B57_u7B26_u4E32"><a href="#Realm_u6DFB_u52A0_u4E00_u4E2Ajson_u5B57_u7B26_u4E32" class="headerlink" title="Realm添加一个json字符串"></a>Realm添加一个json字符串</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">realm.executeTransaction(<span class="keyword">new</span> Realm.Transaction() &#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Realm realm)</span> </span>&#123;</span><br><span class="line">        realm.createObjectFromJson(Dog.class,<span class="string">"&#123;\n"</span> +</span><br><span class="line">                <span class="string">"    \"id\": 1,\n"</span> +</span><br><span class="line">                <span class="string">"    \"name\": \"bili\",\n"</span> +</span><br><span class="line">                <span class="string">"    \"age\": 12\n"</span> +</span><br><span class="line">                <span class="string">"&#125;"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h1 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h1><ol>
+<li>Realm很多种情况修改数据要配合事务使用。</li>
+<li>Realm以一个RealmObject作为一个表的功能。</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/02/15/java线程中的Runnable，Callable，Future，FutureTask/" itemprop="url">
                   java线程中的Runnable，Callable，Future，FutureTask
                 </a>
@@ -805,139 +954,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/17/PropertyAnimation/" itemprop="url">
-                  属性动画第一话
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-01-17T16:30:29+08:00" content="2017-01-17">
-              2017-01-17
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/01/17/PropertyAnimation/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/17/PropertyAnimation/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Android_u5C5E_u6027_u52A8_u753B_uFF08_u7B2C_u4E00_u8BDD_uFF09"><a href="#Android_u5C5E_u6027_u52A8_u753B_uFF08_u7B2C_u4E00_u8BDD_uFF09" class="headerlink" title="Android属性动画（第一话）"></a>Android属性动画（第一话）</h1><h2 id="3-0_u524D_u7684_u5E27_u52A8_u753B_uFF0C_u8865_u95F4_u52A8_u753B"><a href="#3-0_u524D_u7684_u5E27_u52A8_u753B_uFF0C_u8865_u95F4_u52A8_u753B" class="headerlink" title="3.0前的帧动画，补间动画"></a>3.0前的帧动画，补间动画</h2><p>Android动画能给界面带来很炫的效果，如果我们要实现这些效果，在android3.0版本前实现动画主要有2种方式，帧动画（frame animation）和补间动画（tweened animation）。</p>
-<p>帧动画加载大量图片，对性能有很大要求效率不高，补间动画是对view进行包括缩放，移动，旋转，透明度的绘制。因为补间动画实现不了动画操作后的view的点击等操作，只是简单在操作后的地方显示一个，并不会加上view原来的属性，比如一个button从父容器左上角移动到右下角，他的点击事件还在左上角。</p>
-<h2 id="u4ECB_u7ECD_u5C5E_u6027_u52A8_u753B"><a href="#u4ECB_u7ECD_u5C5E_u6027_u52A8_u753B" class="headerlink" title="介绍属性动画"></a>介绍属性动画</h2><p>为了解决上述问题，新推出了View的属性动画，原理是改变view的属性，所以我们可以操作缩放移动透明度旋转后的view，原理是在一段时间内不断设置View.setRotation()，下面我们来介绍一下ValueAnimator。</p>
-<h3 id="ValueAnimator"><a href="#ValueAnimator" class="headerlink" title="ValueAnimator"></a>ValueAnimator</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">//动画是200毫秒内view由0过渡到1</span></span><br><span class="line">ValueAnimator valueAnimator = ValueAnimator.ofFloat(<span class="number">0f</span>, <span class="number">1f</span>);</span><br><span class="line">valueAnimator.setDuration(<span class="number">200</span>);</span><br><span class="line">valueAnimator.addUpdateListener(<span class="keyword">new</span> ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationUpdate</span><span class="params">(ValueAnimator animation)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//监听输出动画移动的值</span></span><br><span class="line">        <span class="keyword">float</span> value = (<span class="keyword">float</span>) animation.getAnimatedValue();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">valueAnimator.start();</span><br></pre></td></tr></table></figure>
-<p> 生成ValueAnimator的方法除了ValueAnimator.ofFloat(float);参数要精确到小数点后几位，还有ValueAnimator.ofInt(int);参数是整型比如1，100。</p>
-<p>ValueAnimator还有其他属性，比如设置延迟时间ValueAnimator.setStartDelay(200);设置延时200毫秒，还有循环次数<br>ValueAnimator.setRepeatCount(5);动画循环5次，又或者是动画播放模式正常ValueAnimator.RESTART还是反向播放的<br>ValueAnimator.setRepeatMode(ValueAnimator.REVERSE);发向播放动画。</p>
-<h3 id="ObjectAnimator"><a href="#ObjectAnimator" class="headerlink" title="ObjectAnimator"></a>ObjectAnimator</h3><p>ObjectAnimator继承了ValueAnimator,所以ValueAnimator有的方法ObjectAnimator都有。ObjectAnimator是操作具体的控件比如button，imageview的动画，举几个例子：</p>
-<p>图片从x轴的-500的位置移动到100的位置<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ObjectAnimator  objectAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"translationX"</span>,-<span class="number">500f</span>,<span class="number">100f</span>);</span><br><span class="line">       objectAnimator.setDuration(<span class="number">500</span>);</span><br><span class="line">       objectAnimator.start();</span><br></pre></td></tr></table></figure></p>
-<p> 透明度由1变成0再变成1的动画</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ObjectAnimator  objectAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"alpha"</span>,<span class="number">1f</span>,<span class="number">0f</span>,<span class="number">1f</span>);</span><br><span class="line">       objectAnimator.setDuration(<span class="number">500</span>);</span><br><span class="line">       objectAnimator.start();</span><br></pre></td></tr></table></figure>
-<p> 旋转360度的动画<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ObjectAnimator  objectAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"rotation"</span>,<span class="number">0f</span>,<span class="number">360f</span>);</span><br><span class="line">     objectAnimator.setDuration(<span class="number">500</span>);</span><br><span class="line">     objectAnimator.start();</span><br></pre></td></tr></table></figure></p>
-<p> y轴上缩放3倍的动画<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ObjectAnimator  objectAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"scaleY"</span>,<span class="number">1f</span>,<span class="number">3f</span>);</span><br><span class="line">     objectAnimator.setDuration(<span class="number">500</span>);</span><br><span class="line">     objectAnimator.start();</span><br></pre></td></tr></table></figure></p>
-<p>如果你觉得单单实现一种动画还不够炫，如果你想同时实现多个动画，你要用到动画组合AnimatorSet</p>
-<h3 id="AnimatorSet"><a href="#AnimatorSet" class="headerlink" title="AnimatorSet"></a>AnimatorSet</h3><p>把多个ObjectAnimator按顺序连接起来，比如把上面的缩放，移动，设置透明度组合起来</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ObjectAnimator  scaleYAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"scaleY"</span>,<span class="number">1f</span>,<span class="number">3f</span>);</span><br><span class="line">ObjectAnimator  translationXAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"translationX"</span>,<span class="number">0f</span>,<span class="number">100f</span>);</span><br><span class="line">ObjectAnimator  alphaAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"alpha"</span>,<span class="number">1f</span>,<span class="number">0f</span>,<span class="number">1f</span>);</span><br><span class="line">AnimatorSet animatorSet=<span class="keyword">new</span> AnimatorSet();</span><br><span class="line">animatorSet.play(scaleYAnimator).with(translationXAnimator).with(alphaAnimator);</span><br><span class="line">animatorSet.setDuration(<span class="number">500</span>);</span><br><span class="line">animatorSet.start();</span><br></pre></td></tr></table></figure>
-<p>这里Animator.after将其他动画加到这个动画之后，还可以传入动画设置两个动画的间隔，Animator.with两个动画一起播放，Animator.before插入动画放在这个动画之前。</p>
-<h3 id="u52A8_u753B_u76D1_u542C_u5668"><a href="#u52A8_u753B_u76D1_u542C_u5668" class="headerlink" title="动画监听器"></a>动画监听器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(mImageView,<span class="string">"scaleY"</span>,<span class="number">1f</span>,<span class="number">3f</span>);</span><br><span class="line">objectAnimator.addListener(<span class="keyword">new</span> Animator.AnimatorListener() &#123;</span><br><span class="line"></span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationStart</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">                <span class="comment">//动画的时候</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationEnd</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">                <span class="comment">//动画结束的时候</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationCancel</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">               <span class="comment">//动画取消时</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationRepeat</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">             <span class="comment">//动画循环时</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">     objectAnimator.setDuration(<span class="number">500</span>);</span><br><span class="line">     objectAnimator.start();</span><br></pre></td></tr></table></figure>
-<p>你也可以单独实现一个监听方法，这里的AnimatorListener改为AnimatorListenerAdapter就可以了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">objectAnimator.addListener(<span class="keyword">new</span> AnimatorListenerAdapter() &#123;</span><br><span class="line"></span><br><span class="line">       <span class="annotation">@Override</span></span><br><span class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationEnd</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">               <span class="keyword">super</span>.onAnimationEnd(animation);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br></pre></td></tr></table></figure></p>
-<h3 id="u8BBE_u7F6EXML_u52A8_u753B"><a href="#u8BBE_u7F6EXML_u52A8_u753B" class="headerlink" title="设置XML动画"></a>设置XML动画</h3><p>如果有多个界面的控件要实现相同的动画效果，我们可以通过xml更加有效率来设置动画。<br>在res/animator文件夹下新建animator.xml<br>(注意，res/anim这个文件夹是补间动画，res/drawable放帧动画)<br>根标签是一个<objectanimator> 代表一个ObjectAnimator，标签内有duration动画时间，propertyName动画属性translationX，valueFrom原来的值，valueTo变化后的值,valueType值的类型是floatType还是intType这些属性.</objectanimator></p>
-<p><set>标签代表一个AnimatorSet,在set标签内默认按照从上到下顺序加载不同的动画（就是在set设置android:ordering=”sequentially”）,如果你想同步进行就设置android:ordering=”together”</set></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line">&lt;set xmlns:android="http://schemas.android.com/apk/res/android"</span><br><span class="line">   android:ordering="sequentially"&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:duration="500"</span><br><span class="line">        android:propertyName="scaleY"</span><br><span class="line">        android:valueFrom="100f"</span><br><span class="line">        android:valueTo="1f"</span><br><span class="line">        android:valueType="floatType"</span><br><span class="line">    /&gt;</span><br><span class="line">    &lt;set android:ordering="together"&gt;</span><br><span class="line">        &lt;objectAnimator</span><br><span class="line">            android:duration="500"</span><br><span class="line">            android:propertyName="scaleY"</span><br><span class="line">            android:valueFrom="1f"</span><br><span class="line">            android:valueTo="100f"</span><br><span class="line">            android:valueType="floatType"</span><br><span class="line">        /&gt;</span><br><span class="line">    &lt;/set&gt;</span><br><span class="line">&lt;/set&gt;</span><br></pre></td></tr></table></figure>
-<p>xml代码写好了，然后实现可以在类中调用</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Animator animator = AnimatorInflater.loadAnimator(mContext, R.animator.animator);</span><br><span class="line">animator.setTarget(mImageView);</span><br><span class="line">animator.start();</span><br></pre></td></tr></table></figure>
-<p>最后通过够用AnimatorInflate.loadAnimator，参数分别是Context和R.animator.animator</p>
-<h3 id="ViewPropertyAnimator"><a href="#ViewPropertyAnimator" class="headerlink" title="ViewPropertyAnimator"></a>ViewPropertyAnimator</h3><p>在android3.1系统推出了view通过调用animator方法来设置不同的动画</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mImageView.animate().alpha(<span class="number">0f</span>).setDuration(<span class="number">500</span>);<span class="comment">//这时候不用start即可</span></span><br><span class="line">mImageView.animate().x(<span class="number">100</span>).y(<span class="number">100</span>).setDuration(<span class="number">500</span>);<span class="comment">//这时候不用start即可</span></span><br></pre></td></tr></table></figure>
-<p>但是这时候的链接不支持透明度从1f到0f再到1f。就算一个控件多次调用animate().alpha也会以最后一次动画为准。有点鸡肋。</p>
-<h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><ol>
-<li><p>上述分别讲述了帧动画，补间动画，属性动画的ValueAnimator，ObejectAnimator 和AnimatorSet，还有属性动画的xml写法。</p>
-</li>
-<li><p>从性能效率上来看，优先考虑使用属性动画。</p>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -978,7 +999,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -988,7 +1009,7 @@
           
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">標籤</span>
               
             </div>
