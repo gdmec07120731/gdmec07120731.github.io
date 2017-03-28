@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="greendao3," />
+  <meta name="keywords" content="Hexo, World" />
 
 
 
@@ -57,19 +57,31 @@
 
 
 
-<meta name="description" content="GreenDaoGreenDao3.1.0使用案例包含（增删查改，升级数据库），3.+版本比2.+更加便捷生成DaoMaster和DaoSession本文项目地址
-##首先让你的android studio配置Greendao数据库在build.gradle目录下12345dependencies &amp;#123;    classpath &apos;com.android.tools.build:gradl">
+<meta name="description" content="EventBus3.0源码分析从3.0开始用了更多注解事件的订阅方法来代替之前固定onEvent开头的方法。现在你可以是容易方法加上@Subscribe的注解。
+更多的eventbus使用方法请看http://www.jianshu.com/p/c47e0900399e
+EventBus.java
+EventBus类的创建使用了常见的单例模式，如下：
+
+1234567891011static vo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="greenDAO">
-<meta property="og:url" content="http://www.lanyimi.com/2016/11/22/greenDAO/index.html">
+<meta property="og:title" content="EventBus3.0源码分析">
+<meta property="og:url" content="http://www.lanyimi.com/2017/03/13/EventBus3-0源码分析/index.html">
 <meta property="og:site_name" content="ppjun's blog">
-<meta property="og:description" content="GreenDaoGreenDao3.1.0使用案例包含（增删查改，升级数据库），3.+版本比2.+更加便捷生成DaoMaster和DaoSession本文项目地址
-##首先让你的android studio配置Greendao数据库在build.gradle目录下12345dependencies &amp;#123;    classpath &apos;com.android.tools.build:gradl">
-<meta property="og:updated_time" content="2016-11-25T13:14:12.418Z">
+<meta property="og:description" content="EventBus3.0源码分析从3.0开始用了更多注解事件的订阅方法来代替之前固定onEvent开头的方法。现在你可以是容易方法加上@Subscribe的注解。
+更多的eventbus使用方法请看http://www.jianshu.com/p/c47e0900399e
+EventBus.java
+EventBus类的创建使用了常见的单例模式，如下：
+
+1234567891011static vo">
+<meta property="og:updated_time" content="2017-03-20T07:37:16.834Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="greenDAO">
-<meta name="twitter:description" content="GreenDaoGreenDao3.1.0使用案例包含（增删查改，升级数据库），3.+版本比2.+更加便捷生成DaoMaster和DaoSession本文项目地址
-##首先让你的android studio配置Greendao数据库在build.gradle目录下12345dependencies &amp;#123;    classpath &apos;com.android.tools.build:gradl">
+<meta name="twitter:title" content="EventBus3.0源码分析">
+<meta name="twitter:description" content="EventBus3.0源码分析从3.0开始用了更多注解事件的订阅方法来代替之前固定onEvent开头的方法。现在你可以是容易方法加上@Subscribe的注解。
+更多的eventbus使用方法请看http://www.jianshu.com/p/c47e0900399e
+EventBus.java
+EventBus类的创建使用了常见的单例模式，如下：
+
+1234567891011static vo">
 
 
 
@@ -87,7 +99,7 @@
   };
 </script>
 
-  <title> greenDAO | ppjun's blog </title>
+  <title> EventBus3.0源码分析 | ppjun's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
@@ -217,7 +229,7 @@
             
             
               
-                greenDAO
+                EventBus3.0源码分析
               
             
           </h1>
@@ -229,8 +241,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-11-22T17:07:51+08:00" content="2016-11-22">
-              2016-11-22
+            <time itemprop="dateCreated" datetime="2017-03-13T11:01:06+08:00" content="2017-03-13">
+              2017-03-13
             </time>
           </span>
 
@@ -240,8 +252,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/11/22/greenDAO/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/22/greenDAO/" itemprop="commentsCount"></span>
+                <a href="/2017/03/13/EventBus3-0源码分析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/13/EventBus3-0源码分析/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -263,33 +275,20 @@
       
 
       
-        <h1 id="GreenDao"><a href="#GreenDao" class="headerlink" title="GreenDao"></a>GreenDao</h1><p>GreenDao3.1.0使用案例包含（增删查改，升级数据库），3.+版本比2.+更加便捷生成DaoMaster和DaoSession<br><a href="https://github.com/gdmec07120731/GreenDaoTest" target="_blank" rel="external">本文项目地址</a></p>
-<p>##首先让你的android studio配置Greendao数据库<br>在build.gradle目录下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    classpath <span class="string">'com.android.tools.build:gradle:2.1.0'</span></span><br><span class="line">    classpath <span class="string">'org.greenrobot:greendao-gradle-plugin:3.1.0'</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在app/build.gradle目录下设置</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: <span class="string">'org.greenrobot.greendao'</span></span><br><span class="line">android &#123;</span><br><span class="line">   greendao&#123;</span><br><span class="line">        schemaVersion <span class="number">1</span>                    <span class="comment">//数据库 版本号</span></span><br><span class="line">        targetGenDir <span class="string">'src/main/java'</span>    <span class="comment">//生成DaoMaster类文件夹</span></span><br><span class="line">        daoPackage   <span class="string">'com.ppjun.greendaotest.db'</span>  <span class="comment">//生成DaoMaster类包名</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">dependencies &#123;</span><br><span class="line">    compile <span class="string">'org.greenrobot:greendao:3.1.0'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>新建一个User类</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="annotation">@Id</span>(autoincrement = <span class="keyword">true</span>) </span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="annotation">@Property</span>(nameInDb = <span class="string">"username"</span>)</span><br><span class="line">    <span class="keyword">private</span> String userName;</span><br><span class="line">    <span class="annotation">@Property</span>(nameInDb = <span class="string">"password"</span>)</span><br><span class="line">    <span class="keyword">private</span> String passWord;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">//generate set和get方法 toString方法</span></span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol>
-<li>@Entity 代表数据库里面的USER表</li>
-<li>@Id 主键 ,autoincrement=true 从0开始自增长。</li>
-<li>@Property 表里面的内容</li>
-<li>@Unique 唯一的</li>
-<li>@Transient 不会被数据库持久化写进数据库 </li>
-<li>@NotNull 不为空</li>
+        <h1 id="EventBus3-0_u6E90_u7801_u5206_u6790"><a href="#EventBus3-0_u6E90_u7801_u5206_u6790" class="headerlink" title="EventBus3.0源码分析"></a>EventBus3.0源码分析</h1><p>从3.0开始用了更多注解事件的订阅方法来代替之前固定onEvent开头的方法。现在你可以是容易方法加上@Subscribe的注解。</p>
+<p>更多的eventbus使用方法请看<a href="http://www.jianshu.com/p/c47e0900399e" target="_blank" rel="external">http://www.jianshu.com/p/c47e0900399e</a></p>
+<h2 id="EventBus-java"><a href="#EventBus-java" class="headerlink" title="EventBus.java"></a>EventBus.java</h2><ol>
+<li>EventBus类的创建使用了常见的单例模式，如下：</li>
 </ol>
-<p>到此为止，sync gradle来执行greendao配置，下面开始讲解怎么使用</p>
-<p>##GreenDao使用</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DB_NAME = <span class="string">"ppjun.db"</span>;<span class="comment">//数据库名称</span></span><br><span class="line">DaoMaster.DevOpenHelper helper = <span class="keyword">new</span> DaoMaster.DevOpenHelper(context, DB_NAME, <span class="keyword">null</span>);<span class="comment">//实例化一个DevOpenhelper,相当于sqlit的SQliteOpenHelper</span></span><br><span class="line">DaoMaster daoMaster = <span class="keyword">new</span> DaoMaster(helper.getWritableDb());<span class="comment">//实例化DaoMaster</span></span><br><span class="line">DaoSession daoSession = daoMaster.newSession();<span class="comment">//实例化DaoSession</span></span><br><span class="line">UserDao userDao =daoSession.getUserDao(); <span class="comment">//获取UserDao实例来对表user进行操作</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//add，这里的null 代表自增长的id，你还可以为user表插入unique的userid</span></span><br><span class="line">        User user1 = <span class="keyword">new</span> User(<span class="keyword">null</span>, <span class="string">"ag1"</span>, <span class="string">"123456"</span>);</span><br><span class="line">        User user2 = <span class="keyword">new</span> User(<span class="keyword">null</span>, <span class="string">"ag2"</span>, <span class="string">"123456"</span>);</span><br><span class="line">        User user3 = <span class="keyword">new</span> User(<span class="keyword">null</span>, <span class="string">"ag3"</span>, <span class="string">"123456"</span>);</span><br><span class="line">        userDao.insert(user1);</span><br><span class="line">        userDao.insert(user2);</span><br><span class="line">        userDao.insert(user3);</span><br><span class="line"></span><br><span class="line"> <span class="comment">//update，这里更新id是3的user的名字，id从1开始的，在where来添加匹配条件</span></span><br><span class="line">        User user4 = userDao.queryBuilder().where(UserDao.Properties.Id.eq(<span class="number">3</span>)).build().unique();</span><br><span class="line">        user4.setUserName(<span class="string">"kk"</span>);</span><br><span class="line">        userDao.update(user4);</span><br><span class="line"></span><br><span class="line"><span class="comment">//delete，这里删除id是2的user</span></span><br><span class="line">        List&lt;User&gt; userList2 = userDao.queryBuilder().where(UserDao.Properties.Id.eq(<span class="number">2</span>)).build().list();</span><br><span class="line">        <span class="keyword">for</span> (User user5 : userList2)</span><br><span class="line">            userDao.delete(user5);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//query，重新user表全部user</span></span><br><span class="line">        List&lt;User&gt; userList = userDao.queryBuilder().build().list();</span><br><span class="line">        <span class="keyword">for</span> (User user : userList)</span><br><span class="line">            Log.i(TAG, user.toString());</span><br></pre></td></tr></table></figure>
-<p>上面完成数据库基本操作。</p>
-<p>##下面来说GreenDao的升级数据库，在user表插入age</p>
-<p>1、修改build.gradle下面的schemaVersion 2</p>
-<p>2、在user类，新增age对象</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="annotation">@Id</span>(autoincrement = <span class="keyword">true</span>)</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="annotation">@Property</span>(nameInDb = <span class="string">"age"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">  <span class="comment">//generate getter and setter &amp; toString</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>3、你要新建一个类MyDBHelper继承DaoMaster.OpenHelper,在类的构造函数传入Context，super(context,DB_NAME,null);还要重写onUpgrade方法（注意这里的参数一是Database），然后创建表(传入true，这里使用IF NOT EXISTS)不用担心表不存在，还有执行增加age列sql语句 db.exeSQL(“ALTER TABLE USER ADD COLUMN age”);</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyDBHelper</span> <span class="keyword">extends</span> <span class="title">DaoMaster</span>.<span class="title">OpenHelper</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyDBHelper</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, DB_NAME,<span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onUpgrade</span><span class="params">(Database db, <span class="keyword">int</span> oldVersion, <span class="keyword">int</span> newVersion)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onUpgrade(db, oldVersion, newVersion);</span><br><span class="line">        NoteDao.createTable(db,<span class="keyword">true</span>);</span><br><span class="line">        db.execSQL(<span class="string">"ALTER TABLE NOTE ADD COLUMN age"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这时候的DaoMaster.DevOpenHelper改为自定义DBHelper，这样子升级数据库就不会丢失原来的数据了</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DBHelper dbHelper = <span class="keyword">new</span> DBHelper(context);</span><br><span class="line">DaoMaster daoMaster = <span class="keyword">new</span> DaoMaster(dbHelper.getWritableDb());</span><br></pre></td></tr></table></figure>
-<p><a href="https://github.com/gdmec07120731/GreenDaoTest" target="_blank" rel="external">本文项目地址</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">volatile</span> EventBus defaultInstance; <span class="comment">//volatile 修饰的变量防止被编译器优化，导致执行顺序变化</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> EventBus <span class="title">getDefault</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (defaultInstance == <span class="keyword">null</span>) &#123;</span><br><span class="line">           <span class="keyword">synchronized</span> (EventBus.class) &#123;</span><br><span class="line">               <span class="keyword">if</span> (defaultInstance == <span class="keyword">null</span>) &#123;</span><br><span class="line">                   defaultInstance = <span class="keyword">new</span> EventBus();</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> defaultInstance;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>使用了建造者模式给变量赋值。先在EventBus的构造方法创建EventBusBuilder ，再重载过的EventBus方法传入builder来配置一些变量（比如一些exception）。如下：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"> EventBus(EventBusBuilder builder) &#123;</span><br><span class="line">    subscriptionsByEventType = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    typesBySubscriber = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    stickyEvents = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</span><br><span class="line">    mainThreadPoster = <span class="keyword">new</span> HandlerPoster(<span class="keyword">this</span>, Looper.getMainLooper(), <span class="number">10</span>);</span><br><span class="line">    backgroundPoster = <span class="keyword">new</span> BackgroundPoster(<span class="keyword">this</span>);</span><br><span class="line">    asyncPoster = <span class="keyword">new</span> AsyncPoster(<span class="keyword">this</span>);</span><br><span class="line">    indexCount = builder.subscriberInfoIndexes != <span class="keyword">null</span> ? builder.subscriberInfoIndexes.size() : <span class="number">0</span>;</span><br><span class="line">    subscriberMethodFinder = <span class="keyword">new</span> SubscriberMethodFinder(builder.subscriberInfoIndexes,</span><br><span class="line">            builder.strictMethodVerification, builder.ignoreGeneratedIndex);</span><br><span class="line">    logSubscriberExceptions = builder.logSubscriberExceptions;</span><br><span class="line">    logNoSubscriberMessages = builder.logNoSubscriberMessages;</span><br><span class="line">    sendSubscriberExceptionEvent = builder.sendSubscriberExceptionEvent;</span><br><span class="line">    sendNoSubscriberEvent = builder.sendNoSubscriberEvent;</span><br><span class="line">    throwSubscriberException = builder.throwSubscriberException;</span><br><span class="line">    eventInheritance = builder.eventInheritance;</span><br><span class="line">    executorService = builder.executorService;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>在register中，获取订阅者的类subscriberClass通常是activity和fragment。然后通过subscribeerMethodFinder获取订阅者上订阅方法返回一个list集合。其中subscriberMethod就是写在activity上拿来接受消息的方法的对象，里面的变量包括Method就可以知道方法名；eventType可以知道是ativity还是fragment；threadMode是哪个线程；sticky是否粘性事件；priority优先级系数多少。如下：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">register</span><span class="params">(Object subscriber)</span> </span>&#123;</span><br><span class="line">    Class&lt;?&gt; subscriberClass = subscriber.getClass();</span><br><span class="line">    List&lt;SubscriberMethod&gt; subscriberMethods = subscriberMethodFinder.findSubscriberMethods(subscriberClass);</span><br><span class="line">    <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (SubscriberMethod subscriberMethod : subscriberMethods) &#123;</span><br><span class="line">            subscribe(subscriber, subscriberMethod);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -302,27 +301,21 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/source/tags/greendao3/" rel="tag">#greendao3</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/11/21/retrofit/" rel="next" title="How to use retrofit2?">
-                <i class="fa fa-chevron-left"></i> How to use retrofit2?
+              <a href="/2017/02/23/Realm-in-android-1/" rel="next" title="Realm-in-android-1">
+                <i class="fa fa-chevron-left"></i> Realm-in-android-1
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/01/17/PropertyAnimation/" rel="prev" title="属性动画第一话">
-                属性动画第一话 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/03/20/solid/" rel="prev" title="设计模式SOLID五大原则">
+                设计模式SOLID五大原则 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -349,8 +342,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/11/22/greenDAO/"
-           data-title="greenDAO" data-url="http://www.lanyimi.com/2016/11/22/greenDAO/">
+      <div class="ds-thread" data-thread-key="2017/03/13/EventBus3-0源码分析/"
+           data-title="EventBus3.0源码分析" data-url="http://www.lanyimi.com/2017/03/13/EventBus3-0源码分析/">
       </div>
     
   </div>
@@ -457,7 +450,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GreenDao"><span class="nav-number">1.</span> <span class="nav-text">GreenDao</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#EventBus3-0_u6E90_u7801_u5206_u6790"><span class="nav-number">1.</span> <span class="nav-text">EventBus3.0源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#EventBus-java"><span class="nav-number">1.1.</span> <span class="nav-text">EventBus.java</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
