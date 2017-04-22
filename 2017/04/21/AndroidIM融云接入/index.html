@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Dagger2," />
+  <meta name="keywords" content="Hexo, World" />
 
 
 
@@ -57,22 +57,25 @@
 
 
 
-<meta name="description" content="本文摘要自http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html目前安卓开发最新技术用到Retrofit网络请求框架，Rxjava异步处理，OkHttp网络请求，加上Gson解析，MVP项目架构，Lambda语法，Dagger2依赖注入，ButterKnife控件的依赖等
-
-什么是Dagger2Dagger2是Da">
+<meta name="description" content="融云篇融云官网地址http://www.rongcloud.cn/docs/android.html  
+ 我们一般是接入IMkit，包含界面的sdk。
+首先我们需要现在IMKit IMLib（发送文本模块）CallKit CallLib（语音视频模块） LocationLib（地理位置模块） PushLib（推送模块） RedPacket（红包模块）
+首先你要去创建一个新的as项目，然后以mod">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dagger2笔记">
-<meta property="og:url" content="http://www.lanyimi.com/2016/03/23/Dagger2-笔记/index.html">
+<meta property="og:title" content="AndroidIM融云接入">
+<meta property="og:url" content="http://www.lanyimi.com/2017/04/21/AndroidIM融云接入/index.html">
 <meta property="og:site_name" content="ppjun's blog">
-<meta property="og:description" content="本文摘要自http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html目前安卓开发最新技术用到Retrofit网络请求框架，Rxjava异步处理，OkHttp网络请求，加上Gson解析，MVP项目架构，Lambda语法，Dagger2依赖注入，ButterKnife控件的依赖等
-
-什么是Dagger2Dagger2是Da">
-<meta property="og:updated_time" content="2016-11-22T09:11:23.523Z">
+<meta property="og:description" content="融云篇融云官网地址http://www.rongcloud.cn/docs/android.html  
+ 我们一般是接入IMkit，包含界面的sdk。
+首先我们需要现在IMKit IMLib（发送文本模块）CallKit CallLib（语音视频模块） LocationLib（地理位置模块） PushLib（推送模块） RedPacket（红包模块）
+首先你要去创建一个新的as项目，然后以mod">
+<meta property="og:updated_time" content="2017-04-21T09:12:18.727Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Dagger2笔记">
-<meta name="twitter:description" content="本文摘要自http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html目前安卓开发最新技术用到Retrofit网络请求框架，Rxjava异步处理，OkHttp网络请求，加上Gson解析，MVP项目架构，Lambda语法，Dagger2依赖注入，ButterKnife控件的依赖等
-
-什么是Dagger2Dagger2是Da">
+<meta name="twitter:title" content="AndroidIM融云接入">
+<meta name="twitter:description" content="融云篇融云官网地址http://www.rongcloud.cn/docs/android.html  
+ 我们一般是接入IMkit，包含界面的sdk。
+首先我们需要现在IMKit IMLib（发送文本模块）CallKit CallLib（语音视频模块） LocationLib（地理位置模块） PushLib（推送模块） RedPacket（红包模块）
+首先你要去创建一个新的as项目，然后以mod">
 
 
 
@@ -90,7 +93,7 @@
   };
 </script>
 
-  <title> Dagger2笔记 | ppjun's blog </title>
+  <title> AndroidIM融云接入 | ppjun's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
@@ -220,7 +223,7 @@
             
             
               
-                Dagger2笔记
+                AndroidIM融云接入
               
             
           </h1>
@@ -232,8 +235,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-03-23T11:39:14+08:00" content="2016-03-23">
-              2016-03-23
+            <time itemprop="dateCreated" datetime="2017-04-21T16:37:09+08:00" content="2017-04-21">
+              2017-04-21
             </time>
           </span>
 
@@ -243,8 +246,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/03/23/Dagger2-笔记/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/23/Dagger2-笔记/" itemprop="commentsCount"></span>
+                <a href="/2017/04/21/AndroidIM融云接入/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/21/AndroidIM融云接入/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -266,26 +269,18 @@
       
 
       
-        <blockquote>
-<p>本文摘要自<a href="http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html" target="_blank" rel="external">http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0519/2892.html</a><br>目前安卓开发最新技术用到Retrofit网络请求框架，Rxjava异步处理，OkHttp网络请求，加上Gson解析，MVP项目架构，Lambda语法，Dagger2依赖注入，ButterKnife控件的依赖等</p>
-</blockquote>
-<h3 id="u4EC0_u4E48_u662FDagger2"><a href="#u4EC0_u4E48_u662FDagger2" class="headerlink" title="什么是Dagger2"></a>什么是Dagger2</h3><p><a href="https://github.com/google/dagger/" target="_blank" rel="external">Dagger2</a>是Dagger1的分支，由谷歌公司接手开发，目前的版本是2.0。Dagger2是受到AutoValue项目的启发。 刚开始，Dagger2解决问题的基本思想是：利用生成和写的代码混合达到看似所有的产生和提供依赖的代码都是手写的样子。</p>
-<h3 id="u4F9D_u8D56_u6CE8_u5165_u597D_u5904"><a href="#u4F9D_u8D56_u6CE8_u5165_u597D_u5904" class="headerlink" title="依赖注入好处"></a>依赖注入好处</h3><p>依赖注入好处就是大大方便解耦，方便修改代码，为什么要用Dagger2利用编译期的注解处理来生成依赖注入的代码，尽可能的减少了反射的使用，提高app性能。</p>
-<h3 id="Dagger2__u4F7F_u7528"><a href="#Dagger2__u4F7F_u7528" class="headerlink" title="Dagger2 使用"></a>Dagger2 使用</h3><p>在AndroidStudio 使用<br>在build:gradle(Moudle:app)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">    apply plugin: <span class="string">'com.neenbedankt.android-apt'</span> </span><br><span class="line"></span><br><span class="line">    dependencies &#123;</span><br><span class="line">           compile <span class="string">'com.google.dagger:dagger:2.1'</span> <span class="comment">// dagger2</span></span><br><span class="line">           apt <span class="string">'com.google.dagger:dagger-compiler:2.1'</span> <span class="comment">// dagger2</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在build:gradle(Project:项目名)<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">     dependencies &#123;</span><br><span class="line">            classpath <span class="string">'com.android.tools.build:gradle:2.1.0-alpha3'</span></span><br><span class="line">            classpath <span class="string">'com.neenbedankt.gradle.plugins:android-apt:1.8'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>以上配置完毕</p>
-<h3 id="Dagger2__u5173_u952E_u8BCD"><a href="#Dagger2__u5173_u952E_u8BCD" class="headerlink" title="Dagger2 关键词"></a>Dagger2 关键词</h3><p> <strong><em>@Inject</em></strong>  通常需要依赖的地方使用这个注解，换句话来说它告诉dagger这个类或者字段需要依赖，这样子 dagger就会造这个类的实例来满足依赖。例如在MainActivity类里 实例化 GitHubService ,下面就可以直接使用mGitHubService。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Inject</span></span><br><span class="line">GitHubService mGitHubService;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p> <strong><em>@Module</em></strong>  Modules类里面的方法专门提供依赖，所以我们定义一个类用@Module注解，这样Dagger构建类的实例的时候，就知道从哪里找到需要的依赖，module的一个重要特征是他们设计为分区并结合使用，比如在Modules包下 有MainModule ,ApiModule或者DBModule这些类都注解了@Module<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApiModule</span> </span>&#123;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p><strong><em>@Provides</em></strong>  我们为在Module类中 定义的方法使用这个注解 ，来告诉dagger我们构造对象并且提供这些方法依赖<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApiModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Provides</span></span><br><span class="line">    <span class="annotation">@Singleton</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> GitHubService <span class="title">provideGitHubService</span><span class="params">()</span> </span>&#123;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p><strong><em>@Component</em></strong>  @Component从根本上来说是一个注解器，也就是说@Inject和@Module的桥梁，它的主要作用就是连接这两个部分，@Component可以提供所有定义了类型的实例，比如：我们必须用@Component注解一个接口，然后列出所有的@Module组成改组件，如果缺失任何一块都会在编译的时候报错，所有的组件都可以通过他的@Module知道依赖范围。例子中定义DemoComponent接口 用@Component注解所有的@Module类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Singleton</span></span><br><span class="line"><span class="annotation">@Component</span>(modules = &#123;MainModule.class, ApiModule.class&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DemoComponent</span> <span class="keyword">extends</span> <span class="title">DemoGraph</span> </span>&#123;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p><strong><em>@Scope</em></strong> Dagger可以通过自定义注解来限定注解作用域，这是一个非常强大的特点，，因为就如前面说的一样，没必要让每个对象都去了解如何管理他们的实例，在Scope例子中，我们自定义@PerActivity注解一个类，所以这个对象存活时间就和activity一样，简单来说就是我们定义所有范围的粒度（@Perfragment,@preUser等）</p>
-<hr>
-<p><strong><em>@Qualifier</em></strong> 当类的类型不足以鉴别一个依赖的时候，我们就可以用这个注解来标示，例如：我们会用不同类型的Context 所以我们就可以定义 Qualifier注解@ForApplication 和@ForActivity<br>这样当注入一个Context的时候，我们就可以告诉dagger我们想要哪种类型的Context</p>
+        <h1 id="u878D_u4E91_u7BC7"><a href="#u878D_u4E91_u7BC7" class="headerlink" title="融云篇"></a>融云篇</h1><p>融云官网地址<a href="http://www.rongcloud.cn/docs/android.html" target="_blank" rel="external">http://www.rongcloud.cn/docs/android.html</a>  </p>
+<p> 我们一般是接入IMkit，包含界面的sdk。</p>
+<p>首先我们需要现在IMKit IMLib（发送文本模块）CallKit CallLib（语音视频模块） LocationLib（地理位置模块） PushLib（推送模块） RedPacket（红包模块）</p>
+<p>首先你要去创建一个新的as项目，然后以module的形式导入IMKit IMLib CallKit CallLib RedPacket ，然后把Push的so文件加入jniLibs ，而Jar文件加入libs。</p>
+<p>还要把executable的推送保活so文件加入到assets。因为使用的语音报，只能使用armeabi-v7a 和x86的so文件。在app/build.gradle/defaultConfig域内，加入</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">defaultConfig&#123;</span><br><span class="line">  ndk&#123;</span><br><span class="line">    abiFilters <span class="string">"armeabi-v7a"</span>,<span class="string">"x86"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>把官网控制台的app-key 加入到IMLib 模块的Androidminifest.xml内对应的meta标签的RONG_CLOUD_APP_KEY内。还要自己申请高德地图的appkey放在自己app的module里面。</p>
+<h2 id="u521D_u59CB_u5316"><a href="#u521D_u59CB_u5316" class="headerlink" title="初始化"></a>初始化</h2><p>自定义Applicaiton ，并且在Androidmanifest声明。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> class App extends Application</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate();</span><br><span class="line">    RongIM.init(<span class="keyword">this</span>);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="u83B7_u53D6token"><a href="#u83B7_u53D6token" class="headerlink" title="获取token"></a>获取token</h2><p>这里的token是融云sdk的token代表一个用户有效登陆状态，流程是客户端请求服务器，服务器用userid，name和头像地址去请求融云sdk服务器，返回token。</p>
+<p>##连接融云服务器</p>
+<p>一般在登录界面 客户端拿到token，调用RongIM.connect(token,ConnectCallback) 在回调成功的方法里面 跳转到融云的聊天列表界面。</p>
 
       
     </div>
@@ -298,28 +293,18 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/source/tags/Dagger2/" rel="tag">#Dagger2</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/02/26/Android-Studio使用Lambda表达式/" rel="next" title="android studio配置lambda">
-                <i class="fa fa-chevron-left"></i> android studio配置lambda
+              <a href="/2017/04/20/android面试题/" rel="next" title="android面试题">
+                <i class="fa fa-chevron-left"></i> android面试题
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/03/28/U8SDK开发笔记/" rel="prev" title="U8SDK笔记">
-                U8SDK笔记 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -345,8 +330,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/03/23/Dagger2-笔记/"
-           data-title="Dagger2笔记" data-url="http://www.lanyimi.com/2016/03/23/Dagger2-笔记/">
+      <div class="ds-thread" data-thread-key="2017/04/21/AndroidIM融云接入/"
+           data-title="AndroidIM融云接入" data-url="http://www.lanyimi.com/2017/04/21/AndroidIM融云接入/">
       </div>
     
   </div>
@@ -453,7 +438,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u4EC0_u4E48_u662FDagger2"><span class="nav-number">1.</span> <span class="nav-text">什么是Dagger2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u4F9D_u8D56_u6CE8_u5165_u597D_u5904"><span class="nav-number">2.</span> <span class="nav-text">依赖注入好处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dagger2__u4F7F_u7528"><span class="nav-number">3.</span> <span class="nav-text">Dagger2 使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dagger2__u5173_u952E_u8BCD"><span class="nav-number">4.</span> <span class="nav-text">Dagger2 关键词</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#u878D_u4E91_u7BC7"><span class="nav-number">1.</span> <span class="nav-text">融云篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#u521D_u59CB_u5316"><span class="nav-number">1.1.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u83B7_u53D6token"><span class="nav-number">1.2.</span> <span class="nav-text">获取token</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

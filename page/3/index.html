@@ -216,6 +216,257 @@
             
               
                 
+                <a class="post-title-link" href="/2016/11/21/retrofit/" itemprop="url">
+                  How to use retrofit2?
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-11-21T10:16:15+08:00" content="2016-11-21">
+              2016-11-21
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/21/retrofit/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/21/retrofit/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="http://square.github.io/retrofit/" target="_blank" rel="external">retrofit2.1</a></p>
+<blockquote>
+<p>retrofit安全的http客户端for Android和java.</p>
+</blockquote>
+<h3 id="u5982_u4F55_u4F7F_u7528Retrofit"><a href="#u5982_u4F55_u4F7F_u7528Retrofit" class="headerlink" title="如何使用Retrofit"></a>如何使用Retrofit</h3><p>在app/build.gradle</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:retrofit:2.1.0'</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:converter-gson:2.1.0'</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:adapter-rxjava:2.1.0'</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">'io.reactivex:rxandroid:1.2.1'</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">'io.reactivex:rxjava:1.2.1'</span></span><br></pre></td></tr></table></figure>
+<p>新建Git包，含括Git.java ，GitApi.java 和GitService.java</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Git.java（单例类，包括retrofit GitService的实例化）</span><br><span class="line">GitApi<span class="class">.java</span> (请求需要的URl)</span><br><span class="line">GitService<span class="class">.java</span> （各种get post方法）</span><br></pre></td></tr></table></figure>
+<h3 id="Git-java"><a href="#Git-java" class="headerlink" title="Git.java"></a>Git.java</h3><ol>
+<li><p>新建单例类Git 私有化构造函数， 新建public static final Git mGit;  和public static Git getInstane()的方法</p>
+</li>
+<li><p>新建全局变量mGitService ，和getService的方法返回mGitService???</p>
+</li>
+<li><p>在Git的构造函数需要实例化 retrofit主要用到几个参数包括url，okhttpClient，new GsonConverterFactory?RxJavaCallAdapterFactory ，还要实例化GitService。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Git</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Git mInstance = <span class="keyword">new</span> Git();</span><br><span class="line">    <span class="keyword">private</span> GitService mGitService;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Git</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        OkHttpClient.Builder client= <span class="keyword">new</span> OkHttpClient().newBuilder();</span><br><span class="line">       OkHttpClient c= setCertificates(client,<span class="keyword">new</span> Buffer().writeUtf8(GitApi.CER).inputStream()).build();</span><br><span class="line">        Retrofit retrofit = <span class="keyword">new</span> Retrofit.Builder().baseUrl(GitApi.BASE_URL)</span><br><span class="line">                .client(c)</span><br><span class="line">                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())</span><br><span class="line">                .addConverterFactory(GsonConverterFactory.create())</span><br><span class="line">                .build();</span><br><span class="line">        mGitService = retrofit.create(GitService.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Git <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (mInstance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            Git mIns = mInstance;</span><br><span class="line">            <span class="keyword">synchronized</span> (Git.class) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (mIns == <span class="keyword">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">                    mIns = <span class="keyword">new</span> Git();</span><br><span class="line">                    mInstance = mIns;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> mInstance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> GitService <span class="title">getGitService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mGitService;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+</ol>
+<h3 id="GitApi-java"><a href="#GitApi-java" class="headerlink" title="GitApi.java"></a>GitApi.java</h3><p>这里的URL需要注意要以/结尾 要以/结尾 要以/结尾。这样子GitService注解里面的就不用/开头了</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span> BASE_URL=<span class="string">"https://api.github.com/"</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="GitService-java"><a href="#GitService-java" class="headerlink" title="GitService.java"></a>GitService.java</h3><p>要写这个类首先学会@GET  @POST  @FormUrlEncoded这些注解。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@GET</span>(<span class="string">"users/&#123;user&#125;/repos"</span>)</span><br><span class="line">Call&lt;List&lt;Repos&gt;&gt; <span class="function">listRepos</span>(<span class="variable">@Path</span>(<span class="string">"user"</span>) String user);</span><br><span class="line"></span><br><span class="line"><span class="variable">@GET</span></span><br><span class="line">Call&lt;String&gt; <span class="function">get</span>(<span class="variable">@Url</span> String url);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable">@POST</span></span><br><span class="line"><span class="variable">@FormUrlEncoded</span></span><br><span class="line">Call&lt;GitReturnCode&gt; <span class="function">init</span>(<span class="variable">@Url</span> String url,</span><br><span class="line">                         <span class="variable">@Field</span>(<span class="string">"id"</span>) String id,</span><br><span class="line">                         <span class="variable">@Field</span>(<span class="string">"key"</span>) String key);</span><br></pre></td></tr></table></figure>
+<p>详细的各种注解要看这里<a href="http://www.lanyimi.com/2016/10/08/retrofit%E6%B3%A8%E8%A7%A3%E4%BD%BF%E7%94%A8/">retrofit注解的使用</a></p>
+<p>最后在Presenter层调用方法，返回List<repos></repos></p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Git.getInstance().getGitService().listRepos(<span class="string">"gdmec07120731"</span>).enqueue(<span class="keyword">new</span> Callback&lt;List&lt;Repos&gt;&gt;() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    <span class="keyword">public</span> void onResponse(<span class="keyword">Call</span>&lt;List&lt;Repos&gt;&gt; <span class="keyword">call</span>, <span class="built_in">Response</span>&lt;List&lt;Repos&gt;&gt; <span class="built_in">response</span>) &#123;</span><br><span class="line"></span><br><span class="line">                        <span class="built_in">Log</span>.i(<span class="string">"TAG"</span>, <span class="built_in">response</span>.body().<span class="keyword">get</span>(<span class="number">0</span>).getName());</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    @Override</span><br><span class="line">                    <span class="keyword">public</span> void onFailure(<span class="keyword">Call</span>&lt;List&lt;Repos&gt;&gt; <span class="keyword">call</span>, Throwable t) &#123;</span><br><span class="line">                        <span class="built_in">Log</span>.i(<span class="string">"TAG"</span>, t.toString());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/01/mvp/" itemprop="url">
+                  5mins熟悉mvp架构
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-11-01T16:48:10+08:00" content="2016-11-01">
+              2016-11-01
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/01/mvp/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/01/mvp/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p> MvpDemo<br>简单的mvp架构登录demo，根据功能分包，参考自<a href="https://github.com/googlesamples/android-architecture" target="_blank" rel="external">google mvp</a></p>
+<blockquote>
+<p>主要面向有mvp经验的读者，阅读时间大约 <strong>5 min</strong></p>
+</blockquote>
+<p>mvp 的思想是把显示和业务逻辑从activity，fragment这些View中分离。让model和view的通信通过Presenter来搞定，这样子就降低了一个activity成千代码量的可能，以后修改业务逻辑，新增方法只要model层实现好，然后在Presenter层暴露接口给view调用就好了，mvp相比mvc会提项目结构易读性，也有一些不足就是要多写类来协助开发，不太熟悉的同学就会拉慢开发速度。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">View&lt;===&gt;Presenter&lt;===&gt;Model</span><br></pre></td></tr></table></figure></p>
+<h3 id="u9879_u76EE_u4E3B_u8981_u6709_u4EE5_u4E0B_u7C7B_u7EC4_u6210"><a href="#u9879_u76EE_u4E3B_u8981_u6709_u4EE5_u4E0B_u7C7B_u7EC4_u6210" class="headerlink" title="项目主要有以下类组成"></a>项目主要有以下类组成</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">----login</span><br><span class="line">      |----LoginActivity.java</span><br><span class="line">      |----LoginContract.java</span><br><span class="line">      |----LoginPresenter.java</span><br><span class="line">----BaseView.java</span><br><span class="line">----BasePresenter.java</span><br></pre></td></tr></table></figure>
+<h3 id="u65B0_u5EFA_u7C7BBaseView-java"><a href="#u65B0_u5EFA_u7C7BBaseView-java" class="headerlink" title="新建类BaseView.java"></a>新建类BaseView.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BaseView</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">//在view层 给LoginConstract.Presenter赋值</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setPresenter</span><span class="params">(T presenter)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="u65B0_u5EFA_u7C7BBasePresenter-java"><a href="#u65B0_u5EFA_u7C7BBasePresenter-java" class="headerlink" title="新建类BasePresenter.java"></a>新建类BasePresenter.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BasePresenter</span> </span>&#123;</span><br><span class="line"><span class="comment">//start方法表示进行数据初始化，这方法感觉没用</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">start</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这两个base类是所有模块都用到的基类。这里我们就不动它，然后具体某个模块(比如登陆模块用到的方法就在Login这个包里面新建LoginConstract。</p>
+<p>然后新建两个接口分别是继承BaseView的view接口，注意这里的BaseView带泛型指向下面同级新建好的Presenter就行了。</p>
+<p>以及继承BasePresenter的Presenter接口，把操作ui界面的方法和业务逻辑的方法写进对应的view和presenter接口，就有了下面的LoginConstract类)</p>
+<h3 id="u65B0_u5EFA_u7C7BLoginConstract-java"><a href="#u65B0_u5EFA_u7C7BLoginConstract-java" class="headerlink" title="新建类LoginConstract.java"></a>新建类LoginConstract.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">LoginConstract</span></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">View</span> <span class="keyword">extends</span> <span class="title">BaseView</span>&lt;<span class="title">Presenter</span>&gt;</span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">showProgressBar</span><span class="params">()</span></span>;<span class="comment">//show进度条的方法</span></span><br><span class="line">     <span class="function"><span class="keyword">void</span> hideProgressBar</span><br><span class="line">     <span class="keyword">void</span> <span class="title">onLoginSuccess</span><span class="params">()</span></span>;<span class="comment">//登录成功的方法</span></span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">onLoginError</span><span class="params">()</span></span>;</span><br><span class="line">     <span class="comment">//...</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Presenter</span> <span class="keyword">extends</span> <span class="title">BasePresenter</span></span>&#123;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">login</span><span class="params">(String username,String password)</span></span>;  <span class="comment">//登录的方法</span></span><br><span class="line">     <span class="comment">//...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="u65B0_u5EFA_u7C7BLoginPresenter-java"><a href="#u65B0_u5EFA_u7C7BLoginPresenter-java" class="headerlink" title="新建类LoginPresenter.java"></a>新建类LoginPresenter.java</h3><p>LoginPresenter会实现LoginContract.Presenter接口，在login方法写网络请求的逻辑代码。可以理解为持有view对象，并且操作业务逻辑(登陆，注册，获取列表数据)的类，有一个LoginConstract.View的全局变量mView。这个对象要赋值才能使用，所以我们会在LoginPresenter构造方法给mView赋值。并且在构造函数调用mView的setPresenter给View层的负责登陆业务的Presenter赋值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginPresenter</span> <span class="keyword">implements</span> <span class="title">LoginConstract</span>.<span class="title">Presenter</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> LoginConstract.View mView;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LoginPresenter</span><span class="params">(LoginConstract.View view)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mView = view;</span><br><span class="line">        <span class="keyword">this</span>.mView.setPresenter(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">login</span><span class="params">(<span class="keyword">final</span> String username, <span class="keyword">final</span> String password)</span> </span>&#123;</span><br><span class="line">           <span class="comment">//判断username pwd这些参数合法性</span></span><br><span class="line">           <span class="comment">//期间调用mView.showProgressBar();等操作ui的方法</span></span><br><span class="line">           <span class="comment">//发送网络请求</span></span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="u65B0_u5EFA_u7C7BLoginActivity-java"><a href="#u65B0_u5EFA_u7C7BLoginActivity-java" class="headerlink" title="新建类LoginActivity.java"></a>新建类LoginActivity.java</h3><p>类要实现LoginConstract.View接口，期间会实现大量在LoginConstract.View的ui方法例如showProgressBar()啊。并且有2个全局变量分别是LoginConstract.Presenter类型的mPresenter 和LoginPresenter类型的mLoginPresenter变量。</p>
+<ol>
+<li><p>在setPresenter要给mPresenter 赋值。</p>
+</li>
+<li><p>在onCreate要实例化就是要new一个mLoginPresenter，之后才能在点击事件调用login方法拉起登录，在点击事件调用mPresenter.login(…);。</p>
+</li>
+<li><p>然后就是正常逻辑的initViews() 和initListeners()方法，给控件实例化，和注册点击事件等。</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> <span class="keyword">implements</span> <span class="title">LoginConstract</span>.<span class="title">View</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> LoginConstract.Presenter mPresenter;</span><br><span class="line">    <span class="keyword">private</span> LoginPresenter mLoginPresenter;</span><br><span class="line">    <span class="keyword">private</span> EditText mUsername;</span><br><span class="line">   <span class="comment">//...</span></span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_login);</span><br><span class="line">        initViews();</span><br><span class="line">        initListeners();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initListeners</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mLogin.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">                mPresenter.login(mUsername.getText().toString(), mPassword.getText().toString());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initViews</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        mUsername = (EditText) findViewById(R.id.ed_username);</span><br><span class="line">       <span class="comment">//...</span></span><br><span class="line">        mLoginPresenter = <span class="keyword">new</span> LoginPresenter(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPresenter</span><span class="params">(LoginConstract.Presenter presenter)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mPresenter = presenter;</span><br><span class="line">    &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>实现了LoginConstract.View接口就要重写setPresenter方法给LoginConstract.Presenter 类型的全局变量赋值。要调用mPresenter.login方法必须先实例化mLoginPresenter这个对象。</p>
+<p>注意，mPresenter主要是为了让view绑定Presenter，一定要先实例化mLoginPresenter，因为在LoginPresenter的构造函数中，会传入mView,才会让LoginPresenter的mView有值，执行LoginPresenter里面的login方法不会报错。</p>
+<p>&gt;</p>
+<blockquote>
+<p>注释</p>
+</blockquote>
+<ul>
+<li><p>LoginConstract.View  mView;                    <strong>掌控view操作ui的所有方法的对象</strong>。</p>
+</li>
+<li><p>LoginConstract.Presenter mPresenter;   <strong>掌控view中操作业务逻辑的所有方法的对象</strong>。</p>
+</li>
+<li>LoginPresenter mLoginPresenter;            <strong>让view绑定Presenter</strong></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/10/28/5分钟接入微信支付/" itemprop="url">
                   5mins接入微信支付
                 </a>
@@ -715,217 +966,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/15/Android热修复/" itemprop="url">
-                  android hotfix
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-08-15T15:00:41+08:00" content="2016-08-15">
-              2016-08-15
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/15/Android热修复/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/15/Android热修复/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Android_u70ED_u4FEE_u590D"><a href="#Android_u70ED_u4FEE_u590D" class="headerlink" title="Android热修复"></a>Android热修复</h2><blockquote>
-<p>热修复就是在用户运行app时候不知不觉，将apk里面错误代码纠正，无需再重新从应用市场下载最新版本。而且还有减少了开发者从打多个渠道包，上架多个应用渠道的工作。</p>
-</blockquote>
-<h3 id="u70ED_u4FEE_u590D_u539F_u7406"><a href="#u70ED_u4FEE_u590D_u539F_u7406" class="headerlink" title="热修复原理"></a>热修复原理</h3><p>首先你的app必须经过分包（在eclipse你可以自定义ant分包，在as你可以用multix分包），把Application和Mainactivity放在主classes.dex，把Bug.class放在Classes2.dex，要修改Bug.class内容只要执行dx.bat命令得到新的Classes2.dex文件，在app正常运行时，使用ClassLoader加载类方法。</p>
-<p>BaseDexClassLoader子类分为PathClassLoader加载已安装到系统的apk和DexClassLoader可以加载未安装到系统的jar、dex和apk。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#baseDexClassLoader</span><br><span class="line">  protected Class&lt;?&gt; findClass(String name)throws ClassNotFoundException&#123;</span><br><span class="line">   Class clazz=pathList.findClassLIE(name);</span><br><span class="line">  if(clazz==null)</span><br><span class="line">    throw new ClassNotFoundException(name);</span><br><span class="line">  return clazz;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#DexPathList</span><br><span class="line">  public Class findClass(String name)&#123;</span><br><span class="line">     for(Element element:dexElements)&#123;</span><br><span class="line">  if(dex!=null)&#123;</span><br><span class="line">  Class clazz=dex.loadClassBinaryName(name,definingContext);</span><br><span class="line">    if(clazz!=null)&#123;</span><br><span class="line">  return clazz;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">  return null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#DexFile</span><br><span class="line">  public Class loadClassBinaryName(String name,ClassLoader loader)&#123;</span><br><span class="line">  return defineClass(name,loader,mCookie);</span><br><span class="line">&#125;</span><br><span class="line">private native static Class defineClass(String name,ClassLoader loader,int cookie);</span><br></pre></td></tr></table></figure>
-<p>一个ClassLoader可以包含多个dex文件，每个dex文件是一个element，多个dex组成一个有序的dexElement数组，当找类的时候会遍历整个数组来找，如果在当前dex找到类了，就返回该类，不去其他dex找类了，所以补丁dex放在最前面遍历，不会覆盖这个类。</p>
-<p>这里还有一个CLASS_ISPREVERIFIED 问题就是有其他类引用到Bug.class 要取消CLASS_ISPREVERIFIED 标记其他类。</p>
-<h3 id="CLASS_ISPREVERIFIED__u662F_u4EC0_u4E48_uFF1F"><a href="#CLASS_ISPREVERIFIED__u662F_u4EC0_u4E48_uFF1F" class="headerlink" title="CLASS_ISPREVERIFIED 是什么？"></a>CLASS_ISPREVERIFIED 是什么？</h3><p>A类调用到B类方法 AB都在同一个在同一个dex里面 A类就会打上CLASS_ISPREVERIFIED标记</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/09/Android中的插件开发/" itemprop="url">
-                  android插件开发
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-08-09T16:57:38+08:00" content="2016-08-09">
-              2016-08-09
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/09/Android中的插件开发/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/09/Android中的插件开发/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>插件化的好处就是满足各类用户的特定需求，动态加载内容。好像锤子桌面里面有很多主题，如主题ABCD有的人喜欢安装A，有的人喜欢安装C这时候就用到插件开发，又比如qq有很多皮肤，有的是商务皮肤，有的是可爱皮肤，有的是运动皮肤，根据个人爱好下载不同的皮肤。</p>
-</blockquote>
-<p>想获取已安装的app的apk，路径就在data/app/包名-1/base.apk  qq就是这样子发送已安装的apk</p>
-<h2 id="u4EE5_u52A0_u8F7Dapk_u4E3A_u4F8B_u5B50"><a href="#u4EE5_u52A0_u8F7Dapk_u4E3A_u4F8B_u5B50" class="headerlink" title="以加载apk为例子"></a>以加载apk为例子</h2><p>插件可以以zip jar dex apk等形式存在，首先下载好插件的apk到你app缓存根目录</p>
-<p>加载<strong>已安装的apk</strong>获取里面的资源文件先获取插件apk的context再获取里面资源。可以用到Context pluginContext=this.createPackageContext(“包名”,flag);</p>
-<p>加载未安装的apk呢就用DexClassLoader</p>
-<h2 id="u539F_u7406"><a href="#u539F_u7406" class="headerlink" title="原理"></a>原理</h2><p>原理根据是普通apk里面的getResoure.getDrawable(R.drawable.bg);getResource肯定有获取apk资源的方法。查看系统代码发现 getResource里面根据AssetManager添加自己apk的路径返回resource，通过resource就可以访问R文件下的所有对象属性。</p>
-<p>这里只要新建一个pluginResurces继承Resources和AssetManager.</p>
-<p>让AssetManager.addAssetPath为插件apk的路径，通过pluginResurces构造函数实例化pluginResurces，插件Reources有了，就差插件R文件里面的属性id，</p>
-<p>根据DexClassloader加载包名+R$drawable 获取class 再获取field判断field和插进R文件的属性相同就int drawableId=field.getInt(R.drawable.class);</p>
-<p>Drawable drawable= resource.getDrawable(drawableId);然后你的按钮就可以设置background了。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -971,7 +1011,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">27</span>
+              <span class="site-state-item-count">29</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
