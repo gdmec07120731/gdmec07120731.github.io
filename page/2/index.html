@@ -78,7 +78,7 @@
     motion: true,
     duoshuo: {
       userId: 0,
-      author: '博主'
+      author: 'Author'
     }
   };
 </script>
@@ -153,7 +153,7 @@
             
               <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
             
-            首頁
+            Home
           </a>
         </li>
       
@@ -163,7 +163,7 @@
             
               <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
             
-            歸檔
+            Archives
           </a>
         </li>
       
@@ -173,7 +173,7 @@
             
               <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
             
-            關於
+            About
           </a>
         </li>
       
@@ -216,6 +216,134 @@
             
               
                 
+                <a class="post-title-link" href="/2017/02/15/java线程中的Runnable，Callable，Future，FutureTask/" itemprop="url">
+                  java线程中的Runnable，Callable，Future，FutureTask
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-02-15T11:20:56+08:00" content="2017-02-15">
+              2017-02-15
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/02/15/java线程中的Runnable，Callable，Future，FutureTask/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/15/java线程中的Runnable，Callable，Future，FutureTask/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>前言，在java线程中最常见的是Thread 和Runnable，很少见到或者用到callable等类。但是，你接触过android源码就会经常看到这些类，比如AsyncTask的源码在execute方法源码可以看到了这些类。在面试时也有可能会问到两者的区别，所以现在容许鄙人来介绍一下java中这些类的用法。</p>
+<h1 id="Runnable"><a href="#Runnable" class="headerlink" title="Runnable"></a>Runnable</h1><p>Runnable一个接口类，包括一个run的接口方法：通常我们会自定义一个类去实现Runnable，这时候还可以实现其他接口方法，如果类要是继承Thread就不能再继承其他类了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Runnable</span></span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Runnable 通常配合Thread使用，在run方法里面写耗时的操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable()&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="comment">// </span></span><br><span class="line"> &#125;</span><br><span class="line">&#125;).start();</span><br></pre></td></tr></table></figure>
+<h1 id="Callable"><a href="#Callable" class="headerlink" title="Callable"></a>Callable</h1><p>Callable是一个泛型接口，要比Runnable强些 ，因为接口方法call有返回值，并且返回值是传入的泛型类型，还能call的过程中抛出异常。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Callable</span>&lt;<span class="title">V</span>&gt;</span>&#123;</span><br><span class="line">  <span class="function">V <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>示例要配合Future或者FutureTask来执行。</p>
+<h1 id="Future"><a href="#Future" class="headerlink" title="Future"></a>Future</h1><p>Future是一个泛型接口类，是Runnable和Callable的调度容器，就是对Runnable和Callable的结果进行操作，比如：</p>
+<ol>
+<li>isCancelled()取消操作，call方法任务完成前取消，返回true。</li>
+<li>isDone()判断是否操作完成，是则返回true。</li>
+<li>get()获取操作结果，会导致程序阻塞，必须等到子线程结束才会得到返回值。</li>
+<li>get(long timeout TimeUnit unit)在某时间后获取操作结果，如果在规定时间内获取不到返回值将会抛出超时异常）</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Future</span>&lt;<span class="title">V</span>&gt;</span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">boolean</span> <span class="title">isCancelled</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">boolean</span> <span class="title">isDone</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function">V <span class="title">get</span><span class="params">()</span> <span class="keyword">throws</span> InterputeredException,ExecutionExeception</span>;</span><br><span class="line">  <span class="function">V <span class="title">get</span><span class="params">(<span class="keyword">long</span> timeout ,TimeUnit unit)</span><span class="keyword">throws</span> InterputeredException,ExecutionExeception,TimeoutExeception</span>;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>比如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ExecutorService threadPool=Executors.newSingleThreadExecutor();</span><br><span class="line">Future future=threadPool.submit(<span class="keyword">new</span> Callable&lt;String&gt;()&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span><span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"result"</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">Futurn.get();<span class="comment">//返回操作结果</span></span><br></pre></td></tr></table></figure>
+<h1 id="FutureTask"><a href="#FutureTask" class="headerlink" title="FutureTask"></a>FutureTask</h1><p>FutureTask类同时实现了Runnable和Future<v> 两个接口，具有了两个接口的属性。</v></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FutureTask</span>&lt;<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">RunnableFuture</span>&lt;<span class="title">V</span>&gt;</span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">FutureTask</span><span class="params">(Callable&lt;V&gt; callable)</span></span>&#123;</span><br><span class="line">       <span class="keyword">this</span>.callable=callable;</span><br><span class="line">       ...</span><br><span class="line">     &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">FutureTask</span><span class="params">(Runnable runnable,V result)</span></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.callable=Executors.callable(runnable,result);</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">boolean</span> <span class="title">isCancelled</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">boolean</span> <span class="title">isDone</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function">V <span class="title">get</span><span class="params">()</span> <span class="keyword">throws</span> InterputeredException,ExecutionExeception</span>;</span><br><span class="line">  <span class="function">V <span class="title">get</span><span class="params">(<span class="keyword">long</span> timeout ,TimeUnit unit)</span><span class="keyword">throws</span> InterputeredException,ExecutionExeception,TimeoutExeception</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">RunnableFuture</span>&lt;<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Runnable</span>,<span class="title">Callable</span>&lt;<span class="title">V</span>&gt;</span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的FutureTask间接实现了两个接口，在FutureTask的构造方法传入Callable或者是Runnable都会转为callable，runnable通过runnableadapter转为callable。同时FutureTask还具备Future的所有方法。</p>
+<p>举个例子</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Callable&lt;Integer&gt; callable=<span class="keyword">new</span> Callable&lt;Integer&gt;()&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> Ingeter <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">100</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">FutureTask&lt;Integer&gt; task=<span class="keyword">new</span> FutureTask&lt;Integer&gt;(callable);</span><br><span class="line"><span class="keyword">new</span> Thread(task).start();</span><br><span class="line"></span><br><span class="line">task.get();<span class="comment">//当然要先启动线程才能得到结果；</span></span><br></pre></td></tr></table></figure>
+<p>这里的callable当成runnable用了。</p>
+<h1 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h1><ol>
+<li><p>Callable比Runnable高级能返回结果值和抛出异常。</p>
+</li>
+<li><p>可以有上述例子看到Callable来产生结果，Futuretask来获取结果。</p>
+</li>
+<li><p>在获取结果期间还可以控制是否取消thread 判断thread是否完成。</p>
+<p>​</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/02/13/AsyncTask-Analyze/" itemprop="url">
                   AsyncTask-Analyze
                 </a>
@@ -229,7 +357,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2017-02-13T17:05:04+08:00" content="2017-02-13">
               2017-02-13
             </time>
@@ -360,7 +488,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2017-01-19T16:54:08+08:00" content="2017-01-19">
               2017-01-19
             </time>
@@ -494,7 +622,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2017-01-19T14:07:37+08:00" content="2017-01-19">
               2017-01-19
             </time>
@@ -612,7 +740,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2017-01-17T19:36:49+08:00" content="2017-01-17">
               2017-01-17
             </time>
@@ -711,7 +839,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2017-01-17T16:30:29+08:00" content="2017-01-17">
               2017-01-17
             </time>
@@ -805,128 +933,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/22/greenDAO/" itemprop="url">
-                  greenDAO
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-11-22T17:07:51+08:00" content="2016-11-22">
-              2016-11-22
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/11/22/greenDAO/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/22/greenDAO/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="GreenDao"><a href="#GreenDao" class="headerlink" title="GreenDao"></a>GreenDao</h1><p>GreenDao3.1.0使用案例包含（增删查改，升级数据库），3.+版本比2.+更加便捷生成DaoMaster和DaoSession<br><a href="https://github.com/gdmec07120731/GreenDaoTest" target="_blank" rel="external">本文项目地址</a></p>
-<p>##首先让你的android studio配置Greendao数据库<br>在build.gradle目录下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    classpath <span class="string">'com.android.tools.build:gradle:2.1.0'</span></span><br><span class="line">    classpath <span class="string">'org.greenrobot:greendao-gradle-plugin:3.1.0'</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在app/build.gradle目录下设置</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: <span class="string">'org.greenrobot.greendao'</span></span><br><span class="line">android &#123;</span><br><span class="line">   greendao&#123;</span><br><span class="line">        schemaVersion <span class="number">1</span>                    <span class="comment">//数据库 版本号</span></span><br><span class="line">        targetGenDir <span class="string">'src/main/java'</span>    <span class="comment">//生成DaoMaster类文件夹</span></span><br><span class="line">        daoPackage   <span class="string">'com.ppjun.greendaotest.db'</span>  <span class="comment">//生成DaoMaster类包名</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">dependencies &#123;</span><br><span class="line">    compile <span class="string">'org.greenrobot:greendao:3.1.0'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>新建一个User类</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="annotation">@Id</span>(autoincrement = <span class="keyword">true</span>) </span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="annotation">@Property</span>(nameInDb = <span class="string">"username"</span>)</span><br><span class="line">    <span class="keyword">private</span> String userName;</span><br><span class="line">    <span class="annotation">@Property</span>(nameInDb = <span class="string">"password"</span>)</span><br><span class="line">    <span class="keyword">private</span> String passWord;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">//generate set和get方法 toString方法</span></span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol>
-<li>@Entity 代表数据库里面的USER表</li>
-<li>@Id 主键 ,autoincrement=true 从0开始自增长。</li>
-<li>@Property 表里面的内容</li>
-<li>@Unique 唯一的</li>
-<li>@Transient 不会被数据库持久化写进数据库 </li>
-<li>@NotNull 不为空</li>
-</ol>
-<p>到此为止，sync gradle来执行greendao配置，下面开始讲解怎么使用</p>
-<p>##GreenDao使用</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DB_NAME = <span class="string">"ppjun.db"</span>;<span class="comment">//数据库名称</span></span><br><span class="line">DaoMaster.DevOpenHelper helper = <span class="keyword">new</span> DaoMaster.DevOpenHelper(context, DB_NAME, <span class="keyword">null</span>);<span class="comment">//实例化一个DevOpenhelper,相当于sqlit的SQliteOpenHelper</span></span><br><span class="line">DaoMaster daoMaster = <span class="keyword">new</span> DaoMaster(helper.getWritableDb());<span class="comment">//实例化DaoMaster</span></span><br><span class="line">DaoSession daoSession = daoMaster.newSession();<span class="comment">//实例化DaoSession</span></span><br><span class="line">UserDao userDao =daoSession.getUserDao(); <span class="comment">//获取UserDao实例来对表user进行操作</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//add，这里的null 代表自增长的id，你还可以为user表插入unique的userid</span></span><br><span class="line">        User user1 = <span class="keyword">new</span> User(<span class="keyword">null</span>, <span class="string">"ag1"</span>, <span class="string">"123456"</span>);</span><br><span class="line">        User user2 = <span class="keyword">new</span> User(<span class="keyword">null</span>, <span class="string">"ag2"</span>, <span class="string">"123456"</span>);</span><br><span class="line">        User user3 = <span class="keyword">new</span> User(<span class="keyword">null</span>, <span class="string">"ag3"</span>, <span class="string">"123456"</span>);</span><br><span class="line">        userDao.insert(user1);</span><br><span class="line">        userDao.insert(user2);</span><br><span class="line">        userDao.insert(user3);</span><br><span class="line"></span><br><span class="line"> <span class="comment">//update，这里更新id是3的user的名字，id从1开始的，在where来添加匹配条件</span></span><br><span class="line">        User user4 = userDao.queryBuilder().where(UserDao.Properties.Id.eq(<span class="number">3</span>)).build().unique();</span><br><span class="line">        user4.setUserName(<span class="string">"kk"</span>);</span><br><span class="line">        userDao.update(user4);</span><br><span class="line"></span><br><span class="line"><span class="comment">//delete，这里删除id是2的user</span></span><br><span class="line">        List&lt;User&gt; userList2 = userDao.queryBuilder().where(UserDao.Properties.Id.eq(<span class="number">2</span>)).build().list();</span><br><span class="line">        <span class="keyword">for</span> (User user5 : userList2)</span><br><span class="line">            userDao.delete(user5);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//query，重新user表全部user</span></span><br><span class="line">        List&lt;User&gt; userList = userDao.queryBuilder().build().list();</span><br><span class="line">        <span class="keyword">for</span> (User user : userList)</span><br><span class="line">            Log.i(TAG, user.toString());</span><br></pre></td></tr></table></figure>
-<p>上面完成数据库基本操作。</p>
-<p>##下面来说GreenDao的升级数据库，在user表插入age</p>
-<p>1、修改build.gradle下面的schemaVersion 2</p>
-<p>2、在user类，新增age对象</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="annotation">@Id</span>(autoincrement = <span class="keyword">true</span>)</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="annotation">@Property</span>(nameInDb = <span class="string">"age"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">  <span class="comment">//generate getter and setter &amp; toString</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>3、你要新建一个类MyDBHelper继承DaoMaster.OpenHelper,在类的构造函数传入Context，super(context,DB_NAME,null);还要重写onUpgrade方法（注意这里的参数一是Database），然后创建表(传入true，这里使用IF NOT EXISTS)不用担心表不存在，还有执行增加age列sql语句 db.exeSQL(“ALTER TABLE USER ADD COLUMN age”);</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyDBHelper</span> <span class="keyword">extends</span> <span class="title">DaoMaster</span>.<span class="title">OpenHelper</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyDBHelper</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, DB_NAME,<span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onUpgrade</span><span class="params">(Database db, <span class="keyword">int</span> oldVersion, <span class="keyword">int</span> newVersion)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onUpgrade(db, oldVersion, newVersion);</span><br><span class="line">        NoteDao.createTable(db,<span class="keyword">true</span>);</span><br><span class="line">        db.execSQL(<span class="string">"ALTER TABLE NOTE ADD COLUMN age"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这时候的DaoMaster.DevOpenHelper改为自定义DBHelper，这样子升级数据库就不会丢失原来的数据了</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DBHelper dbHelper = <span class="keyword">new</span> DBHelper(context);</span><br><span class="line">DaoMaster daoMaster = <span class="keyword">new</span> DaoMaster(dbHelper.getWritableDb());</span><br></pre></td></tr></table></figure>
-<p><a href="https://github.com/gdmec07120731/GreenDaoTest" target="_blank" rel="external">本文项目地址</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -972,8 +978,8 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">29</span>
-              <span class="site-state-item-name">文章</span>
+              <span class="site-state-item-count">30</span>
+              <span class="site-state-item-name">posts</span>
             </a>
           </div>
 
@@ -983,7 +989,7 @@
             <div class="site-state-item site-state-tags">
               
                 <span class="site-state-item-count">22</span>
-                <span class="site-state-item-name">標籤</span>
+                <span class="site-state-item-name">tags</span>
               
             </div>
           
@@ -1047,11 +1053,11 @@
 </div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  主題 -
+  Theme -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Pisces
   </a>

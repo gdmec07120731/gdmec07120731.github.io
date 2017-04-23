@@ -78,7 +78,7 @@
     motion: true,
     duoshuo: {
       userId: 0,
-      author: '博主'
+      author: 'Author'
     }
   };
 </script>
@@ -153,7 +153,7 @@
             
               <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
             
-            首頁
+            Home
           </a>
         </li>
       
@@ -163,7 +163,7 @@
             
               <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
             
-            歸檔
+            Archives
           </a>
         </li>
       
@@ -173,7 +173,7 @@
             
               <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
             
-            關於
+            About
           </a>
         </li>
       
@@ -216,6 +216,119 @@
             
               
                 
+                <a class="post-title-link" href="/2017/04/23/搭建jekyll博客/" itemprop="url">
+                  搭建jekyll博客
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-04-23T18:47:24+08:00" content="2017-04-23">
+              2017-04-23
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/04/23/搭建jekyll博客/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/23/搭建jekyll博客/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h1><p>主流的个人博客都是用hexo搭建的，一部分人喜欢用jekyll搭建，下面我们来细说一下操作流程</p>
+<h1 id="u6548_u679C"><a href="#u6548_u679C" class="headerlink" title="效果"></a>效果</h1><p>今天，我们要做到到这个主题效果<a href="http://huangxuan.me/" target="_blank" rel="external">http://huangxuan.me/</a> </p>
+<h1 id="u4E0B_u8F7D"><a href="#u4E0B_u8F7D" class="headerlink" title="下载"></a>下载</h1><p>下载rubygems <a href="http://rubyinstaller.org/" target="_blank" rel="external">http://rubyinstaller.org/</a> 选择<a href="http://rubyinstaller.org/news/2016/12/07/rubyinstaller-2-2-6-and-2-3-3-released/" target="_blank" rel="external">2.3.3 released</a>，安装过程中现在加入path。</p>
+<h2 id="u5207_u6362ruby_u955C_u50CF"><a href="#u5207_u6362ruby_u955C_u50CF" class="headerlink" title="切换ruby镜像"></a>切换ruby镜像</h2><p>在git bash下</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ gem sources --<span class="built_in">add</span> http<span class="variable">s:</span>//gems.<span class="keyword">ruby</span>-china.org/ --<span class="built_in">remove</span> http<span class="variable">s:</span>//rubygems.org/</span><br><span class="line">$ gem sources -<span class="keyword">l</span></span><br><span class="line">http<span class="variable">s:</span>//gems.<span class="keyword">ruby</span>-china.org</span><br><span class="line"># 确保只有 gems.<span class="keyword">ruby</span>-china.org</span><br></pre></td></tr></table></figure>
+<p>如果遇到SSL问题 将https改为http。</p>
+<h2 id="u4E0B_u8F7Dbundler"><a href="#u4E0B_u8F7Dbundler" class="headerlink" title="下载bundler"></a>下载bundler</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gem <span class="keyword">install</span> bundler</span><br></pre></td></tr></table></figure>
+<p>如果遇到使用gem下载遇到ENETRESET 问题，请打开<a href="https://github.com/rubygems/rubygems/issues/1214，解决办法关键就是关闭防火墙。" target="_blank" rel="external">https://github.com/rubygems/rubygems/issues/1214，解决办法关键就是关闭防火墙。</a></p>
+<p>下载jekyll</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gem <span class="keyword">install</span> jekyll</span><br></pre></td></tr></table></figure>
+<p>下载jeky-paginate</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gem <span class="keyword">install</span> jekyll-paginate</span><br></pre></td></tr></table></figure>
+<h2 id="u514B_u9686_u4E3B_u9898"><a href="#u514B_u9686_u4E3B_u9898" class="headerlink" title="克隆主题"></a>克隆主题</h2><p>新建jekyll文件夹执行</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="keyword">clone</span> <span class="title">git</span>@github.com:Huxpro/huxblog-boilerplate.git</span><br></pre></td></tr></table></figure>
+<p>cd到huxblog-boilerplate</p>
+<p>执行jekyll serve 可以在<a href="http://localhost:4000看到效果。" target="_blank" rel="external">http://localhost:4000看到效果。</a></p>
+<h1 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h1><p>jekyll博客没hexo博客方便切换主题。</p>
+<p>jeky博客加入不同字体，图片，打破你的审美疲劳。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/04/21/AndroidIM融云接入/" itemprop="url">
                   AndroidIM融云接入
                 </a>
@@ -229,7 +342,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2017-04-21T16:37:09+08:00" content="2017-04-21">
               2017-04-21
             </time>
@@ -336,7 +449,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2017-04-20T09:38:32+08:00" content="2017-04-20">
               2017-04-20
             </time>
@@ -375,7 +488,7 @@
           
             <h3 id="1-_Activity_u548Cfragment_u7684_u751F_u547D_u5468_u671F"><a href="#1-_Activity_u548Cfragment_u7684_u751F_u547D_u5468_u671F" class="headerlink" title="1. Activity和fragment的生命周期"></a>1. Activity和fragment的生命周期</h3><ol>
 <li><p>Activity从onCreate→onStart→onResume→onPause→onStop→onDestroy，其中oncreate初始化加载布局资源，onStart布局可见但是还在后台不可交互</p>
-<p>onResume布局可见在前台可以交互。onPause正在停止当前activity，onStop表示activity即将停止，做一些回收资源操作，onDestroy销毁activity最终的资源释放。</p>
+<p>onResume布局可见在前台可以交互。onPause正在停止当前activity，onStop表示activity即将停止，做一些回收资源操作，onDestroy销毁activity最终的资源释放。总结：onStart和onPause可见不可见，onResume和onStop可不可以交互</p>
 </li>
 <li><p>Fragment从onAttach→onCreate→onCreateView→onStart→onResume→onPause→onStop→onDestroyView→onDestroy-onDetach</p>
 <p>​</p>
@@ -465,7 +578,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2017-03-20T11:08:44+08:00" content="2017-03-20">
               2017-03-20
             </time>
@@ -604,7 +717,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2017-03-13T11:01:06+08:00" content="2017-03-13">
               2017-03-13
             </time>
@@ -713,7 +826,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2017-02-23T15:19:00+08:00" content="2017-02-23">
               2017-02-23
             </time>
@@ -847,134 +960,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/15/java线程中的Runnable，Callable，Future，FutureTask/" itemprop="url">
-                  java线程中的Runnable，Callable，Future，FutureTask
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-02-15T11:20:56+08:00" content="2017-02-15">
-              2017-02-15
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/02/15/java线程中的Runnable，Callable，Future，FutureTask/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/15/java线程中的Runnable，Callable，Future，FutureTask/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>前言，在java线程中最常见的是Thread 和Runnable，很少见到或者用到callable等类。但是，你接触过android源码就会经常看到这些类，比如AsyncTask的源码在execute方法源码可以看到了这些类。在面试时也有可能会问到两者的区别，所以现在容许鄙人来介绍一下java中这些类的用法。</p>
-<h1 id="Runnable"><a href="#Runnable" class="headerlink" title="Runnable"></a>Runnable</h1><p>Runnable一个接口类，包括一个run的接口方法：通常我们会自定义一个类去实现Runnable，这时候还可以实现其他接口方法，如果类要是继承Thread就不能再继承其他类了。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Runnable</span></span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Runnable 通常配合Thread使用，在run方法里面写耗时的操作：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable()&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="comment">// </span></span><br><span class="line"> &#125;</span><br><span class="line">&#125;).start();</span><br></pre></td></tr></table></figure>
-<h1 id="Callable"><a href="#Callable" class="headerlink" title="Callable"></a>Callable</h1><p>Callable是一个泛型接口，要比Runnable强些 ，因为接口方法call有返回值，并且返回值是传入的泛型类型，还能call的过程中抛出异常。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Callable</span>&lt;<span class="title">V</span>&gt;</span>&#123;</span><br><span class="line">  <span class="function">V <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>示例要配合Future或者FutureTask来执行。</p>
-<h1 id="Future"><a href="#Future" class="headerlink" title="Future"></a>Future</h1><p>Future是一个泛型接口类，是Runnable和Callable的调度容器，就是对Runnable和Callable的结果进行操作，比如：</p>
-<ol>
-<li>isCancelled()取消操作，call方法任务完成前取消，返回true。</li>
-<li>isDone()判断是否操作完成，是则返回true。</li>
-<li>get()获取操作结果，会导致程序阻塞，必须等到子线程结束才会得到返回值。</li>
-<li>get(long timeout TimeUnit unit)在某时间后获取操作结果，如果在规定时间内获取不到返回值将会抛出超时异常）</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Future</span>&lt;<span class="title">V</span>&gt;</span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">boolean</span> <span class="title">isCancelled</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">boolean</span> <span class="title">isDone</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function">V <span class="title">get</span><span class="params">()</span> <span class="keyword">throws</span> InterputeredException,ExecutionExeception</span>;</span><br><span class="line">  <span class="function">V <span class="title">get</span><span class="params">(<span class="keyword">long</span> timeout ,TimeUnit unit)</span><span class="keyword">throws</span> InterputeredException,ExecutionExeception,TimeoutExeception</span>;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>比如</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ExecutorService threadPool=Executors.newSingleThreadExecutor();</span><br><span class="line">Future future=threadPool.submit(<span class="keyword">new</span> Callable&lt;String&gt;()&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span><span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"result"</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">Futurn.get();<span class="comment">//返回操作结果</span></span><br></pre></td></tr></table></figure>
-<h1 id="FutureTask"><a href="#FutureTask" class="headerlink" title="FutureTask"></a>FutureTask</h1><p>FutureTask类同时实现了Runnable和Future<v> 两个接口，具有了两个接口的属性。</v></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FutureTask</span>&lt;<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">RunnableFuture</span>&lt;<span class="title">V</span>&gt;</span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">FutureTask</span><span class="params">(Callable&lt;V&gt; callable)</span></span>&#123;</span><br><span class="line">       <span class="keyword">this</span>.callable=callable;</span><br><span class="line">       ...</span><br><span class="line">     &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">FutureTask</span><span class="params">(Runnable runnable,V result)</span></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.callable=Executors.callable(runnable,result);</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">boolean</span> <span class="title">isCancelled</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">boolean</span> <span class="title">isDone</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function">V <span class="title">get</span><span class="params">()</span> <span class="keyword">throws</span> InterputeredException,ExecutionExeception</span>;</span><br><span class="line">  <span class="function">V <span class="title">get</span><span class="params">(<span class="keyword">long</span> timeout ,TimeUnit unit)</span><span class="keyword">throws</span> InterputeredException,ExecutionExeception,TimeoutExeception</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">RunnableFuture</span>&lt;<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Runnable</span>,<span class="title">Callable</span>&lt;<span class="title">V</span>&gt;</span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里的FutureTask间接实现了两个接口，在FutureTask的构造方法传入Callable或者是Runnable都会转为callable，runnable通过runnableadapter转为callable。同时FutureTask还具备Future的所有方法。</p>
-<p>举个例子</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Callable&lt;Integer&gt; callable=<span class="keyword">new</span> Callable&lt;Integer&gt;()&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> Ingeter <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">100</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">FutureTask&lt;Integer&gt; task=<span class="keyword">new</span> FutureTask&lt;Integer&gt;(callable);</span><br><span class="line"><span class="keyword">new</span> Thread(task).start();</span><br><span class="line"></span><br><span class="line">task.get();<span class="comment">//当然要先启动线程才能得到结果；</span></span><br></pre></td></tr></table></figure>
-<p>这里的callable当成runnable用了。</p>
-<h1 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h1><ol>
-<li><p>Callable比Runnable高级能返回结果值和抛出异常。</p>
-</li>
-<li><p>可以有上述例子看到Callable来产生结果，Futuretask来获取结果。</p>
-</li>
-<li><p>在获取结果期间还可以控制是否取消thread 判断thread是否完成。</p>
-<p>​</p>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1020,8 +1005,8 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">29</span>
-              <span class="site-state-item-name">文章</span>
+              <span class="site-state-item-count">30</span>
+              <span class="site-state-item-name">posts</span>
             </a>
           </div>
 
@@ -1031,7 +1016,7 @@
             <div class="site-state-item site-state-tags">
               
                 <span class="site-state-item-count">22</span>
-                <span class="site-state-item-name">標籤</span>
+                <span class="site-state-item-name">tags</span>
               
             </div>
           
@@ -1095,11 +1080,11 @@
 </div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  主題 -
+  Theme -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Pisces
   </a>

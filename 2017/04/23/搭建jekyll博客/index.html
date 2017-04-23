@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="retrofit," />
+  <meta name="keywords" content="Hexo, World" />
 
 
 
@@ -57,28 +57,28 @@
 
 
 
-<meta name="description" content="在用到retrofit请求json时，通常在GankService.java类用到@GET，@POST，@Path这些注解，具体怎么用，可以看看下面。
-@GET 用于get请求
-12@GET(&quot;user&quot;)Observable&amp;lt;Result&amp;gt; getUsers();
-@Query用于url后面?key=value
-12@GET(&quot;user&quot;)Observable&amp;lt;Result&amp;g">
+<meta name="description" content="前言主流的个人博客都是用hexo搭建的，一部分人喜欢用jekyll搭建，下面我们来细说一下操作流程
+效果今天，我们要做到到这个主题效果http://huangxuan.me/ 
+下载下载rubygems http://rubyinstaller.org/ 选择2.3.3 released，安装过程中现在加入path。
+切换ruby镜像在git bash下
+1234$ gem sources --a">
 <meta property="og:type" content="article">
-<meta property="og:title" content="retrofit注解使用">
-<meta property="og:url" content="http://www.lanyimi.com/2016/10/08/retrofit注解使用/index.html">
+<meta property="og:title" content="搭建jekyll博客">
+<meta property="og:url" content="http://www.lanyimi.com/2017/04/23/搭建jekyll博客/index.html">
 <meta property="og:site_name" content="ppjun's blog">
-<meta property="og:description" content="在用到retrofit请求json时，通常在GankService.java类用到@GET，@POST，@Path这些注解，具体怎么用，可以看看下面。
-@GET 用于get请求
-12@GET(&quot;user&quot;)Observable&amp;lt;Result&amp;gt; getUsers();
-@Query用于url后面?key=value
-12@GET(&quot;user&quot;)Observable&amp;lt;Result&amp;g">
-<meta property="og:updated_time" content="2016-11-22T09:09:44.990Z">
+<meta property="og:description" content="前言主流的个人博客都是用hexo搭建的，一部分人喜欢用jekyll搭建，下面我们来细说一下操作流程
+效果今天，我们要做到到这个主题效果http://huangxuan.me/ 
+下载下载rubygems http://rubyinstaller.org/ 选择2.3.3 released，安装过程中现在加入path。
+切换ruby镜像在git bash下
+1234$ gem sources --a">
+<meta property="og:updated_time" content="2017-04-23T11:03:12.874Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="retrofit注解使用">
-<meta name="twitter:description" content="在用到retrofit请求json时，通常在GankService.java类用到@GET，@POST，@Path这些注解，具体怎么用，可以看看下面。
-@GET 用于get请求
-12@GET(&quot;user&quot;)Observable&amp;lt;Result&amp;gt; getUsers();
-@Query用于url后面?key=value
-12@GET(&quot;user&quot;)Observable&amp;lt;Result&amp;g">
+<meta name="twitter:title" content="搭建jekyll博客">
+<meta name="twitter:description" content="前言主流的个人博客都是用hexo搭建的，一部分人喜欢用jekyll搭建，下面我们来细说一下操作流程
+效果今天，我们要做到到这个主题效果http://huangxuan.me/ 
+下载下载rubygems http://rubyinstaller.org/ 选择2.3.3 released，安装过程中现在加入path。
+切换ruby镜像在git bash下
+1234$ gem sources --a">
 
 
 
@@ -96,7 +96,7 @@
   };
 </script>
 
-  <title> retrofit注解使用 | ppjun's blog </title>
+  <title> 搭建jekyll博客 | ppjun's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
@@ -226,7 +226,7 @@
             
             
               
-                retrofit注解使用
+                搭建jekyll博客
               
             
           </h1>
@@ -238,8 +238,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-10-08T11:00:00+08:00" content="2016-10-08">
-              2016-10-08
+            <time itemprop="dateCreated" datetime="2017-04-23T18:47:24+08:00" content="2017-04-23">
+              2017-04-23
             </time>
           </span>
 
@@ -249,8 +249,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/10/08/retrofit注解使用/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/08/retrofit注解使用/" itemprop="commentsCount"></span>
+                <a href="/2017/04/23/搭建jekyll博客/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/23/搭建jekyll博客/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -272,29 +272,25 @@
       
 
       
-        <p>在用到retrofit请求json时，通常在GankService.java类用到@GET，@POST，@Path这些注解，具体怎么用，可以看看下面。</p>
-<h3 id="@GET"><a href="#@GET" class="headerlink" title="@GET"></a>@GET</h3><p> 用于get请求</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="at_rule">@<span class="keyword">GET("user")</span></span><br><span class="line">Observable&lt;Result&gt; <span class="function">getUsers</span>()</span>;</span><br></pre></td></tr></table></figure>
-<h3 id="@Query"><a href="#@Query" class="headerlink" title="@Query"></a>@Query</h3><p>用于url后面?key=value</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@GET</span>(<span class="string">"user"</span>)</span><br><span class="line">Observable&lt;Result&gt; <span class="function">getUsers</span>(<span class="variable">@Query</span>(<span class="string">"id"</span>) String userId);</span><br></pre></td></tr></table></figure>
-<p>相当于</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="at_rule">@<span class="keyword">GET("user?id=userId")</span></span><br><span class="line">Observable&lt;Result&gt; <span class="function">getUsers</span>()</span>;</span><br></pre></td></tr></table></figure>
-<h3 id="@Field"><a href="#@Field" class="headerlink" title="@Field"></a>@Field</h3><p>@POST 用于post请求，我们通常都是post一个表单形式的参数。这时候就用到@Field来连接键值对，@FormUrlEncoded来告诉服务器这是表单提交参数。</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@FormUrlEncoded</span></span><br><span class="line"><span class="variable">@POST</span>(<span class="string">"user"</span>)</span><br><span class="line">Observable&lt;Result&gt; <span class="function">getUsers</span>(<span class="variable">@Field</span>(<span class="string">"id"</span>) String userId);</span><br></pre></td></tr></table></figure>
-<h3 id="@Body"><a href="#@Body" class="headerlink" title="@Body"></a>@Body</h3><p>会把自定义对象，作为requestbody，并转换成指定格式。</p>
-<p>好像依赖了这个包com.squareup.retrofit2:converter-gson  就会被gson转换成json格式。</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@POST</span>(<span class="string">"users/new"</span>)</span><br><span class="line">Call&lt;User&gt; <span class="function">createUser</span>(<span class="variable">@Body</span> User user);</span><br></pre></td></tr></table></figure>
-<h3 id="@Part"><a href="#@Part" class="headerlink" title="@Part"></a>@Part</h3><p>part和multipart一起使用，用于文件上传</p>
-<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Multipart</span><br><span class="line">@PUT(<span class="string">"user/photo"</span>)</span><br><span class="line">Call&lt;User&gt; updateUser(@<span class="keyword">Part</span> MultipartBody.<span class="keyword">Part</span> photo, @<span class="keyword">Part</span>(<span class="string">"description"</span>) RequestBody description);</span><br><span class="line"></span><br><span class="line"><span class="keyword">File</span> file=new <span class="keyword">File</span>(<span class="keyword">Environment</span>.getExternalStorageDirectory(),<span class="string">"aa.png"</span>);</span><br><span class="line">RequestBody body=RequestBody.create(MediaType.parse(<span class="string">"image/png"</span>),file);</span><br><span class="line">MultipartyBody.<span class="keyword">Part</span> photo=MultipartBody.<span class="keyword">Part</span>.createFromData(<span class="string">"photo"</span>,<span class="string">"icon.png"</span>,body);</span><br></pre></td></tr></table></figure>
-<h3 id="@PartMap"><a href="#@PartMap" class="headerlink" title="@PartMap"></a>@PartMap</h3><p>用于多个文件上传，多个MultipartBody<br><figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Multipart</span><br><span class="line">@PUT(<span class="string">"user/photo"</span>)</span><br><span class="line">Call&lt;User&gt; updateUser(@PartMap <span class="keyword">Map</span>&lt;<span class="typename">String</span> RequestBody&gt; <span class="keyword">map</span>, @Part(<span class="string">"description"</span>) RequestBody description);</span><br><span class="line"></span><br><span class="line"><span class="keyword">File</span> file1=<span class="keyword">new</span> <span class="keyword">File</span>(Environment.getExternalStorageDirectory(),<span class="string">"aa.png"</span>);</span><br><span class="line"><span class="keyword">File</span> file2=<span class="keyword">new</span> <span class="keyword">File</span>(Environment.getExternalStorageDirectory(),<span class="string">"bb.png"</span>);</span><br><span class="line">RequestBody body1=RequestBody.create(MediaType.parse(<span class="string">"image/png"</span>),file1);</span><br><span class="line">RequestBody body2=RequestBody.create(MediaType.parse(<span class="string">"image/png"</span>),file2);</span><br><span class="line"><span class="keyword">Map</span>&lt;<span class="typename">String</span> ,RequestBody&gt; <span class="keyword">map</span>=<span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"><span class="keyword">map</span>.put(<span class="string">"photos"</span>,body1);</span><br><span class="line"><span class="keyword">map</span>.put(<span class="string">"photo2"</span>,body2);</span><br></pre></td></tr></table></figure></p>
-<h3 id="@Hearders"><a href="#@Hearders" class="headerlink" title="@Hearders"></a>@Hearders</h3><p>设置头文件内容</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@Headers</span>(<span class="string">"Cache-Control: max-age=640000"</span>)</span><br><span class="line"><span class="variable">@GET</span>(<span class="string">"widget/list"</span>)</span><br><span class="line">Call&lt;List&lt;Widget&gt;&gt; <span class="function">widgetList</span>();</span><br></pre></td></tr></table></figure>
-<p>如果你要设置头文件多个内容</p>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Headers</span>(&#123;</span><br><span class="line">    <span class="string">"Accept: application/vnd.github.v3.full+json"</span>,</span><br><span class="line">    <span class="string">"User-Agent: Retrofit-Sample-App"</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h3 id="@Header"><a href="#@Header" class="headerlink" title="@Header"></a>@Header</h3><p>设置头文件内容</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@GET</span>(<span class="string">"user"</span>)</span><br><span class="line">Call&lt;User&gt; <span class="function">getUser</span>(<span class="variable">@Header</span>(<span class="string">"Authorization"</span>) String authorization);</span><br></pre></td></tr></table></figure>
-<p>等价于</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@Headers</span>(<span class="string">"Authorization :Authorization"</span>)</span><br><span class="line"><span class="variable">@GET</span>(<span class="string">"user"</span>)</span><br><span class="line">Call&lt;User&gt; <span class="function">getUser</span>();</span><br></pre></td></tr></table></figure>
+        <h1 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h1><p>主流的个人博客都是用hexo搭建的，一部分人喜欢用jekyll搭建，下面我们来细说一下操作流程</p>
+<h1 id="u6548_u679C"><a href="#u6548_u679C" class="headerlink" title="效果"></a>效果</h1><p>今天，我们要做到到这个主题效果<a href="http://huangxuan.me/" target="_blank" rel="external">http://huangxuan.me/</a> </p>
+<h1 id="u4E0B_u8F7D"><a href="#u4E0B_u8F7D" class="headerlink" title="下载"></a>下载</h1><p>下载rubygems <a href="http://rubyinstaller.org/" target="_blank" rel="external">http://rubyinstaller.org/</a> 选择<a href="http://rubyinstaller.org/news/2016/12/07/rubyinstaller-2-2-6-and-2-3-3-released/" target="_blank" rel="external">2.3.3 released</a>，安装过程中现在加入path。</p>
+<h2 id="u5207_u6362ruby_u955C_u50CF"><a href="#u5207_u6362ruby_u955C_u50CF" class="headerlink" title="切换ruby镜像"></a>切换ruby镜像</h2><p>在git bash下</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ gem sources --<span class="built_in">add</span> http<span class="variable">s:</span>//gems.<span class="keyword">ruby</span>-china.org/ --<span class="built_in">remove</span> http<span class="variable">s:</span>//rubygems.org/</span><br><span class="line">$ gem sources -<span class="keyword">l</span></span><br><span class="line">http<span class="variable">s:</span>//gems.<span class="keyword">ruby</span>-china.org</span><br><span class="line"># 确保只有 gems.<span class="keyword">ruby</span>-china.org</span><br></pre></td></tr></table></figure>
+<p>如果遇到SSL问题 将https改为http。</p>
+<h2 id="u4E0B_u8F7Dbundler"><a href="#u4E0B_u8F7Dbundler" class="headerlink" title="下载bundler"></a>下载bundler</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gem <span class="keyword">install</span> bundler</span><br></pre></td></tr></table></figure>
+<p>如果遇到使用gem下载遇到ENETRESET 问题，请打开<a href="https://github.com/rubygems/rubygems/issues/1214，解决办法关键就是关闭防火墙。" target="_blank" rel="external">https://github.com/rubygems/rubygems/issues/1214，解决办法关键就是关闭防火墙。</a></p>
+<p>下载jekyll</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gem <span class="keyword">install</span> jekyll</span><br></pre></td></tr></table></figure>
+<p>下载jeky-paginate</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gem <span class="keyword">install</span> jekyll-paginate</span><br></pre></td></tr></table></figure>
+<h2 id="u514B_u9686_u4E3B_u9898"><a href="#u514B_u9686_u4E3B_u9898" class="headerlink" title="克隆主题"></a>克隆主题</h2><p>新建jekyll文件夹执行</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="keyword">clone</span> <span class="title">git</span>@github.com:Huxpro/huxblog-boilerplate.git</span><br></pre></td></tr></table></figure>
+<p>cd到huxblog-boilerplate</p>
+<p>执行jekyll serve 可以在<a href="http://localhost:4000看到效果。" target="_blank" rel="external">http://localhost:4000看到效果。</a></p>
+<h1 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h1><p>jekyll博客没hexo博客方便切换主题。</p>
+<p>jeky博客加入不同字体，图片，打破你的审美疲劳。</p>
+
       
     </div>
 
@@ -306,28 +302,18 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/source/tags/retrofit/" rel="tag">#retrofit</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/15/Android热修复/" rel="next" title="android hotfix">
-                <i class="fa fa-chevron-left"></i> android hotfix
+              <a href="/2017/04/21/AndroidIM融云接入/" rel="next" title="AndroidIM融云接入">
+                <i class="fa fa-chevron-left"></i> AndroidIM融云接入
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/10/10/AndroidStudio从入门到精通/" rel="prev" title="android studio详细使用">
-                android studio详细使用 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -353,8 +339,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/10/08/retrofit注解使用/"
-           data-title="retrofit注解使用" data-url="http://www.lanyimi.com/2016/10/08/retrofit注解使用/">
+      <div class="ds-thread" data-thread-key="2017/04/23/搭建jekyll博客/"
+           data-title="搭建jekyll博客" data-url="http://www.lanyimi.com/2017/04/23/搭建jekyll博客/">
       </div>
     
   </div>
@@ -461,7 +447,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#@GET"><span class="nav-number">1.</span> <span class="nav-text">@GET</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#@Query"><span class="nav-number">2.</span> <span class="nav-text">@Query</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#@Field"><span class="nav-number">3.</span> <span class="nav-text">@Field</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#@Body"><span class="nav-number">4.</span> <span class="nav-text">@Body</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#@Part"><span class="nav-number">5.</span> <span class="nav-text">@Part</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#@PartMap"><span class="nav-number">6.</span> <span class="nav-text">@PartMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#@Hearders"><span class="nav-number">7.</span> <span class="nav-text">@Hearders</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#@Header"><span class="nav-number">8.</span> <span class="nav-text">@Header</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#u524D_u8A00"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u6548_u679C"><span class="nav-number">2.</span> <span class="nav-text">效果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u4E0B_u8F7D"><span class="nav-number">3.</span> <span class="nav-text">下载</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#u5207_u6362ruby_u955C_u50CF"><span class="nav-number">3.1.</span> <span class="nav-text">切换ruby镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u4E0B_u8F7Dbundler"><span class="nav-number">3.2.</span> <span class="nav-text">下载bundler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u514B_u9686_u4E3B_u9898"><span class="nav-number">3.3.</span> <span class="nav-text">克隆主题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u603B_u7ED3"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

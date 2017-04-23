@@ -67,7 +67,7 @@ onResume布局可见在前台可以交互。onPause正在停止当前activity，
 <meta property="og:description" content="1. Activity和fragment的生命周期
 Activity从onCreate→onStart→onResume→onPause→onStop→onDestroy，其中oncreate初始化加载布局资源，onStart布局可见但是还在后台不可交互
 onResume布局可见在前台可以交互。onPause正在停止当前activity，onStop表示activity即将停止，做一些回收资源操作">
-<meta property="og:updated_time" content="2017-04-21T08:35:55.583Z">
+<meta property="og:updated_time" content="2017-04-22T03:39:04.399Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="android面试题">
 <meta name="twitter:description" content="1. Activity和fragment的生命周期
@@ -85,7 +85,7 @@ onResume布局可见在前台可以交互。onPause正在停止当前activity，
     motion: true,
     duoshuo: {
       userId: 0,
-      author: '博主'
+      author: 'Author'
     }
   };
 </script>
@@ -158,7 +158,7 @@ onResume布局可见在前台可以交互。onPause正在停止当前activity，
             
               <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
             
-            首頁
+            Home
           </a>
         </li>
       
@@ -168,7 +168,7 @@ onResume布局可见在前台可以交互。onPause正在停止当前activity，
             
               <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
             
-            歸檔
+            Archives
           </a>
         </li>
       
@@ -178,7 +178,7 @@ onResume布局可见在前台可以交互。onPause正在停止当前activity，
             
               <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
             
-            關於
+            About
           </a>
         </li>
       
@@ -231,7 +231,7 @@ onResume布局可见在前台可以交互。onPause正在停止当前activity，
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2017-04-20T09:38:32+08:00" content="2017-04-20">
               2017-04-20
             </time>
@@ -268,7 +268,7 @@ onResume布局可见在前台可以交互。onPause正在停止当前activity，
       
         <h3 id="1-_Activity_u548Cfragment_u7684_u751F_u547D_u5468_u671F"><a href="#1-_Activity_u548Cfragment_u7684_u751F_u547D_u5468_u671F" class="headerlink" title="1. Activity和fragment的生命周期"></a>1. Activity和fragment的生命周期</h3><ol>
 <li><p>Activity从onCreate→onStart→onResume→onPause→onStop→onDestroy，其中oncreate初始化加载布局资源，onStart布局可见但是还在后台不可交互</p>
-<p>onResume布局可见在前台可以交互。onPause正在停止当前activity，onStop表示activity即将停止，做一些回收资源操作，onDestroy销毁activity最终的资源释放。</p>
+<p>onResume布局可见在前台可以交互。onPause正在停止当前activity，onStop表示activity即将停止，做一些回收资源操作，onDestroy销毁activity最终的资源释放。总结：onStart和onPause可见不可见，onResume和onStop可不可以交互</p>
 </li>
 <li><p>Fragment从onAttach→onCreate→onCreateView→onStart→onResume→onPause→onStop→onDestroyView→onDestroy-onDetach</p>
 <p>​</p>
@@ -380,10 +380,10 @@ onResume布局可见在前台可以交互。onPause正在停止当前activity，
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
+            Overview
           </li>
         </ul>
       
@@ -399,8 +399,8 @@ onResume布局可见在前台可以交互。onPause正在停止当前activity，
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">29</span>
-              <span class="site-state-item-name">文章</span>
+              <span class="site-state-item-count">30</span>
+              <span class="site-state-item-name">posts</span>
             </a>
           </div>
 
@@ -410,7 +410,7 @@ onResume布局可见在前台可以交互。onPause正在停止当前activity，
             <div class="site-state-item site-state-tags">
               
                 <span class="site-state-item-count">22</span>
-                <span class="site-state-item-name">標籤</span>
+                <span class="site-state-item-name">tags</span>
               
             </div>
           
@@ -491,11 +491,11 @@ onResume布局可见在前台可以交互。onPause正在停止当前activity，
 </div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  主題 -
+  Theme -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Pisces
   </a>
