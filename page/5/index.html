@@ -78,7 +78,7 @@
     motion: true,
     duoshuo: {
       userId: 0,
-      author: 'Author'
+      author: '博主'
     }
   };
 </script>
@@ -153,7 +153,7 @@
             
               <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
             
-            Home
+            首頁
           </a>
         </li>
       
@@ -163,7 +163,7 @@
             
               <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
             
-            Archives
+            歸檔
           </a>
         </li>
       
@@ -173,7 +173,7 @@
             
               <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
             
-            About
+            關於
           </a>
         </li>
       
@@ -216,6 +216,197 @@
             
               
                 
+                <a class="post-title-link" href="/2016/05/30/gradle多渠道打包/" itemprop="url">
+                  Gradle配置多渠道打包
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-05-30T20:32:15+08:00" content="2016-05-30">
+              2016-05-30
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/30/gradle多渠道打包/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/30/gradle多渠道打包/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Gradle_u591A_u6E20_u9053_u6253_u5305"><a href="#Gradle_u591A_u6E20_u9053_u6253_u5305" class="headerlink" title="Gradle多渠道打包"></a>Gradle多渠道打包</h1><blockquote>
+<p>前言，多渠道打包的作用在于统计哪个app市场最多用户量下载量，推广效果最好。</p>
+</blockquote>
+<p>编译工具：AndroidStudio 2.2preview 1<br>gradle版本: gradle-2.10</p>
+<p>打包原理：通过修改Androidmanifest.xml 自定义meta值来统计不同市场。</p>
+<hr>
+<p>下面是总结的打包流程：</p>
+<h2 id="1-__u5728Androidmanifest-xml_u4E2DApplication_u6807_u7B7E_u4E0B"><a href="#1-__u5728Androidmanifest-xml_u4E2DApplication_u6807_u7B7E_u4E0B" class="headerlink" title="1. 在Androidmanifest.xml中Application标签下"></a>1. 在Androidmanifest.xml中Application标签下</h2><p>新增meta标签，name根据你的统计方式来定义，你可以用你app名（PPJUN_CHANNEL）<br>，如果你用友盟的统计name就要用UMENG_CHANNEL了。</p>
+<p>自家自定义</p>
+<pre><code>&lt;meta-data
+android:name=&quot;PPJUN_CHANNEL&quot;
+android:value=&quot;{UMENG_CHANNEL_ID}&quot;/&gt;
+</code></pre><p>友盟统计</p>
+<pre><code>&lt;meta-data
+  android:name=&quot;UMENG_APPKEY&quot;
+  android:value=&quot;123&quot;/&gt;
+
+&lt;meta-data
+  android:name=&quot;UMENG_CHANNEL&quot;
+  android:value=&quot;{UMENG_CHANNEL_ID}&quot;/&gt;
+</code></pre><h2 id="2-__u8BBE_u7F6Ebuild-gradle"><a href="#2-__u8BBE_u7F6Ebuild-gradle" class="headerlink" title="2. 设置build.gradle"></a>2. 设置build.gradle</h2><p>在app的build.gradle设置</p>
+<pre><code>android{
+   ...
+   //配置签名信息
+   signingConfigs {
+    release {
+        keyAlias &apos;ppjun&apos;
+        keyPassword &apos;ppjun123&apos;
+        storeFile file(&apos;C:/Users/Rabbit/Desktop/umeng_message201603291611_v2.8.0/LabelView/app/ppjun.jks&apos;)
+        storePassword &apos;ppjun123&apos;
+
+    }
+}
+
+   //配置签名apk优化
+   buildTypes {
+    release {
+        zipAlignEnabled true
+        minifyEnabled true
+        shrinkResources true
+        proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;
+        signingConfig signingConfigs.release
+    }
+}
+
+   //配置渠道号
+   productFlavors {
+    baidu {}
+    google {}
+    wandoujia {}
+    xiaomi {}
+
+}
+   //关联渠道号和Androidmani.xml
+productFlavors.all { flavor -&gt;
+    flavor.manifestPlaceholders = [UMENG_CHANNEL_ID: flavor.name]
+}
+
+}
+</code></pre><p>ps：signingConfigs这个方法一定要写在buildTypes方法前，不然不能通过clean。</p>
+<h2 id="3-_u4FEE_u6539apk_u540D"><a href="#3-_u4FEE_u6539apk_u540D" class="headerlink" title="3.修改apk名"></a>3.修改apk名</h2><p>如果要打包出app_v1.0_1_20160101_xiaomi.apk这样子的包名<br>在build.gradle</p>
+<pre><code>android{
+  ...
+ applicationVariants.all { variant -&gt;
+    variant.outputs.each { output -&gt;
+        // 重命名产出的apk文件
+        def outputFile = output.outputFile
+        if (outputFile != null &amp;&amp; outputFile.name.endsWith(&apos;.apk&apos;)) {
+            File outputDirectory = new File(outputFile.parent);
+            def fileName
+            if (variant.buildType.name == &quot;release&quot;) {
+                fileName = &quot;app_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${packageTime()}_${variant.productFlavors[0].name}.apk&quot;
+            } else {
+                fileName = &quot;app_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${packageTime()}_debug.apk&quot;
+            }
+            output.outputFile = new File(outputDirectory, fileName)
+        }
+
+        // 删除unaligned apk
+        if (output.zipAlign != null) {
+            output.zipAlign.doLast {
+                output.zipAlign.inputFile.delete()
+            }
+        }
+    }
+  }
+}
+//在android外层
+def packageTime() {
+return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&quot;))
+
+}
+</code></pre><h2 id="4-_u5728Terminal_u8FD0_u884C_u547D_u4EE4"><a href="#4-_u5728Terminal_u8FD0_u884C_u547D_u4EE4" class="headerlink" title="4.在Terminal运行命令"></a>4.在Terminal运行命令</h2><p>先运行，clean项目</p>
+<pre><code>gradlew clean 
+</code></pre><p>成功后再运行，开始正式打包</p>
+<pre><code>gradlew assembleRelease
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/03/28/U8SDK开发笔记/" itemprop="url">
                   U8SDK笔记
                 </a>
@@ -229,7 +420,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">發表於</span>
             <time itemprop="dateCreated" datetime="2016-03-28T10:53:17+08:00" content="2016-03-28">
               2016-03-28
             </time>
@@ -329,7 +520,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">發表於</span>
             <time itemprop="dateCreated" datetime="2016-03-23T11:39:14+08:00" content="2016-03-23">
               2016-03-23
             </time>
@@ -444,7 +635,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">發表於</span>
             <time itemprop="dateCreated" datetime="2016-02-26T17:51:51+08:00" content="2016-02-26">
               2016-02-26
             </time>
@@ -547,7 +738,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">發表於</span>
             <time itemprop="dateCreated" datetime="2016-02-24T11:33:51+08:00" content="2016-02-24">
               2016-02-24
             </time>
@@ -649,7 +840,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">發表於</span>
             <time itemprop="dateCreated" datetime="2016-01-11T00:00:00+08:00" content="2016-01-11">
               2016-01-11
             </time>
@@ -731,112 +922,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/12/10/VirtualBox无法运行/" itemprop="url">
-                  VirtualBox 遇到VERR _INTNET _FLT _IF _NOT _FOUND
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2015-12-10T09:39:47+08:00" content="2015-12-10">
-              2015-12-10
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/12/10/VirtualBox无法运行/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/10/VirtualBox无法运行/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="u89E3_u51B3win10_u5347_u7EA7TH2_u540E_VirtualBox_u51FA_u73B0VERR__INTNET__FLT__IF__NOT__FOUND_u95EE_u9898"><a href="#u89E3_u51B3win10_u5347_u7EA7TH2_u540E_VirtualBox_u51FA_u73B0VERR__INTNET__FLT__IF__NOT__FOUND_u95EE_u9898" class="headerlink" title="解决win10升级TH2后 VirtualBox出现VERR _INTNET _FLT _IF _NOT _FOUND问题"></a>解决win10升级TH2后 VirtualBox出现VERR _INTNET _FLT _IF _NOT _FOUND问题</h3><p>出自</p>
-<p><a href="http://tieba.baidu.com/p/4177034202" title="genymotion吧" target="_blank" rel="external"> http://tieba.baidu.com/p/4177034202 </a></p>
-<p><a href="http://superuser.com/questions/1002160/failed-to-start-virtual-device-in-oracle-virtual-box" target="_blank" rel="external">http://superuser.com/questions/1002160/failed-to-start-virtual-device-in-oracle-virtual-box</a></p>
-<h4 id="u95EE_u9898_u63CF_u8FF0"><a href="#u95EE_u9898_u63CF_u8FF0" class="headerlink" title="问题描述"></a>问题描述</h4><p>win10升级TH2后virtualbox无法正常运行，virtualbox关键错误VERR _INTNET _FLT _IF _NOT _FOUND</p>
-<h4 id="u89E3_u51B3_u529E_u6CD5"><a href="#u89E3_u51B3_u529E_u6CD5" class="headerlink" title="解决办法"></a>解决办法</h4><p>打开 网络和共享中心-更改适配器设置-选择VirtualBox Host-Only Network-右击属性</p>
-<p><strong>把VirtualBox NDIS6 Bridged Networking Driver 选择上就OK可以运行genymotion了</strong></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -877,8 +967,8 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">30</span>
-              <span class="site-state-item-name">posts</span>
+              <span class="site-state-item-count">31</span>
+              <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
@@ -888,7 +978,7 @@
             <div class="site-state-item site-state-tags">
               
                 <span class="site-state-item-count">22</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">標籤</span>
               
             </div>
           
@@ -952,11 +1042,11 @@
 </div>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
 </div>
 
 <div class="theme-info">
-  Theme -
+  主題 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Pisces
   </a>
