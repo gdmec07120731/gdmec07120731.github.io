@@ -179,9 +179,32 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
   
 </nav>
 
@@ -194,6 +217,349 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/15/Java反射/" itemprop="url">
+                  Java反射
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-07-15T11:28:51+08:00" content="2016-07-15">
+              2016-07-15
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/15/Java反射/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/15/Java反射/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>Java反射</p>
+<p><a href="http://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&amp;mid=2650236432&amp;idx=1&amp;sn=1da63ff74cb6082ffe3df5f344f9f5f1&amp;scene=0#wechat_redirect" target="_blank" rel="external">http://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&amp;mid=2650236432&amp;idx=1&amp;sn=1da63ff74cb6082ffe3df5f344f9f5f1&amp;scene=0#wechat_redirect</a></p>
+</blockquote>
+<h1 id="Java_u53CD_u5C04"><a href="#Java_u53CD_u5C04" class="headerlink" title="Java反射"></a>Java反射</h1><h2 id="u52A8_u6001_u8BED_u8A00"><a href="#u52A8_u6001_u8BED_u8A00" class="headerlink" title="动态语言"></a>动态语言</h2><p>程序运行时，通过代码能改变程序结构或变量类型的语言，一般为动态语言。例如Perl,Python,Ruby是动态语言，反之c++,java,C#是静态语言。java有个特点能在运行时加载，编译期间完全未知的class。就是java程序运行时可以加载未知名称的class，获取类的构造方法，类属性，类方法。</p>
+<h2 id="java_u53CD_u5C04"><a href="#java_u53CD_u5C04" class="headerlink" title="java反射"></a>java反射</h2><p>要让java程序运行，就要让java类被java虚拟机加载，java不被虚拟机加载，就不能正常运行。正常情况下，我们运行的所有程序在编译期间已经把那个类加载好了。<strong>java反射就是在程序编译期间不加载用到的类，而在程序运行的时候才加载这个类</strong>。使用的是在编译期并不知道的类。</p>
+<h2 id="u53CD_u5C04_u7684_u4F5C_u7528"><a href="#u53CD_u5C04_u7684_u4F5C_u7528" class="headerlink" title="反射的作用"></a>反射的作用</h2><p>如果AB两个程序员合作，A写程序时用到B写的类，如果B没写A用到的类，A的代码就不能通过编译了，此时用到java反射机制，就可以让A在获取不到B写的类是，来让自己代码通过编译，就是在运行时才加载用到类。</p>
+<h2 id="u53CD_u5C04_u7684_u5B9E_u8D28"><a href="#u53CD_u5C04_u7684_u5B9E_u8D28" class="headerlink" title="反射的实质"></a>反射的实质</h2><p> java反射会将代码解析成java类，要使用java反射就要用到Class（大写C）这个类，当一个java类被加载,java虚拟机就会自动生成一个Class对象，通过Class对象我们就能获取加载到java虚拟机当前Class对象的构造方法，类方法，类属性。<strong>在运行期间拿到这个类的构造方法类属性和类方法</strong></p>
+<h2 id="u53CD_u5C04_u7684_u4F7F_u7528"><a href="#u53CD_u5C04_u7684_u4F7F_u7528" class="headerlink" title="反射的使用"></a>反射的使用</h2><p>获取本apk的类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Class clazz=ClassLoader.getSystemClassLoader().loadClass(<span class="string">"com.ppjun.Test"</span>);<span class="comment">//通过系统的   ClassLoader来加载Class，返回Class对象</span></span><br><span class="line"></span><br><span class="line">Coustructor constructor=clazz.getConstructor(String.class);<span class="comment">//获取构造函数，参数是String类型</span></span><br><span class="line"></span><br><span class="line"> Object obj=constructor.newInstance(<span class="string">"ppjun"</span>); <span class="comment">//往构造函数传入参数ppjun</span></span><br><span class="line"></span><br><span class="line">Method method=clazz.getMethod(<span class="string">"display"</span>,<span class="keyword">null</span>);<span class="comment">//获取clazz对象叫display的方法，没有返回值</span></span><br><span class="line"></span><br><span class="line">method.invoke(obj,<span class="keyword">null</span>);<span class="comment">//执行display的方法，会输出ppjun`</span></span><br></pre></td></tr></table></figure>
+<p>反射也可以在A.apk 调用B.apk的方法</p>
+<p>首先在A.apk写一个类Share</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Share</span></span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">(String s)</span></span>&#123;</span><br><span class="line"></span><br><span class="line"> Log.i(<span class="string">"display"</span>,<span class="string">"from A.apk"</span>)&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后再AndroidManifest的MainActivity的<intent-filter>声明</intent-filter></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;action android:name=<span class="string">"com.ppjun"</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>来扑抓这个activity</p>
+<p>在B.apk</p>
+<p>调用以下方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getFromRemote</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">   Intent intent=<span class="keyword">new</span> Intent(<span class="string">"com.ppjun"</span>);</span><br><span class="line"></span><br><span class="line">   PackageManager pm=getPackageManager();</span><br><span class="line"></span><br><span class="line">   List&lt;ResolveInfo&gt; resolveInfos=pm.queryIntentActivities(intent,<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">   ResolveInfo resolveInfo=resolveInfos.get(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">   ActivityInfo activityInfo=resolveInfo.activityInfo;</span><br><span class="line"></span><br><span class="line">   String packageName=activityInfo.packageName;</span><br><span class="line"></span><br><span class="line">   String dexPath=activityInfo.applicationInfo.sourceDir;</span><br><span class="line"></span><br><span class="line">   String dexOutputDir=getApplicationInfo().dataDir;</span><br><span class="line"></span><br><span class="line">   String nativeLibraryDir=activityInfo.applicationInfo.nativeLibraryDir;</span><br><span class="line"></span><br><span class="line">   ClassLoader classLoader=getClassLoader();</span><br><span class="line"></span><br><span class="line">   DexClassLoader dc1=<span class="keyword">new</span> DexClassLoader(dexPath,dexOutputDir,nativeLibraryDir,classLoader);</span><br><span class="line"></span><br><span class="line">   <span class="keyword">try</span>&#123;</span><br><span class="line"></span><br><span class="line">   Class&lt;?&gt; clazz=dcl.loadClass(packageName+<span class="string">".Share"</span>);</span><br><span class="line"></span><br><span class="line">   Constructor&lt;?&gt; constructor=clazz.getConstructor();</span><br><span class="line"></span><br><span class="line">    Object o=constructor.newInstance();</span><br><span class="line"></span><br><span class="line">   Method display=clazz.getMethod(<span class="string">"display"</span>,String.class);</span><br><span class="line"></span><br><span class="line">   display.invoke(o,<span class="string">"ppjun"</span>)</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line"></span><br><span class="line">   e.printStackTrace();</span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/31/Git常用命令/" itemprop="url">
+                  Git常用命令
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-05-31T14:44:33+08:00" content="2016-05-31">
+              2016-05-31
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/31/Git常用命令/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/31/Git常用命令/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Git_u547D_u4EE4"><a href="#Git_u547D_u4EE4" class="headerlink" title="Git命令"></a>Git命令</h3><ol>
+<li><p>git config –global user.name “username” </p>
+<p>git config –global user.email “email”  这两句会帮你电脑的所有git项目都和你账号关联起来，当然你可以不要–global，就让当前项目和git关联起来</p>
+</li>
+<li><p>git init 新建.git到当前文件夹</p>
+</li>
+<li><p>git status 查看当前项目文件状态，有没有修改，有没有加入缓冲区等。</p>
+</li>
+<li><p>git clone xxx.git 克隆项目到本地</p>
+</li>
+<li><p>git add . 添加全部文件到缓存区</p>
+</li>
+<li><p>git commit -m “注释”  添加注释</p>
+</li>
+<li><p>git log 查看注释</p>
+</li>
+<li><p>git log –pretty=oneline 单行输出log</p>
+</li>
+<li><p>git push -u origin master 第一次提交项目的到远程仓库</p>
+</li>
+<li><p>git push origin master  再次提交项目代码到远程仓库上</p>
+</li>
+<li><p>git tag xx 给当前分支创建一个tag 以后就能退回到这个tag的代码了</p>
+</li>
+<li><p>git branch 查看当前分支 *master指向master分支</p>
+</li>
+<li><p>git branch a 创建 a分支</p>
+</li>
+<li><p>git checkout a 转到a分支</p>
+</li>
+<li><p>git branch -b a 创建并转到a分支</p>
+</li>
+<li><p>git branch -d a 删除a分支</p>
+</li>
+<li><p>git branch -D a 在没有合并分支代码到master代码，或者无法删除分支时，强制删除分支a</p>
+</li>
+<li><p>git merga 合并代码先转到master分支，再git merga a 的分支代码到master分支代码 </p>
+</li>
+<li><p>git checkout tagname 让分支代码回到tag是tagname那时候的代码</p>
+<p><strong>更新时间 2016年10月18日16:44:56</strong></p>
+</li>
+<li><p>git checkout – readme.txt  文件没提交到缓冲区时，让readme.txt回到修改前。</p>
+</li>
+<li><p>git reset HEAD readme.txt 让提交文退出缓冲区，再执行git checkout – readme.txt，回到修改前。</p>
+</li>
+<li><p>git remote add origin git@github… 添加文件夹到远程仓库</p>
+</li>
+<li><p>git merge –no-ff -m “merge with no-ff” dev 不删除dev分支，并把dev分支，合并到当前分支。</p>
+</li>
+<li><p>git reflog 查看全部历史commit信息</p>
+</li>
+<li><p>git reset –hard 63D232 回到 63D232 那一步</p>
+</li>
+<li><p>git stash 当你添加新功能一半时，要修补bug，你要想把dev分支保存起来，新增修复issure分支，合并到dev分支，在合并到master分支，最后了来到dev分支，把当时stash起来的 内容用git stash pop 恢复回来。</p>
+</li>
+<li><p>git remote -v 查看远程仓库的信息</p>
+</li>
+<li><p>git push origin branch-name 提交的到远程分支</p>
+</li>
+<li><p>git checkout -b branch-name origin/branch-name 创建远程分支。</p>
+</li>
+<li><p>git branch –set-upstream branch-name origin/branch-name 关联本地分支和远程分支</p>
+</li>
+<li><p>git pull 更新本地分支</p>
+</li>
+<li><p>创建tag 就是为了方便取出tag名的版本，实际是利用hard到特定的commit号，例如232EDE，分支是移动的 ，tag是不能移动的。</p>
+</li>
+<li><p>git tag 查看该分支的所有tag</p>
+</li>
+<li><p>给固定的commit id打上tag</p>
+</li>
+<li><p>首先用git log –pretty=oneline –abbrev-commit查看全部commit id</p>
+</li>
+<li><p>git tag v1.2 3622EE </p>
+</li>
+<li><p>git show v1.0 查看v1.0标签信息，包括commit id  author</p>
+</li>
+<li><p>git tag -a <tagname> -m “tips” commit id  创建的标签都是在本地，不会自动推送的远程，</tagname></p>
+</li>
+<li><p>git tag -d v1.0 删除指定tag，先删除本地tag，再删除远程tag</p>
+</li>
+<li><p>git push origin v1.0 推送指定标签到远程</p>
+</li>
+<li><p>git push origin –tags 推送全部标签到远程</p>
+</li>
+<li><p>git push origin :refs/tags/v0.9</p>
+</li>
+<li><p>git clone git@github.com xxx.git 克隆远程仓库项目到本地、</p>
+</li>
+<li><p>git config –global color.ui true 界面文字多彩颜色</p>
+</li>
+<li><p>在项目根目录下编辑.gitignore文件，要忽略的文件放进去。一般是忽略程序编辑生产的文件，还有你不想提交远程仓库的文件</p>
+</li>
+</ol>
+<h3 id="u7528SSH_u8FDC_u7A0B_u63D0_u4EA4_u4EE3_u7801"><a href="#u7528SSH_u8FDC_u7A0B_u63D0_u4EA4_u4EE3_u7801" class="headerlink" title="用SSH远程提交代码"></a>用SSH远程提交代码</h3><p>打开git bash就是git自带的终端，输入ssh</p>
+<pre><code>Rc3@ppjun MINGW64 ~/Desktop
+
+ $ ssh
+
+ usage: ssh [-1246AaCfGgKkMNnqsTtVvXxYy] [-b bind_address] [-c cipher_spec]
+       [-D [bind_address:]port] [-E log_file] [-e escape_char]
+       [-F configfile] [-I pkcs11] [-i identity_file]
+       [-L address] [-l login_name] [-m mac_spec]
+       [-O ctl_cmd] [-o option] [-p port]
+       [-Q cipher | cipher-auth | mac | kex | key]
+       [-R address] [-S ctl_path] [-W host:port]
+       [-w local_tun[:remote_tun]] [user@]hostname [command]``
+</code></pre><p>这是代表你已安装ssh。</p>
+<p>输入命令ssh-keygen -t rsa生成ssh密钥，连续按三个Enter</p>
+<pre><code>Rc3@ppjun MINGW64 ~/Desktop
+$ ssh-keygen -t rsa
+Generating public/private rsa key pair.
+Enter file in which to save the key (/c/Users/Rabbit/.ssh/id_rsa):
+</code></pre><p>打开C:\Users\Rabbit.ssh 找到id_rsa.pub<br>复制里面的<a href="https://github.com/settings/keys" target="_blank" rel="external">https://github.com/settings/keys</a>  点击 new SSH key的key里面-保存。</p>
+<p>最后输入ssh -T git@github.com，结果如下代表你添加好SSH到你git上面了。</p>
+<pre><code>Rc3@ppjun MINGW64 ~/Desktop
+$  ssh -T git@github.com
+Hi gdmec07120731! You&apos;ve successfully authenticated, but GitHub does not provide shell access.
+</code></pre><h3 id="u914D_u7F6E_u522B_u540D"><a href="#u914D_u7F6E_u522B_u540D" class="headerlink" title="配置别名"></a>配置别名</h3><p><strong>–global是对用户所有项目生效</strong></p>
+<p>用例如以下的公式</p>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git config --<span class="keyword">global</span> <span class="keyword">alias</span>.co checkout   <span class="comment">//用git co 代替 git checkout</span></span><br><span class="line">git config --<span class="keyword">global</span> <span class="keyword">alias</span>.st status     <span class="comment">//用git st 代替 git status</span></span><br><span class="line">git config --<span class="keyword">global</span> <span class="keyword">alias</span>.br branch</span><br><span class="line">git config --<span class="keyword">global</span> <span class="keyword">alias</span>.cm commit </span><br><span class="line"></span><br><span class="line">git config --<span class="keyword">global</span> <span class="keyword">alias</span>.lg <span class="string">"log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset' --abbrev-commit"</span></span><br><span class="line"><span class="comment">//配置log</span></span><br></pre></td></tr></table></figure>
+<h3 id="u642D_u5EFA_u8FDC_u7A0BGIT_u670D_u52A1_u5668"><a href="#u642D_u5EFA_u8FDC_u7A0BGIT_u670D_u52A1_u5668" class="headerlink" title="搭建远程GIT服务器"></a>搭建远程GIT服务器</h3><ul>
+<li><p>相当于github远程托管</p>
+</li>
+<li><p>强烈建议linux的机器，几条命令就可以搭建好了。</p>
+</li>
+<li><p>用apt-get下载git  sudo apt-get install git</p>
+</li>
+<li><p>新增git用户 sudo adduser git</p>
+</li>
+<li><p>拿到所有登录用户的id_rsa.pub 公钥，放在/home/git/.ssh/authorized_keys文件夹里面</p>
+</li>
+<li><p>初始化git仓库，选定一个文件夹作为仓库文件夹比如GitRepository/sample,在GitRepository下输入sudo git init –bare sample.git</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
     
       
 
@@ -704,224 +1070,6 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/02/24/如何科学上网/" itemprop="url">
-                  如何科学上网
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-02-24T11:33:51+08:00" content="2016-02-24">
-              2016-02-24
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/02/24/如何科学上网/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/02/24/如何科学上网/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="u5728window_u4E0A_u7684_u79D1_u5B66_u4E0A_u7F51"><a href="#u5728window_u4E0A_u7684_u79D1_u5B66_u4E0A_u7F51" class="headerlink" title="在window上的科学上网"></a>在window上的科学上网</h3><h4 id="u65B9_u6CD5_u4E00__uFF1A_u5F71_u68ADShadowSocks"><a href="#u65B9_u6CD5_u4E00__uFF1A_u5F71_u68ADShadowSocks" class="headerlink" title="方法一 ：影梭ShadowSocks"></a>方法一 ：影梭ShadowSocks</h4><p>1、下载shadowsocks软件</p>
-<p>百度网盘<a href="http://pan.baidu.com/s/1bsrCZW" target="_blank" rel="external">下载链接</a></p>
-<p>2、打开shadowsocks 输入shadowsocks账号</p>
-<p>ps ：免费账号获取方式 打开<a href="http://www.ishadowsocks.com/" title="ishadowsocks" target="_blank" rel="external">链接</a> 进入ishadowsocks （每6小时更换一次密码 中午12点左右换一次的）</p>
-<h4 id="u65B9_u6CD5_u4E8C__uFF1A_u84DD_u706FLantern"><a href="#u65B9_u6CD5_u4E8C__uFF1A_u84DD_u706FLantern" class="headerlink" title="方法二 ：蓝灯Lantern"></a>方法二 ：蓝灯Lantern</h4><p>Lantern是一个免费的应用程序。它能帮助你随时随地快速、可靠、安全地访问互联网。</p>
-<p>蓝灯官网（需翻墙）<a href="https://getlantern.org/" target="_blank" rel="external"> https://getlantern.org/</a><br>蓝灯github <a href="https://github.com/getlantern/lantern" target="_blank" rel="external">https://github.com/getlantern/lantern</a></p>
-<p>下载window版本安装后无需配置就可以直接科学上网 <a href="https://raw.githubusercontent.com/getlantern/lantern-binaries/master/lantern-installer-beta.exe" target="_blank" rel="external">https://raw.githubusercontent.com/getlantern/lantern-binaries/master/lantern-installer-beta.exe</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/11/Cocos2d-x接入第三方SDK/" itemprop="url">
-                  Cocos2d-x接入第三方SDK
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-01-11T00:00:00+08:00" content="2016-01-11">
-              2016-01-11
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/01/11/Cocos2d-x接入第三方SDK/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/11/Cocos2d-x接入第三方SDK/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Cocos2d-x_u6E38_u620F_u63A5_u5165_u5B89_u5353_u7B2C_u4E09_u65B9SDK"><a href="#Cocos2d-x_u6E38_u620F_u63A5_u5165_u5B89_u5353_u7B2C_u4E09_u65B9SDK" class="headerlink" title="Cocos2d-x游戏接入安卓第三方SDK"></a>Cocos2d-x游戏接入安卓第三方SDK</h3><h4 id="1-_u6982_u8FF0"><a href="#1-_u6982_u8FF0" class="headerlink" title="1.概述"></a>1.概述</h4><p>U3D游戏和Cocos2dx手游都会接入不同渠道的支付方式，本文运用jni知识以360渠道接入作为演示。</p>
-<h4 id="2-_u73AF_u5883"><a href="#2-_u73AF_u5883" class="headerlink" title="2.环境"></a>2.环境</h4><p>OS: win10<br>IDE: Eclipse<br>Adnroid NDK:r10e<br>cocos2d-x-3.9</p>
-<h4 id="3-_u521B_u5EFACocos2d-x_u5DE5_u7A0B"><a href="#3-_u521B_u5EFACocos2d-x_u5DE5_u7A0B" class="headerlink" title="3.创建Cocos2d-x工程"></a>3.创建Cocos2d-x工程</h4><p>运行命令</p>
-<pre><code>cocos new -p com.ohj.cocos2dx360 -l cpp -d Cocos2dx360SDK
-</code></pre><p>然后进入Cocos2dx360SDK-MyCppGame-proj.android执行build_native.py 生成.so文件</p>
-<p>编译成功后你会在libs-armeabi看到libcocos2dcpp.so </p>
-<p>最后导入Eclipse，是导入2个工程 ，分别是MyCppGame和库libcocos2dx。（导入EC时注意不要复制工程项目到工作区间）</p>
-<h4 id="4-_u5F00_u59CB_u914D_u7F6E360SDK"><a href="#4-_u5F00_u59CB_u914D_u7F6E360SDK" class="headerlink" title="4.开始配置360SDK"></a>4.开始配置360SDK</h4><p>导入assets、lib文件，配置好AndroidManifest.xml </p>
-<p>在AppActivity.java 的OnCreate初始化</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">   <span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">	<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">	<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">	</span><br><span class="line">	mContext = <span class="keyword">this</span>;</span><br><span class="line">	Matrix.init(<span class="keyword">this</span>);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>接着创建静态登录方法，直接调用360的登录方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span>  <span class="title">login360</span><span class="params">()</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	Intent intent = getLoginIntent();</span><br><span class="line">	IDispatcherCallback callback = mLoginCallback;</span><br><span class="line">	Matrix.execute(mContext, intent, callback);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="5-jni_u8C03_u7528_u767B_u5F55_u65B9_u6CD5"><a href="#5-jni_u8C03_u7528_u767B_u5F55_u65B9_u6CD5" class="headerlink" title="5.jni调用登录方法"></a>5.jni调用登录方法</h4><p>在classes下创建SDK360.h 和SDK.cpp</p>
-<p>SDK360.h 代码如下<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">  <span class="preprocessor">#<span class="keyword">ifndef</span> __SDK360_H__</span></span><br><span class="line">  <span class="preprocessor">#<span class="keyword">define</span> __SDK360_H__</span></span><br><span class="line"></span><br><span class="line">  <span class="preprocessor">#<span class="keyword">include</span> <span class="string">"cocos2d.h"</span></span></span><br><span class="line"></span><br><span class="line">  <span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span>  </span></span><br><span class="line">  <span class="keyword">using</span> <span class="keyword">namespace</span> cocos2d;</span><br><span class="line">  <span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line">  <span class="keyword">class</span> SDK360</span><br><span class="line">  &#123;</span><br><span class="line">   <span class="keyword">public</span>:</span><br><span class="line">   SDK360();</span><br><span class="line">   <span class="keyword">virtual</span> ~SDK360();</span><br><span class="line"><span class="function"><span class="keyword">static</span> SDK360*  <span class="title">getInstance</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">login</span><span class="params">()</span></span>;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="preprocessor">#<span class="keyword">endif</span> <span class="comment">// __SDK360_H__</span></span></span><br></pre></td></tr></table></figure></p>
-<p>SDK360.cpp 代码如下<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">    <span class="preprocessor">#<span class="keyword">include</span> <span class="string">"SDK360.h"</span></span></span><br><span class="line">    <span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span>  </span></span><br><span class="line">    <span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;jni.h&gt;</span></span></span><br><span class="line">    <span class="preprocessor">#<span class="keyword">include</span> <span class="string">"cocos2d.h"</span></span></span><br><span class="line">    <span class="preprocessor">#<span class="keyword">include</span> <span class="string">"platform/android/jni/JniHelper.h"</span></span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line">    <span class="keyword">static</span> SDK360* mInstance=<span class="literal">NULL</span>;</span><br><span class="line">    SDK360::SDK360()</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    SDK360::~SDK360()</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    SDK360* SDK360::getInstance()</span><br><span class="line">    &#123;</span><br><span class="line"><span class="keyword">if</span>(<span class="literal">NULL</span>==mInstance)</span><br><span class="line">&#123;</span><br><span class="line">mInstance=<span class="keyword">new</span> SDK360();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> mInstance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">void</span> SDK360::login()</span><br><span class="line">   &#123;</span><br><span class="line"></span><br><span class="line">   <span class="preprocessor">#<span class="keyword">if</span>(CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID)</span></span><br><span class="line">   JniMethodInfo minfo;</span><br><span class="line">   <span class="keyword">bool</span> isHave=JniHelper::getStaticMethodInfo(minfo,<span class="string">"org/cocos2dx/cpp/AppActivity"</span>,<span class="string">"login360"</span>,<span class="string">"()V"</span>);</span><br><span class="line"><span class="keyword">if</span>(!isHave)&#123;</span><br><span class="line">	</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line"> minfo.env-&gt;CallStaticVoidMethod(minfo.classID,minfo.methodID);</span><br><span class="line"> minfo.env-&gt;DeleteLocalRef(minfo.classID);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">   <span class="preprocessor">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
-<p>我们会在原工程右下角调用登录方法，需要修改HelloWorldScence.cpp</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">"SDK360.h"</span></span></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line"> <span class="keyword">void</span> HelloWorld::menuCloseCallback(Ref* pSender)</span><br><span class="line"> &#123;</span><br><span class="line">  SDK360::getInstance()-&gt;login();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p> 最后在工程目录下jni-Android.mk 调用刚写好的SDK360.cpp</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_SRC_FILES := hellocpp/main.cpp \</span><br><span class="line">               ../../Classes/AppDelegate.cpp \</span><br><span class="line">               ../../Classes/SDK360.cpp \</span><br><span class="line">               ../../Classes/HelloWorldScene.cpp</span><br></pre></td></tr></table></figure>
-<p>修改过c++文件都要重新编译一下.so文件<br>执行build_native.py 编译成功后你就可以run运行起来了。</p>
-<p>ps: 调用360支付也同样道理.</p>
-<p><a href="https://github.com/gdmec07120731/Cocos2dx360SDK" target="_blank" rel="external">Demo下载。</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -967,7 +1115,7 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">31</span>
+              <span class="site-state-item-count">33</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -977,7 +1125,7 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
           
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">標籤</span>
               
             </div>
@@ -1147,6 +1295,135 @@ return new Date().format(&quot;yyyyMMdd&quot;, TimeZone.getTimeZone(&quot;UTC&qu
 
   
   
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
   
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({

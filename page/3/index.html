@@ -179,9 +179,32 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
   
 </nav>
 
@@ -194,6 +217,223 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/19/Java硬软弱虚引用，GC回收，内存碎片/" itemprop="url">
+                  Java硬软弱虚引用，GC回收，内存碎片
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-01-19T14:07:37+08:00" content="2017-01-19">
+              2017-01-19
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/01/19/Java硬软弱虚引用，GC回收，内存碎片/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/19/Java硬软弱虚引用，GC回收，内存碎片/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Java_u786C_u8F6F_u5F31_u865A_u5F15_u7528_uFF0CGC_u56DE_u6536_uFF0C_u5185_u5B58_u788E_u7247"><a href="#Java_u786C_u8F6F_u5F31_u865A_u5F15_u7528_uFF0CGC_u56DE_u6536_uFF0C_u5185_u5B58_u788E_u7247" class="headerlink" title="Java硬软弱虚引用，GC回收，内存碎片"></a>Java硬软弱虚引用，GC回收，内存碎片</h1><h3 id="GarBageCollection"><a href="#GarBageCollection" class="headerlink" title="GarBageCollection"></a>GarBageCollection</h3><p>首先说一下java的gc垃圾回收机制，到底什么时候回收，在哪里回收。</p>
+<p>经常说java分别在栈区和堆区存储变量等。其实还有</p>
+<h4 id="u7A0B_u5E8F_u8BA1_u6570_u5668"><a href="#u7A0B_u5E8F_u8BA1_u6570_u5668" class="headerlink" title="程序计数器"></a>程序计数器</h4><p>它是一个字节码的指示器，告诉当前线程下一步要执行哪一行代码。一个没有OOm的区域</p>
+<h4 id="u6808_u533A"><a href="#u6808_u533A" class="headerlink" title="栈区"></a>栈区</h4><p>又叫java虚拟机栈区，是每一个方法被执行的时候，创建出一个栈帧用来放的成员变量，操作链表，动态链接，方法出口。很多个栈帧又存储在栈区。</p>
+<h4 id="u672C_u5730_u65B9_u6CD5_u6808"><a href="#u672C_u5730_u65B9_u6CD5_u6808" class="headerlink" title="本地方法栈"></a>本地方法栈</h4><p>如果说栈区是一个java的本地方法栈，那么本地方法栈就就是c++的native栈区</p>
+<h4 id="u5806_u533A"><a href="#u5806_u533A" class="headerlink" title="堆区"></a>堆区</h4><p>当类中创建实例变量，就会在堆区中分配内存，堆区又分为新生代，老年代。当新生代没有足够多内存实例对象就是OOM</p>
+<h4 id="u65B9_u6CD5_u533A"><a href="#u65B9_u6CD5_u533A" class="headerlink" title="方法区"></a>方法区</h4><p>用来存放被虚拟机加载的类信息，常量，静态变量。</p>
+<h4 id="u8FD0_u884C_u65F6_u5E38_u91CF_u6C60"><a href="#u8FD0_u884C_u65F6_u5E38_u91CF_u6C60" class="headerlink" title="运行时常量池"></a>运行时常量池</h4><p>运行时常量池用来存放编译期间的常量</p>
+<h3 id="u4EC0_u4E48_u65F6_u5019GC"><a href="#u4EC0_u4E48_u65F6_u5019GC" class="headerlink" title="什么时候GC"></a>什么时候GC</h3><ol>
+<li>在类中每当我们实例化一个变量时，都会在新生区申请足够的内存，如果申请的内存不足以实例化对象，这时候就会minor GC 小规模的回收。</li>
+<li>在太多的对象在老年代，导致没有足够的内存空间加入对象时，就会full GC，并且直到老年代能放得下更大的对象。</li>
+<li>每次minor gc都会检查一下进入老年代的对象和老年代剩余空间，如果不够就会full gc</li>
+<li>手动执行System.gc();</li>
+</ol>
+<h3 id="u5185_u5B58_u788E_u7247"><a href="#u5185_u5B58_u788E_u7247" class="headerlink" title="内存碎片"></a>内存碎片</h3><h4 id="u5185_u90E8_u788E_u7247"><a href="#u5185_u90E8_u788E_u7247" class="headerlink" title="内部碎片"></a>内部碎片</h4><p>分配内存到进程A，内存被进程占据了而不被利用，同时系统也无法利用这块内存，直到进程A被终结，释放内存。</p>
+<h4 id="u5916_u90E8_u788E_u7247"><a href="#u5916_u90E8_u788E_u7247" class="headerlink" title="外部碎片"></a>外部碎片</h4><p>还没被分配出去的内存太少了不足分配给下一个进程，又或者多个不连续的内存总空间长度能满足新申请的进程，但是由于地址是不连续的内存，无法分配给新进程。</p>
+<h3 id="Java_u786C_u8F6F_u5F31_u865A_u5F15_u7528"><a href="#Java_u786C_u8F6F_u5F31_u865A_u5F15_u7528" class="headerlink" title="Java硬软弱虚引用"></a>Java硬软弱虚引用</h3><h4 id="u786C_u5F15_u7528"><a href="#u786C_u5F15_u7528" class="headerlink" title="硬引用"></a>硬引用</h4><p>硬引用是我们用得最普遍的方式，就算应用程序内存不足，需要的内存大于可用的内存发生OOM程序崩溃，也不会去回收这个对象。</p>
+<h4 id="u8F6F_u5F15_u7528"><a href="#u8F6F_u5F15_u7528" class="headerlink" title="软引用"></a>软引用</h4><p>当内存足够就不会去回收这个对象，当内存不够就会去回收这个对象把引用对象加入SoftReference对象，把引用赋值成null，手动调用System.gc()，加不加入ReferenceQueue队列取决于内存够不够用。回收对象都会进入ReferenceQueue。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ReferenceQueue&lt;Object&gt; queue=<span class="keyword">new</span> ReferenceQueue&lt;Object&gt;();</span><br><span class="line">Object object =<span class="keyword">new</span> Object();</span><br><span class="line">SoftReference&lt;Object&gt; softReference=<span class="keyword">new</span> SoftReference&lt;&gt;(object,queue);</span><br><span class="line">obj=<span class="keyword">null</span>;</span><br><span class="line">System.gc();</span><br><span class="line">System.out.println(queue.poll());<span class="comment">//查看队列元素</span></span><br></pre></td></tr></table></figure>
+<h4 id="u5F31_u5F15_u7528"><a href="#u5F31_u5F15_u7528" class="headerlink" title="弱引用"></a>弱引用</h4><p>当回收器扫描出弱引用不管内存是否够用，都会回收这个对象。把弱引用对象加入WeakReference对象，把引用赋值成null，手动调用System.gc()，到最后的才会加入ReferenceQueue队列。回收对象都会进入ReferenceQueue。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ReferenceQueue&lt;Object&gt; queue=<span class="keyword">new</span> ReferenceQueue&lt;Object&gt;();</span><br><span class="line">Object object =<span class="keyword">new</span> Object();</span><br><span class="line">WeakReference&lt;Object&gt; softReference=<span class="keyword">new</span> WeakReference&lt;&gt;(object,queue);</span><br><span class="line">obj=<span class="keyword">null</span>;</span><br><span class="line">System.gc();</span><br><span class="line">System.out.println(queue.poll());<span class="comment">//查看队列元素</span></span><br></pre></td></tr></table></figure>
+<h4 id="u865A_u5F15_u7528"><a href="#u865A_u5F15_u7528" class="headerlink" title="虚引用"></a>虚引用</h4><p>当GC发现了虚引用对象把对象加到PhantomReference对象中，最后将虚引用赋值为null，再手动调用System.gc()，到最后的才会加入ReferenceQueue队列。回收对象都会进入ReferenceQueue。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ReferenceQueue&lt;Object&gt; queue=<span class="keyword">new</span> ReferenceQueue&lt;Object&gt;();</span><br><span class="line">Object object =<span class="keyword">new</span> Object();</span><br><span class="line">PhantomReference&lt;Object&gt; softReference=<span class="keyword">new</span> PhantomReference&lt;&gt;(object,queue);</span><br><span class="line">obj=<span class="keyword">null</span>;</span><br><span class="line">System.gc();</span><br><span class="line">System.out.println(queue.poll());<span class="comment">//查看队列元素</span></span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/17/帧动画Animation/" itemprop="url">
+                  帧动画
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-01-17T19:36:49+08:00" content="2017-01-17">
+              2017-01-17
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/01/17/帧动画Animation/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/17/帧动画Animation/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="u5E27_u52A8_u753B"><a href="#u5E27_u52A8_u753B" class="headerlink" title="帧动画"></a>帧动画</h4><p>下面我们来说什么是帧动画。小时候有一种书的右下角把每一个动作画好，再快速的翻看，就可以看到一连串的动画了，这就是帧动画。<br>帧动画只要几张图片就能加载出动画效果了。其中帧动画是按照一定时间间隔显示一张图片。</p>
+<h5 id="u5728xml_u8BBE_u7F6E_u5E27_u52A8_u753B"><a href="#u5728xml_u8BBE_u7F6E_u5E27_u52A8_u753B" class="headerlink" title="在xml设置帧动画"></a>在xml设置帧动画</h5><p>具体实现在drawable下（而不是anim下），新建xml文件，用animation-list标签包着多个item标签，设置item标签的drawable和duration值。以imageview为载体可以在xml设置src和在类中用iamgeview.getDrawable获取AnimationDrawable,再调用start方法或者stop方法。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line">&lt;!--android:oneshot="true"设置为true则播放一次动画，false则一直循环播放--&gt;</span><br><span class="line">&lt;animation-list xmlns:android="http://schemas.android.com/apk/res/android"</span><br><span class="line">                android:oneshot="true"&gt;</span><br><span class="line">    &lt;item android:drawable="@mipmap/ic_launcher"</span><br><span class="line">          android:duration="200"</span><br><span class="line">    /&gt;</span><br><span class="line">    &lt;item android:drawable="@mipmap/ic_launcher"</span><br><span class="line">          android:duration="200"</span><br><span class="line">    /&gt;</span><br><span class="line">&lt;/animation-list&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="u8C03_u7528_u5E27_u52A8_u753B"><a href="#u8C03_u7528_u5E27_u52A8_u753B" class="headerlink" title="调用帧动画"></a>调用帧动画</h5><p>写好xml文件我们就可以在类中通过以下方法来调用动画<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mImageView.setImageResource(R.drawable.frame);</span><br><span class="line">AnimationDrawable drawable = (AnimationDrawable) mImageView.getDrawable();</span><br><span class="line">drawable.start();</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
     
       
 
@@ -696,273 +936,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/28/5分钟接入微信支付/" itemprop="url">
-                  5mins接入微信支付
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-10-28T16:36:45+08:00" content="2016-10-28">
-              2016-10-28
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/10/28/5分钟接入微信支付/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/28/5分钟接入微信支付/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>现在app最流行微信支付，支付宝支付，都是大部分消费类型app计费方式首选。现在5分钟教你接入微信支付。</p>
-<p>接入前请准备好</p>
-<ul>
-<li>微信appid</li>
-<li>微信appkey</li>
-<li>微信商户id</li>
-<li>微信商户APIkey  需要在商户后台自定义32位key</li>
-<li>上传app的签名.jks文件  MD5值</li>
-</ul>
-<p><a href="https://res.wx.qq.com/open/zh_CN/htmledition/res/dev/download/sdk/WeChatSDK_sample_Android221cbf.zip" target="_blank" rel="external">官网微信支付demo下载链接</a></p>
-<h3 id="u914D_u7F6E_u9879_u76EE_u914D_u7F6E_u6587_u4EF6"><a href="#u914D_u7F6E_u9879_u76EE_u914D_u7F6E_u6587_u4EF6" class="headerlink" title="配置项目配置文件"></a>配置项目配置文件</h3><p>首先，把demo中的libammsdk.jar加入项目中libs文件夹，右击as library</p>
-<p>AndroidManifest.xml加入权限</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.INTERNET"</span> /&gt;</span><br><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.MODIFY_AUDIO_SETTINGS"</span>/&gt;</span><br><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span>/&gt;</span><br></pre></td></tr></table></figure>
-<p>注册广播接收器</p>
-<pre><code>&lt;receiver
-           android:name=&quot;包名.AppRegister&quot;&gt;
-           &lt;intent-filter&gt;
-               &lt;action android:name=&quot;com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP&quot; /&gt;
-           &lt;/intent-filter&gt;
-       &lt;/receiver&gt;
-</code></pre><p>注册支付结果回调actiivty  ，<strong>此处activity命名规则必须是包名+wxapi.WXPayEntryActivity</strong> ，否则无法得到支付结果。</p>
-<pre><code>&lt;activity
-        android:name=&quot;包名.wxapi.WXPayEntryActivity&quot;
-        android:exported=&quot;true&quot;
-        android:launchMode=&quot;singleTop&quot;/&gt;
-</code></pre><p>在调用微信支付的activity 的intent-filter标签加上</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;data android:scheme=<span class="string">"微信appid"</span>/&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="u8C03_u7528_u652F_u4ED8_u65B9_u6CD5"><a href="#u8C03_u7528_u652F_u4ED8_u65B9_u6CD5" class="headerlink" title="调用支付方法"></a>调用支付方法</h3><p>前提，微信生成预订单prepay_id要在app服务器完成，这样子好处是客户端不保存微信appkey，商户key，商户id等信息让支付更加安全可靠。操作就是客户端把商品名称，金额提交给app服务器返回预订单。</p>
-<p>在调用支付方法view定义</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">      <span class="keyword">private</span>  PayReq mReq</span><br><span class="line">      <span class="keyword">private</span>  IWXAPI mWxapi</span><br><span class="line">  	<span class="annotation">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">           mReq=<span class="keyword">new</span> PayReq();</span><br><span class="line">           mWxapi=WXAPIFactory.createWXAPI(<span class="keyword">this</span>,<span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pay</span><span class="params">()</span></span>&#123;</span><br><span class="line">         <span class="comment">//判断微信是否安装</span></span><br><span class="line">         <span class="keyword">if</span>(!isSupportPay())&#123;</span><br><span class="line">              <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">//向app服务器提交商品名金额，获取预订单，商户id，加密信息，时间戳等后...</span></span><br><span class="line"></span><br><span class="line">           mReq.appId = <span class="string">"appid"</span>;</span><br><span class="line">		  mReq.partnerId = <span class="string">"mch_id"</span>;</span><br><span class="line">		  mReq.prepayId = <span class="string">"prepay_id"</span>;</span><br><span class="line">		  mReq.packageValue = <span class="string">"Sign=WXPay"</span>;</span><br><span class="line">		  mReq.nonceStr =<span class="string">"nonce_str"</span>;</span><br><span class="line">		  mReq.timeStamp = <span class="string">"TimeStamp"</span>;</span><br><span class="line">           mReq.sign = <span class="string">"signParams"</span>;</span><br><span class="line">           mWxapi.registerApp(<span class="string">"appid"</span>);</span><br><span class="line">           mWxapi.sendReq(req);<span class="comment">//拉起微信支付界面</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isSupportPay</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(mWxapi.isWXAppInstalled()&amp;&amp;mWxapi.isWXAppSupportAPI())&#123;</span><br><span class="line">               <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">	   Toast.makeText(mContext, <span class="string">"请安装最新版微信"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">  WXPayEntryActivity.java</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> IWXAPI wxapi;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WXPayEntryActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> <span class="keyword">implements</span> <span class="title">IWXAPIEventHandler</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">      <span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">         wxapi = WXAPIFactory.createWXAPI(<span class="keyword">this</span>, <span class="string">"wxappid"</span>);</span><br><span class="line">	 wxapi.handleIntent(getIntent(), <span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">   <span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onNewIntent</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">super</span>.onNewIntent(intent);</span><br><span class="line">    wxapi.handleIntent(intent, <span class="keyword">this</span>);</span><br><span class="line"> &#125;</span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReq</span><span class="params">(BaseReq req)</span> </span>&#123;</span><br><span class="line">	<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//微信通知app客户端</span></span><br><span class="line"><span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResp</span><span class="params">(BaseResp resp)</span> </span>&#123;</span><br><span class="line"> 	<span class="keyword">if</span> (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) &#123;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">switch</span>(resp.errCode)&#123;</span><br><span class="line">     <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">       <span class="comment">//支付成功</span></span><br><span class="line">       <span class="keyword">break</span>;</span><br><span class="line">     <span class="keyword">case</span> -<span class="number">1</span>:</span><br><span class="line">       <span class="comment">//未签名app</span></span><br><span class="line">       <span class="keyword">break</span>;</span><br><span class="line">     <span class="keyword">case</span> -<span class="number">2</span>:</span><br><span class="line">       <span class="comment">//取消支付</span></span><br><span class="line">       <span class="keyword">break</span>;</span><br><span class="line">     <span class="keyword">default</span>:</span><br><span class="line">       <span class="comment">//支付失败</span></span><br><span class="line">       <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="u652F_u4ED8_u76F8_u5173_u9519_u8BEF_u7801"><a href="#u652F_u4ED8_u76F8_u5173_u9519_u8BEF_u7801" class="headerlink" title="支付相关错误码"></a>支付相关错误码</h3><p>如果resp.errCode返回-1，此时app签名和微信open平台签名文件的md5值不一致造成，所以要确保app使用open平台相同签名文件。</p>
-<p>如遇到其他复杂情况可以清空微信app缓存，进行测试。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/12/EventBus3.0入门/" itemprop="url">
-                  EventBus3.0入门
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-10-12T09:39:32+08:00" content="2016-10-12">
-              2016-10-12
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/10/12/EventBus3.0入门/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/12/EventBus3.0入门/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p><a href="https://github.com/greenrobot/EventBus" target="_blank" rel="external">EventBus</a>是一个在Android优化很好的事件总线，他简化Android的activity，fragment，thread，Service之间通信，代码体积小，质量更高。</p>
-</blockquote>
-<p>总之，他可以代替handler发送msg和Message接受msg，还可以代替intent在activity，fragment等传递msg。</p>
-<h3 id="u5982_u4F55_u4F7F_u7528EventBus"><a href="#u5982_u4F55_u4F7F_u7528EventBus" class="headerlink" title="如何使用EventBus"></a>如何使用EventBus</h3><p>在app/build.gradle<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">compile</span> <span class="string">'org.greenrobot:eventbus:3.0.0'</span></span><br></pre></td></tr></table></figure></p>
-<p>然后在onCreate()注册eventbus，在onDestroy()取消注册。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span></span>&#123;</span><br><span class="line">  EventBus.getDefault().<span class="keyword">register</span>(MainActivity.<span class="keyword">this</span>);<span class="comment">//注册</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">onDestory</span><span class="params">()</span></span>&#123;</span><br><span class="line">  EventBus.getDefault().unregister(MainActivity.<span class="keyword">this</span>);<span class="comment">//取消注册</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>同时在注册的界面接受msg，这里的方法名可以自定义，只要方法前有@Subscribe的注解。<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Subscribe</span><br><span class="line"><span class="keyword">public</span> <span class="literal">void</span> getMessage(<span class="built_in">String</span> msg)&#123;</span><br><span class="line">    <span class="keyword">Log</span><span class="built_in">.</span>i(<span class="built_in">TAG</span>,msg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>如果有方法注解了@Subscribe，而没先注册就会在日志打印</li>
-</ul>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">No subscribers registered <span class="keyword">for</span> event class com<span class="class">.ppjun</span><span class="class">.demo</span><span class="class">.MessageEvent</span></span><br><span class="line">No subscribers registered <span class="keyword">for</span> event class org<span class="class">.greenrobot</span><span class="class">.eventbus</span><span class="class">.NoSubscriberEvent</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>如果actiivty注册了eventbus，而没写一个方法被@Subscribe注解就会报异常</li>
-</ul>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Subscriber</span> <span class="class"><span class="keyword">class</span> <span class="title">com</span>.<span class="title">ppjun</span>.<span class="title">amapmaster</span>.<span class="title">BActivity</span> <span class="title">and</span> <span class="title">its</span> <span class="title">super</span> <span class="title">classes</span> <span class="title">have</span> <span class="title">no</span> <span class="title">public</span> <span class="title">methods</span> <span class="keyword"><span class="keyword">with</span></span> <span class="title">the</span> <span class="title">@Subscribe</span> <span class="title">annotation</span></span></span><br></pre></td></tr></table></figure>
-<p>其中@Subscribe注解可以有以下几种情况：</p>
-<ul>
-<li><strong>@Subscribe(sticky = true)</strong></li>
-</ul>
-<p>代表在activity用postSticky信息之后再注册evnetbus，要用这种sticky=true注解方法来接受msg,因为sticky默认为false的</p>
-<ul>
-<li><strong>@Subscribe(threadMode = ThreadMode.MAIN)</strong></li>
-</ul>
-<p>代表主线程或者子线程post信息的到activity的主线程。</p>
-<ul>
-<li><strong>@Subscribe(threadMode = ThreadMode.BACKGROUND)</strong></li>
-</ul>
-<p>如果发布线程是主线程，eventbus就会用一个后台子线程发送给主线程，如果发布线程是子线程，那么处理方法就在子线程执行。最后经过或者不经过线程切换都会原来的线程。</p>
-<ul>
-<li><strong>@Subscribe(threadMode = ThreadMode.POSTING)</strong></li>
-</ul>
-<p>不需要切换线程，发布线程和处理线程一样。简单来说在什么线程post就在什么线程处理。</p>
-<ul>
-<li><strong>@Subscribe(threadMode = ThreadMode.ASYNC)</strong></li>
-</ul>
-<p>处理方法在主线程和发布线程意外的线程执行，处理一些耗时的操作如网络请求。如果有必要还会开启线程池。</p>
-<p>   ​</p>
-<h3 id="post_u548CpostSticky_u7684_u533A_u522B"><a href="#post_u548CpostSticky_u7684_u533A_u522B" class="headerlink" title="post和postSticky的区别"></a>post和postSticky的区别</h3><p>一般注册后，再post信息要用post，而在没注册前post信息，这时候还没有Subscriber，就要用postSticky。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Aactivity.<span class="function">java</span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span></span>&#123;</span><br><span class="line">  EventBus.getDefault().postSticky(<span class="string">"msg from A"</span>);</span><br><span class="line">  startActivity(<span class="keyword">new</span> Intent(Aactivity.<span class="keyword">this</span>,Bactivity.<span class="keyword">class</span>));</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Bactivity.<span class="function">java</span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span></span>&#123;</span><br><span class="line">  EventBus.getDefault().<span class="keyword">register</span>(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">@Subscribe(sticky = <span class="literal">true</span>)   </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getMessage</span><span class="params">(String msg)</span></span>&#123;</span><br><span class="line">     Log.i(TAG,msg);<span class="comment">//这里打印出 msg from A</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestory</span><span class="params">()</span></span>&#123;</span><br><span class="line">  EventBus.getDefault.unregister(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Subscribers_u7684_u4F18_u5148_u7EA7"><a href="#Subscribers_u7684_u4F18_u5148_u7EA7" class="headerlink" title="Subscribers的优先级"></a>Subscribers的优先级</h3><p>要在同一中ThreadMode中 ，默认的priority是0，优先级更高的会被先执行。</p>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Subscribe</span>(priority=<span class="number">1</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">getMessage</span><span class="params">(String a)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="u53D6_u6D88_u8BA2_u9605_u8005Subscriber"><a href="#u53D6_u6D88_u8BA2_u9605_u8005Subscriber" class="headerlink" title="取消订阅者Subscriber"></a>取消订阅者Subscriber</h3><p>通常由优先级更高的订阅者来取消低优先级的订阅者。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="at_rule">@<span class="keyword">Subscribe</span></span><br><span class="line">public void <span class="function">onEvent</span>(String msg)</span>&#123;</span><br><span class="line">  <span class="tag">EventBus</span><span class="class">.getDefault</span>()<span class="class">.cancelEventDelivery</span>(<span class="tag">msg</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="EventBus_u7684_u6DF7_u80B4"><a href="#EventBus_u7684_u6DF7_u80B4" class="headerlink" title="EventBus的混肴"></a>EventBus的混肴</h3><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">-keepattributes *<span class="constant">Annotation</span>*</span><br><span class="line">-keepclassmembers <span class="class"><span class="keyword">class</span> ** &#123;</span></span><br><span class="line">    <span class="variable">@org</span>.greenrobot.eventbus.<span class="constant">Subscribe</span> &lt;methods&gt;;</span><br><span class="line">&#125;</span><br><span class="line">-keep <span class="class"><span class="keyword">enum</span> <span class="title">org</span>.<span class="title">greenrobot</span>.<span class="title">eventbus</span>.<span class="title">ThreadMode</span> &#123; *;</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Only required if you use AsyncExecutor</span></span><br><span class="line">-keepclassmembers <span class="class"><span class="keyword">class</span> * <span class="title">extends</span> <span class="title">org</span>.<span class="title">greenrobot</span>.<span class="title">eventbus</span>.<span class="title">util</span>.<span class="title">ThrowableFailureEvent</span> &#123;</span></span><br><span class="line">    &lt;init&gt;(java.lang.<span class="constant">Throwable</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1008,7 +981,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">31</span>
+              <span class="site-state-item-count">33</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -1018,7 +991,7 @@
           
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">標籤</span>
               
             </div>
@@ -1188,6 +1161,135 @@
 
   
   
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
   
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
