@@ -153,7 +153,7 @@
             
               <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
             
-            首頁
+            首页
           </a>
         </li>
       
@@ -163,7 +163,7 @@
             
               <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
             
-            歸檔
+            归档
           </a>
         </li>
       
@@ -173,7 +173,7 @@
             
               <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
             
-            關於
+            关于
           </a>
         </li>
       
@@ -186,7 +186,7 @@
             
               <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
             
-            檢索
+            搜索
           </a>
         </li>
       
@@ -239,6 +239,135 @@
             
               
                 
+                <a class="post-title-link" href="/2017/04/20/android面试题/" itemprop="url">
+                  android面试题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-04-20T09:38:32+08:00" content="2017-04-20">
+              2017-04-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/04/20/android面试题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/20/android面试题/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="1-_Activity_u548Cfragment_u7684_u751F_u547D_u5468_u671F"><a href="#1-_Activity_u548Cfragment_u7684_u751F_u547D_u5468_u671F" class="headerlink" title="1. Activity和fragment的生命周期"></a>1. Activity和fragment的生命周期</h3><ol>
+<li><p>Activity从onCreate→onStart→onResume→onPause→onStop→onDestroy，其中oncreate初始化加载布局资源，onStart布局可见但是还在后台不可交互</p>
+<p>onResume布局可见在前台可以交互。onPause正在停止当前activity，onStop表示activity即将停止，做一些回收资源操作，onDestroy销毁activity最终的资源释放。总结：onStart和onPause可见不可见，onResume和onStop可不可以交互</p>
+</li>
+<li><p>Fragment从onAttach→onCreate→onCreateView→onStart→onResume→onPause→onStop→onDestroyView→onDestroy-onDetach</p>
+<p>​</p>
+</li>
+</ol>
+<h3 id="2-_Layout_gravity_u548Cgravity_u7684_u533A_u522B_u3002"><a href="#2-_Layout_gravity_u548Cgravity_u7684_u533A_u522B_u3002" class="headerlink" title="2. Layout_gravity和gravity的区别。"></a>2. Layout_gravity和gravity的区别。</h3><p>比如设置android:layout_gravity=”right”的button会显示在父view的最右边。所以layout_gravity是设置当前view在父view的位置。</p>
+<p>比如设置了android:gravity=”left”的LinearLayout会让里面的子View最显示在最左边。所以gravity是设置当前view里面的子view的位置。</p>
+<h3 id="3-__u5F53_u4E00_u4E2Aactivity_u8DF3_u8F6C_u5230_u53E6_u4E00_u4E2Aactivity_u7684_u751F_u547D_u5468_u671F"><a href="#3-__u5F53_u4E00_u4E2Aactivity_u8DF3_u8F6C_u5230_u53E6_u4E00_u4E2Aactivity_u7684_u751F_u547D_u5468_u671F" class="headerlink" title="3. 当一个activity跳转到另一个activity的生命周期"></a>3. 当一个activity跳转到另一个activity的生命周期</h3><p>我们分别用AB代替两个activity</p>
+<p>onPause(A)→onCreate(B)→onStart(B)→onResume(B)→onStop(A)</p>
+<h3 id="4-_u7B80_u5355_u4ECB_u7ECDHandler_Message_MessageQueue_Looper"><a href="#4-_u7B80_u5355_u4ECB_u7ECDHandler_Message_MessageQueue_Looper" class="headerlink" title="4.简单介绍Handler Message MessageQueue Looper"></a>4.简单介绍Handler Message MessageQueue Looper</h3><p>当Handler调用sendMessage方法会先把调用MessageQueue.enqeueMessage把Message加到消息队列，然后Looper开启循环不断遍历消息队列，调用MessageQueue.next获取message，然后调用目标Handler的dispatchMessage，判断Message有没有Callback即有没有Runnable对象，再判断Handler有没有callback，如果都没最后输出到Handler的handleMessage方法来处理消息。</p>
+<h3 id="5-__u5185_u5B58_u6EA2_u51FA_u548C_u5185_u5B58_u6CC4_u9732"><a href="#5-__u5185_u5B58_u6EA2_u51FA_u548C_u5185_u5B58_u6CC4_u9732" class="headerlink" title="5. 内存溢出和内存泄露"></a>5. 内存溢出和内存泄露</h3><p>oom又叫out of memory 就是内存溢出。就是对象需求的内存大于jvm可用内存，避免oom要</p>
+<h4 id="u51CF_u5C0F_u5BF9_u8C61_u5185_u5B58_u7684_u4F7F_u7528"><a href="#u51CF_u5C0F_u5BF9_u8C61_u5185_u5B58_u7684_u4F7F_u7528" class="headerlink" title="减小对象内存的使用"></a>减小对象内存的使用</h4><p>1）使用更加轻量的数据结构，使用ArrayMap/SparseArray代替HashMap</p>
+<p>2）避免使用Enum</p>
+<p>3）减小bitmap对象的内存占用 使用insampleSize缩放比例，设置decodeFormat，解码格式</p>
+<p>4）使用更小的图片，用tinypng压缩图片</p>
+<h4 id="u5185_u5B58_u5BF9_u8C61_u7684_u91CD_u590D_u4F7F_u7528_u3002_u4F7F_u7528_u5BF9_u8C61_u6C60"><a href="#u5185_u5B58_u5BF9_u8C61_u7684_u91CD_u590D_u4F7F_u7528_u3002_u4F7F_u7528_u5BF9_u8C61_u6C60" class="headerlink" title="内存对象的重复使用。使用对象池"></a>内存对象的重复使用。使用对象池</h4><p>1）StringBuilder减少String对象创建</p>
+<p>2）避免在onDraw创建对象，因为onDraw会频繁调用，频繁gc，从而造成内存抖动。</p>
+<p>3）复用系统提供的资源，比如字符串 颜色 图片 动画 样式 和布局</p>
+<p>4）在listview或者gridview对convertView的复用</p>
+<p>5）bitmap对象的复用在api11-18使用inbitmap，确定具有相同的解码模式，第二张图片会使用第一张照片已存在的位置</p>
+<h4 id="u907F_u514D_u5185_u5B58_u6CC4_u9732"><a href="#u907F_u514D_u5185_u5B58_u6CC4_u9732" class="headerlink" title="避免内存泄露"></a>避免内存泄露</h4><p>1）注意Activity的泄漏，一般是内部类引用导致activity泄露比如handler</p>
+<p>2）Activity Context被传到其他实例中，这可能导致自身引用发生泄漏</p>
+<p>3）考虑使用Application Context 而不是Activity Context当然dialog就必须是activity的content</p>
+<p>4）注意临时的bitmap对象的回收 调用bitmap.recycle()</p>
+<p>5） 监听器的注销要手动unregister 比如realm的list监听器</p>
+<p>6）注意缓存容器中的对象泄漏比如2.3版本的drawable会对view强引用，</p>
+<p>7）注意webview的泄露 </p>
+<p>8）还有Cursor游标的关闭。</p>
+<h3 id="6-_Jvm_u7684_u5806_u6808_u65B9_u6CD5_u533A"><a href="#6-_Jvm_u7684_u5806_u6808_u65B9_u6CD5_u533A" class="headerlink" title="6.  Jvm的堆栈方法区"></a>6.  Jvm的堆栈方法区</h3><p><strong>堆区</strong>存放所有的对象，只有一个，每个对象都包含一个与之对应的class信息class的目的是得到操作指令，但是不包括基本类型和对象引用，new一个类就是对象引用。只存放对象本身。</p>
+<p><strong>栈区</strong> 每个线程都有一个栈区，用来存放对象的引用和基本类型，（怎么区分对象和对象的应用呢 举个例子 Person person=new Person(); =左边是对象的引用，=右边是对象），其他栈不能访问另外一个栈的内容</p>
+<p><strong>方法区</strong>，就是静态变量static修饰的变量，常量。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/03/20/solid/" itemprop="url">
                   设计模式SOLID五大原则
                 </a>
@@ -252,7 +381,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">发表于</span>
             <time itemprop="dateCreated" datetime="2017-03-20T11:08:44+08:00" content="2017-03-20">
               2017-03-20
             </time>
@@ -391,7 +520,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">发表于</span>
             <time itemprop="dateCreated" datetime="2017-03-13T11:01:06+08:00" content="2017-03-13">
               2017-03-13
             </time>
@@ -500,7 +629,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">发表于</span>
             <time itemprop="dateCreated" datetime="2017-02-23T15:19:00+08:00" content="2017-02-23">
               2017-02-23
             </time>
@@ -668,7 +797,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">发表于</span>
             <time itemprop="dateCreated" datetime="2017-02-15T11:20:56+08:00" content="2017-02-15">
               2017-02-15
             </time>
@@ -796,7 +925,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">发表于</span>
             <time itemprop="dateCreated" datetime="2017-02-13T17:05:04+08:00" content="2017-02-13">
               2017-02-13
             </time>
@@ -893,140 +1022,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/19/IPC机制基础/" itemprop="url">
-                  IPC机制基础
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-01-19T16:54:08+08:00" content="2017-01-19">
-              2017-01-19
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/01/19/IPC机制基础/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/19/IPC机制基础/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="IPC_u57FA_u7840_u5206_u4EAB"><a href="#IPC_u57FA_u7840_u5206_u4EAB" class="headerlink" title="IPC基础分享"></a>IPC基础分享</h1><p><code>这一章主要讲述多进程的作用，序列化和反序列化，Serializable和Parcelable</code></p>
-<p>​      <strong>IPC叫进程间通信</strong>，指的是A进程和B进程交换信息。通常一个android应用是一个进程，一个进程有一个主线程和多个子线程组成，在A进程activity定义变量private static int i=1;并且让i+1,输出2，到了B进程activity，获取到的i的值还是1，这是因为Android多进程间不能共享内存。启动多进程期间，会再次启动Application的生命周期，比如application类的oncreate等方法又执行了一次。不过，在android有以下方法进行进程间交换数据</p>
-<ol>
-<li>bundle（用bundle和intent在两个进程传递数据）</li>
-<li>操作文件（读写操作同一个文件）</li>
-<li>AIDL（基于binder的通信方式，用aidl文件更加方便）</li>
-<li>Messenger（封装后的aidl，只需用Messenger.send(message);即可发送信息）</li>
-<li>ContentProvider（读写数据库）</li>
-<li>Socket（启动本地的套接字来通信）</li>
-</ol>
-<h1 id="u591A_u8FDB_u7A0B_u7684_u4F5C_u7528"><a href="#u591A_u8FDB_u7A0B_u7684_u4F5C_u7528" class="headerlink" title="多进程的作用"></a>多进程的作用</h1><ol>
-<li><p>把应用某个单独的功能，单独放在一个进程中。</p>
-</li>
-<li><p>能给应用获取多份内存空间</p>
-</li>
-</ol>
-<h4 id="u5F00_u542F_u591A_u8FDB_u7A0B"><a href="#u5F00_u542F_u591A_u8FDB_u7A0B" class="headerlink" title="开启多进程"></a>开启多进程</h4><p>在AndroidManifest.xml文件给对应的activity或者service设置以下属性，其中值为:remote的进程不能共享进程资源，其他两个值能共享，前提条件是在manifest标签配置相同的sharedUserId比如（android:sharedUserId=”com.ppjun.sharedUserId”），还要让两个应用配置相同的签名。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;android:process=<span class="string">":remote"</span>/&gt;     <span class="comment">//对应的进程名是包名:remote</span></span><br><span class="line">&lt;android:process=<span class="string">".remote"</span>/&gt;    <span class="comment">//对应的进程名是包名.remote</span></span><br><span class="line">&lt;android:process=<span class="string">"com.ppjun.remote"</span>/&gt; <span class="comment">//对应的进程名是com.ppjun.remote</span></span><br></pre></td></tr></table></figure>
-<h2 id="u5E8F_u5217_u5316_u548C_u53CD_u5E8F_u5217_u5316"><a href="#u5E8F_u5217_u5316_u548C_u53CD_u5E8F_u5217_u5316" class="headerlink" title="序列化和反序列化"></a>序列化和反序列化</h2><ol>
-<li>序列化就是永久保存对象数据到文件中。</li>
-<li>在activity或者service之间将对象序列化对象后通过intent等传递。</li>
-<li>在多进程之间也要将对象序列化后才能传递。</li>
-</ol>
-<p>序列化是一个将对象变成字节的过程，发序列化是将这些字节重组成一个对象的过程。在Android中提供了Serializable和Parcelable接口序列化对象。</p>
-<h3 id="Serializable"><a href="#Serializable" class="headerlink" title="Serializable"></a>Serializable</h3><p>让类实现Serializable接口，并且指定一个long类型的serialVersionUID=xxxxL;xxxx为你自定义值</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID=<span class="number">213213123L</span></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Student</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>序列化student</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Student student = <span class="keyword">new</span> Student(<span class="string">"jax"</span>);</span><br><span class="line">ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="keyword">new</span> File(<span class="string">"aa.txt"</span>).getName()));</span><br><span class="line">oos.writeObject(student);</span><br><span class="line">oos.close();</span><br></pre></td></tr></table></figure>
-<p>反序列化student</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ObjectInputStream ois=<span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(<span class="string">"aa.txt"</span>)));</span><br><span class="line">Student student2= (Student) ois.readObject();</span><br><span class="line">ois.close();</span><br></pre></td></tr></table></figure>
-<p>此时的student2已经不是原来的student了，是一个新的Student对象了。当然这里没写serialVersionUID序列化和反序列也能成功运行，系统默认会计算出一个serialVersionUID。</p>
-<p>当你要在Student类加入id属性加入，此时系统会计算出新的serialVersionUID，发序列化时，两者serialVersionUID不同，反序列操作时就会报错。所以一定要自定义一个serialVersionUID。</p>
-<h3 id="Parcelable"><a href="#Parcelable" class="headerlink" title="Parcelable"></a>Parcelable</h3><p>android api为我们提供的序列化类，也是要类实现Parcelable接口，重写带参数的构造方法，writeToParcel方法，describeContents方法和new CREATOR对象呢重写createFromParcel方法和newArray方法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Book</span> <span class="keyword">implements</span> <span class="title">Parcelable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Creator&lt;Book&gt; CREATOR = <span class="keyword">new</span> Creator&lt;Book&gt;() &#123;</span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Book <span class="title">createFromParcel</span><span class="params">(Parcel source)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Book(source);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">        <span class="keyword">public</span> Book[] newArray(<span class="keyword">int</span> size) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Book[size];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> bookId;</span><br><span class="line">    <span class="keyword">public</span> String bookName;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Book</span><span class="params">(<span class="keyword">int</span> bookId, String bookName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.bookId = bookId;</span><br><span class="line">        <span class="keyword">this</span>.bookName = bookName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="title">Book</span><span class="params">(Parcel parcel)</span> </span>&#123;</span><br><span class="line">        bookId = parcel.readInt();</span><br><span class="line">        bookName = parcel.readString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writeToParcel</span><span class="params">(Parcel dest, <span class="keyword">int</span> flags)</span> </span>&#123;</span><br><span class="line">        dest.writeInt(bookId);</span><br><span class="line">        dest.writeString(bookName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">describeContents</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getBookId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> bookId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBookId</span><span class="params">(<span class="keyword">int</span> bookId)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.bookId = bookId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getBookName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> bookName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBookName</span><span class="params">(String bookName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.bookName = bookName;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="u4E24_u8005_u6BD4_u8F83"><a href="#u4E24_u8005_u6BD4_u8F83" class="headerlink" title="两者比较"></a>两者比较</h3><ol>
-<li>Serializable序列化同时产生大量临时变量，导致gc频繁；Serializable要通过io操作获取获取数据，再写入文件。</li>
-<li>Parcelable是以binder为信息载体，在内存传递上开销小。在读写数据时，Parcelable直接在内存读写，所以Parcelable性能比Serializable好。</li>
-<li>将对象序列化写入文件，序列化对象进行网络传输建议选择Serializable，对象要在activity等组件传递时，建议选择Parcelable。</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1072,8 +1067,8 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">33</span>
-              <span class="site-state-item-name">文章</span>
+              <span class="site-state-item-count">34</span>
+              <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
@@ -1082,8 +1077,8 @@
           
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">25</span>
-                <span class="site-state-item-name">標籤</span>
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">标签</span>
               
             </div>
           
@@ -1147,11 +1142,11 @@
 </div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
-  主題 -
+  主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Pisces
   </a>

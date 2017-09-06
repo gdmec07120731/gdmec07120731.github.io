@@ -153,7 +153,7 @@
             
               <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
             
-            首頁
+            首页
           </a>
         </li>
       
@@ -163,7 +163,7 @@
             
               <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
             
-            歸檔
+            归档
           </a>
         </li>
       
@@ -173,7 +173,7 @@
             
               <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
             
-            關於
+            关于
           </a>
         </li>
       
@@ -186,7 +186,7 @@
             
               <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
             
-            檢索
+            搜索
           </a>
         </li>
       
@@ -239,6 +239,140 @@
             
               
                 
+                <a class="post-title-link" href="/2017/01/19/IPC机制基础/" itemprop="url">
+                  IPC机制基础
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-01-19T16:54:08+08:00" content="2017-01-19">
+              2017-01-19
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/01/19/IPC机制基础/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/19/IPC机制基础/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="IPC_u57FA_u7840_u5206_u4EAB"><a href="#IPC_u57FA_u7840_u5206_u4EAB" class="headerlink" title="IPC基础分享"></a>IPC基础分享</h1><p><code>这一章主要讲述多进程的作用，序列化和反序列化，Serializable和Parcelable</code></p>
+<p>​      <strong>IPC叫进程间通信</strong>，指的是A进程和B进程交换信息。通常一个android应用是一个进程，一个进程有一个主线程和多个子线程组成，在A进程activity定义变量private static int i=1;并且让i+1,输出2，到了B进程activity，获取到的i的值还是1，这是因为Android多进程间不能共享内存。启动多进程期间，会再次启动Application的生命周期，比如application类的oncreate等方法又执行了一次。不过，在android有以下方法进行进程间交换数据</p>
+<ol>
+<li>bundle（用bundle和intent在两个进程传递数据）</li>
+<li>操作文件（读写操作同一个文件）</li>
+<li>AIDL（基于binder的通信方式，用aidl文件更加方便）</li>
+<li>Messenger（封装后的aidl，只需用Messenger.send(message);即可发送信息）</li>
+<li>ContentProvider（读写数据库）</li>
+<li>Socket（启动本地的套接字来通信）</li>
+</ol>
+<h1 id="u591A_u8FDB_u7A0B_u7684_u4F5C_u7528"><a href="#u591A_u8FDB_u7A0B_u7684_u4F5C_u7528" class="headerlink" title="多进程的作用"></a>多进程的作用</h1><ol>
+<li><p>把应用某个单独的功能，单独放在一个进程中。</p>
+</li>
+<li><p>能给应用获取多份内存空间</p>
+</li>
+</ol>
+<h4 id="u5F00_u542F_u591A_u8FDB_u7A0B"><a href="#u5F00_u542F_u591A_u8FDB_u7A0B" class="headerlink" title="开启多进程"></a>开启多进程</h4><p>在AndroidManifest.xml文件给对应的activity或者service设置以下属性，其中值为:remote的进程不能共享进程资源，其他两个值能共享，前提条件是在manifest标签配置相同的sharedUserId比如（android:sharedUserId=”com.ppjun.sharedUserId”），还要让两个应用配置相同的签名。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;android:process=<span class="string">":remote"</span>/&gt;     <span class="comment">//对应的进程名是包名:remote</span></span><br><span class="line">&lt;android:process=<span class="string">".remote"</span>/&gt;    <span class="comment">//对应的进程名是包名.remote</span></span><br><span class="line">&lt;android:process=<span class="string">"com.ppjun.remote"</span>/&gt; <span class="comment">//对应的进程名是com.ppjun.remote</span></span><br></pre></td></tr></table></figure>
+<h2 id="u5E8F_u5217_u5316_u548C_u53CD_u5E8F_u5217_u5316"><a href="#u5E8F_u5217_u5316_u548C_u53CD_u5E8F_u5217_u5316" class="headerlink" title="序列化和反序列化"></a>序列化和反序列化</h2><ol>
+<li>序列化就是永久保存对象数据到文件中。</li>
+<li>在activity或者service之间将对象序列化对象后通过intent等传递。</li>
+<li>在多进程之间也要将对象序列化后才能传递。</li>
+</ol>
+<p>序列化是一个将对象变成字节的过程，发序列化是将这些字节重组成一个对象的过程。在Android中提供了Serializable和Parcelable接口序列化对象。</p>
+<h3 id="Serializable"><a href="#Serializable" class="headerlink" title="Serializable"></a>Serializable</h3><p>让类实现Serializable接口，并且指定一个long类型的serialVersionUID=xxxxL;xxxx为你自定义值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID=<span class="number">213213123L</span></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Student</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>序列化student</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Student student = <span class="keyword">new</span> Student(<span class="string">"jax"</span>);</span><br><span class="line">ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="keyword">new</span> File(<span class="string">"aa.txt"</span>).getName()));</span><br><span class="line">oos.writeObject(student);</span><br><span class="line">oos.close();</span><br></pre></td></tr></table></figure>
+<p>反序列化student</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ObjectInputStream ois=<span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(<span class="string">"aa.txt"</span>)));</span><br><span class="line">Student student2= (Student) ois.readObject();</span><br><span class="line">ois.close();</span><br></pre></td></tr></table></figure>
+<p>此时的student2已经不是原来的student了，是一个新的Student对象了。当然这里没写serialVersionUID序列化和反序列也能成功运行，系统默认会计算出一个serialVersionUID。</p>
+<p>当你要在Student类加入id属性加入，此时系统会计算出新的serialVersionUID，发序列化时，两者serialVersionUID不同，反序列操作时就会报错。所以一定要自定义一个serialVersionUID。</p>
+<h3 id="Parcelable"><a href="#Parcelable" class="headerlink" title="Parcelable"></a>Parcelable</h3><p>android api为我们提供的序列化类，也是要类实现Parcelable接口，重写带参数的构造方法，writeToParcel方法，describeContents方法和new CREATOR对象呢重写createFromParcel方法和newArray方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Book</span> <span class="keyword">implements</span> <span class="title">Parcelable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Creator&lt;Book&gt; CREATOR = <span class="keyword">new</span> Creator&lt;Book&gt;() &#123;</span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Book <span class="title">createFromParcel</span><span class="params">(Parcel source)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Book(source);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">        <span class="keyword">public</span> Book[] newArray(<span class="keyword">int</span> size) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Book[size];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> bookId;</span><br><span class="line">    <span class="keyword">public</span> String bookName;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Book</span><span class="params">(<span class="keyword">int</span> bookId, String bookName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.bookId = bookId;</span><br><span class="line">        <span class="keyword">this</span>.bookName = bookName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="title">Book</span><span class="params">(Parcel parcel)</span> </span>&#123;</span><br><span class="line">        bookId = parcel.readInt();</span><br><span class="line">        bookName = parcel.readString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writeToParcel</span><span class="params">(Parcel dest, <span class="keyword">int</span> flags)</span> </span>&#123;</span><br><span class="line">        dest.writeInt(bookId);</span><br><span class="line">        dest.writeString(bookName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">describeContents</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getBookId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> bookId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBookId</span><span class="params">(<span class="keyword">int</span> bookId)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.bookId = bookId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getBookName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> bookName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBookName</span><span class="params">(String bookName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.bookName = bookName;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="u4E24_u8005_u6BD4_u8F83"><a href="#u4E24_u8005_u6BD4_u8F83" class="headerlink" title="两者比较"></a>两者比较</h3><ol>
+<li>Serializable序列化同时产生大量临时变量，导致gc频繁；Serializable要通过io操作获取获取数据，再写入文件。</li>
+<li>Parcelable是以binder为信息载体，在内存传递上开销小。在读写数据时，Parcelable直接在内存读写，所以Parcelable性能比Serializable好。</li>
+<li>将对象序列化写入文件，序列化对象进行网络传输建议选择Serializable，对象要在activity等组件传递时，建议选择Parcelable。</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/01/19/Java硬软弱虚引用，GC回收，内存碎片/" itemprop="url">
                   Java硬软弱虚引用，GC回收，内存碎片
                 </a>
@@ -252,7 +386,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">发表于</span>
             <time itemprop="dateCreated" datetime="2017-01-19T14:07:37+08:00" content="2017-01-19">
               2017-01-19
             </time>
@@ -370,7 +504,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">发表于</span>
             <time itemprop="dateCreated" datetime="2017-01-17T19:36:49+08:00" content="2017-01-17">
               2017-01-17
             </time>
@@ -469,7 +603,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">发表于</span>
             <time itemprop="dateCreated" datetime="2017-01-17T16:30:29+08:00" content="2017-01-17">
               2017-01-17
             </time>
@@ -597,7 +731,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">发表于</span>
             <time itemprop="dateCreated" datetime="2016-11-22T17:07:51+08:00" content="2016-11-22">
               2016-11-22
             </time>
@@ -719,7 +853,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">發表於</span>
+            <span class="post-meta-item-text">发表于</span>
             <time itemprop="dateCreated" datetime="2016-11-21T10:16:15+08:00" content="2016-11-21">
               2016-11-21
             </time>
@@ -804,138 +938,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/01/mvp/" itemprop="url">
-                  5mins熟悉mvp架构
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-11-01T16:48:10+08:00" content="2016-11-01">
-              2016-11-01
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/11/01/mvp/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/01/mvp/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p> MvpDemo<br>简单的mvp架构登录demo，根据功能分包，参考自<a href="https://github.com/googlesamples/android-architecture" target="_blank" rel="external">google mvp</a></p>
-<blockquote>
-<p>主要面向有mvp经验的读者，阅读时间大约 <strong>5 min</strong></p>
-</blockquote>
-<p>mvp 的思想是把显示和业务逻辑从activity，fragment这些View中分离。让model和view的通信通过Presenter来搞定，这样子就降低了一个activity成千代码量的可能，以后修改业务逻辑，新增方法只要model层实现好，然后在Presenter层暴露接口给view调用就好了，mvp相比mvc会提项目结构易读性，也有一些不足就是要多写类来协助开发，不太熟悉的同学就会拉慢开发速度。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">View&lt;===&gt;Presenter&lt;===&gt;Model</span><br></pre></td></tr></table></figure></p>
-<h3 id="u9879_u76EE_u4E3B_u8981_u6709_u4EE5_u4E0B_u7C7B_u7EC4_u6210"><a href="#u9879_u76EE_u4E3B_u8981_u6709_u4EE5_u4E0B_u7C7B_u7EC4_u6210" class="headerlink" title="项目主要有以下类组成"></a>项目主要有以下类组成</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">----login</span><br><span class="line">      |----LoginActivity.java</span><br><span class="line">      |----LoginContract.java</span><br><span class="line">      |----LoginPresenter.java</span><br><span class="line">----BaseView.java</span><br><span class="line">----BasePresenter.java</span><br></pre></td></tr></table></figure>
-<h3 id="u65B0_u5EFA_u7C7BBaseView-java"><a href="#u65B0_u5EFA_u7C7BBaseView-java" class="headerlink" title="新建类BaseView.java"></a>新建类BaseView.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BaseView</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">//在view层 给LoginConstract.Presenter赋值</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setPresenter</span><span class="params">(T presenter)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="u65B0_u5EFA_u7C7BBasePresenter-java"><a href="#u65B0_u5EFA_u7C7BBasePresenter-java" class="headerlink" title="新建类BasePresenter.java"></a>新建类BasePresenter.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BasePresenter</span> </span>&#123;</span><br><span class="line"><span class="comment">//start方法表示进行数据初始化，这方法感觉没用</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">start</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这两个base类是所有模块都用到的基类。这里我们就不动它，然后具体某个模块(比如登陆模块用到的方法就在Login这个包里面新建LoginConstract。</p>
-<p>然后新建两个接口分别是继承BaseView的view接口，注意这里的BaseView带泛型指向下面同级新建好的Presenter就行了。</p>
-<p>以及继承BasePresenter的Presenter接口，把操作ui界面的方法和业务逻辑的方法写进对应的view和presenter接口，就有了下面的LoginConstract类)</p>
-<h3 id="u65B0_u5EFA_u7C7BLoginConstract-java"><a href="#u65B0_u5EFA_u7C7BLoginConstract-java" class="headerlink" title="新建类LoginConstract.java"></a>新建类LoginConstract.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">LoginConstract</span></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">View</span> <span class="keyword">extends</span> <span class="title">BaseView</span>&lt;<span class="title">Presenter</span>&gt;</span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">showProgressBar</span><span class="params">()</span></span>;<span class="comment">//show进度条的方法</span></span><br><span class="line">     <span class="function"><span class="keyword">void</span> hideProgressBar</span><br><span class="line">     <span class="keyword">void</span> <span class="title">onLoginSuccess</span><span class="params">()</span></span>;<span class="comment">//登录成功的方法</span></span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">onLoginError</span><span class="params">()</span></span>;</span><br><span class="line">     <span class="comment">//...</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Presenter</span> <span class="keyword">extends</span> <span class="title">BasePresenter</span></span>&#123;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">login</span><span class="params">(String username,String password)</span></span>;  <span class="comment">//登录的方法</span></span><br><span class="line">     <span class="comment">//...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="u65B0_u5EFA_u7C7BLoginPresenter-java"><a href="#u65B0_u5EFA_u7C7BLoginPresenter-java" class="headerlink" title="新建类LoginPresenter.java"></a>新建类LoginPresenter.java</h3><p>LoginPresenter会实现LoginContract.Presenter接口，在login方法写网络请求的逻辑代码。可以理解为持有view对象，并且操作业务逻辑(登陆，注册，获取列表数据)的类，有一个LoginConstract.View的全局变量mView。这个对象要赋值才能使用，所以我们会在LoginPresenter构造方法给mView赋值。并且在构造函数调用mView的setPresenter给View层的负责登陆业务的Presenter赋值。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginPresenter</span> <span class="keyword">implements</span> <span class="title">LoginConstract</span>.<span class="title">Presenter</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> LoginConstract.View mView;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LoginPresenter</span><span class="params">(LoginConstract.View view)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mView = view;</span><br><span class="line">        <span class="keyword">this</span>.mView.setPresenter(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">login</span><span class="params">(<span class="keyword">final</span> String username, <span class="keyword">final</span> String password)</span> </span>&#123;</span><br><span class="line">           <span class="comment">//判断username pwd这些参数合法性</span></span><br><span class="line">           <span class="comment">//期间调用mView.showProgressBar();等操作ui的方法</span></span><br><span class="line">           <span class="comment">//发送网络请求</span></span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="u65B0_u5EFA_u7C7BLoginActivity-java"><a href="#u65B0_u5EFA_u7C7BLoginActivity-java" class="headerlink" title="新建类LoginActivity.java"></a>新建类LoginActivity.java</h3><p>类要实现LoginConstract.View接口，期间会实现大量在LoginConstract.View的ui方法例如showProgressBar()啊。并且有2个全局变量分别是LoginConstract.Presenter类型的mPresenter 和LoginPresenter类型的mLoginPresenter变量。</p>
-<ol>
-<li><p>在setPresenter要给mPresenter 赋值。</p>
-</li>
-<li><p>在onCreate要实例化就是要new一个mLoginPresenter，之后才能在点击事件调用login方法拉起登录，在点击事件调用mPresenter.login(…);。</p>
-</li>
-<li><p>然后就是正常逻辑的initViews() 和initListeners()方法，给控件实例化，和注册点击事件等。</p>
-</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> <span class="keyword">implements</span> <span class="title">LoginConstract</span>.<span class="title">View</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> LoginConstract.Presenter mPresenter;</span><br><span class="line">    <span class="keyword">private</span> LoginPresenter mLoginPresenter;</span><br><span class="line">    <span class="keyword">private</span> EditText mUsername;</span><br><span class="line">   <span class="comment">//...</span></span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_login);</span><br><span class="line">        initViews();</span><br><span class="line">        initListeners();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initListeners</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mLogin.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">                mPresenter.login(mUsername.getText().toString(), mPassword.getText().toString());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initViews</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        mUsername = (EditText) findViewById(R.id.ed_username);</span><br><span class="line">       <span class="comment">//...</span></span><br><span class="line">        mLoginPresenter = <span class="keyword">new</span> LoginPresenter(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPresenter</span><span class="params">(LoginConstract.Presenter presenter)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mPresenter = presenter;</span><br><span class="line">    &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>实现了LoginConstract.View接口就要重写setPresenter方法给LoginConstract.Presenter 类型的全局变量赋值。要调用mPresenter.login方法必须先实例化mLoginPresenter这个对象。</p>
-<p>注意，mPresenter主要是为了让view绑定Presenter，一定要先实例化mLoginPresenter，因为在LoginPresenter的构造函数中，会传入mView,才会让LoginPresenter的mView有值，执行LoginPresenter里面的login方法不会报错。</p>
-<p>&gt;</p>
-<blockquote>
-<p>注释</p>
-</blockquote>
-<ul>
-<li><p>LoginConstract.View  mView;                    <strong>掌控view操作ui的所有方法的对象</strong>。</p>
-</li>
-<li><p>LoginConstract.Presenter mPresenter;   <strong>掌控view中操作业务逻辑的所有方法的对象</strong>。</p>
-</li>
-<li>LoginPresenter mLoginPresenter;            <strong>让view绑定Presenter</strong></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -981,8 +983,8 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">33</span>
-              <span class="site-state-item-name">文章</span>
+              <span class="site-state-item-count">34</span>
+              <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
@@ -991,8 +993,8 @@
           
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">25</span>
-                <span class="site-state-item-name">標籤</span>
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">标签</span>
               
             </div>
           
@@ -1056,11 +1058,11 @@
 </div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
-  主題 -
+  主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Pisces
   </a>
