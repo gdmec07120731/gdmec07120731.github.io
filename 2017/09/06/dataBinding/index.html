@@ -59,23 +59,20 @@
 
 <meta name="description" content="A :  How to use Databinding?   
 B:   such as read  this circle.
-###Open setting
-First , open your file which is in app/build.gradle , and you can see the android’ field  , you need to write the code l">
+Open settingFirst , open your file which is in app/build.gradle , and you can see the android’ field  , you need to write the code like">
 <meta property="og:type" content="article">
 <meta property="og:title" content="dataBinding?">
 <meta property="og:url" content="http://www.lanyimi.com/2017/09/06/dataBinding/index.html">
 <meta property="og:site_name" content="ppjun's blog">
 <meta property="og:description" content="A :  How to use Databinding?   
 B:   such as read  this circle.
-###Open setting
-First , open your file which is in app/build.gradle , and you can see the android’ field  , you need to write the code l">
-<meta property="og:updated_time" content="2017-09-06T02:57:06.978Z">
+Open settingFirst , open your file which is in app/build.gradle , and you can see the android’ field  , you need to write the code like">
+<meta property="og:updated_time" content="2017-09-06T02:59:18.896Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="dataBinding?">
 <meta name="twitter:description" content="A :  How to use Databinding?   
 B:   such as read  this circle.
-###Open setting
-First , open your file which is in app/build.gradle , and you can see the android’ field  , you need to write the code l">
+Open settingFirst , open your file which is in app/build.gradle , and you can see the android’ field  , you need to write the code like">
 
 
 
@@ -161,7 +158,7 @@ First , open your file which is in app/build.gradle , and you can see the androi
             
               <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
             
-            首页
+            首頁
           </a>
         </li>
       
@@ -171,7 +168,7 @@ First , open your file which is in app/build.gradle , and you can see the androi
             
               <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
             
-            归档
+            歸檔
           </a>
         </li>
       
@@ -181,7 +178,7 @@ First , open your file which is in app/build.gradle , and you can see the androi
             
               <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
             
-            关于
+            關於
           </a>
         </li>
       
@@ -194,7 +191,7 @@ First , open your file which is in app/build.gradle , and you can see the androi
             
               <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
             
-            搜索
+            檢索
           </a>
         </li>
       
@@ -257,7 +254,7 @@ First , open your file which is in app/build.gradle , and you can see the androi
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">发表于</span>
+            <span class="post-meta-item-text">發表於</span>
             <time itemprop="dateCreated" datetime="2017-09-06T09:48:26+08:00" content="2017-09-06">
               2017-09-06
             </time>
@@ -294,11 +291,9 @@ First , open your file which is in app/build.gradle , and you can see the androi
       
         <p>A :  How to use Databinding?   </p>
 <p>B:   such as read  this circle.</p>
-<p>###Open setting</p>
-<p><strong>First</strong> , open your file which is in app/build.gradle , and you can see the android’ field  , you need to write the code like this  to open the dataBinding’ Setting.</p>
+<h3 id="Open_setting"><a href="#Open_setting" class="headerlink" title="Open setting"></a>Open setting</h3><p><strong>First</strong> , open your file which is in app/build.gradle , and you can see the android’ field  , you need to write the code like this  to open the dataBinding’ Setting.</p>
 <figure class="highlight puppet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="name">android</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">  dataBinding &#123;</span><br><span class="line">    <span class="literal">enabled</span> = <span class="keyword">true</span></span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>###Create a bean</p>
-<p><strong>Second</strong> , create a bean which is named User in your package , and create two variable  as well as generate  their constroctor.   Two variable , name and age , were String variable and int variable . you must use the public to decorate two variable ,otherwise it wiil catch the <em>Exception</em>  such as like this :</p>
+<h3 id="Create_a_bean"><a href="#Create_a_bean" class="headerlink" title="Create a bean"></a>Create a bean</h3><p><strong>Second</strong> , create a bean which is named User in your package , and create two variable  as well as generate  their constroctor.   Two variable , name and age , were String variable and int variable . you must use the public to decorate two variable ,otherwise it wiil catch the <em>Exception</em>  such as like this :</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Could not find accessor package.User.name</span><br></pre></td></tr></table></figure>
 <p>here are the full code</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">    <span class="keyword">public</span> String age;</span><br><span class="line">   </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(String name, String age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -306,8 +301,7 @@ First , open your file which is in app/build.gradle , and you can see the androi
 <p>Now , you can give the text to TextView by Using anroid:text=”@{user.name}”  </p>
 <p>here are the full code:</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line">&lt;layout  xmlns:android="http://schemas.android.com/apk/res/android"</span><br><span class="line">    xmlns:app="http://schemas.android.com/apk/res-auto"ja&gt;</span><br><span class="line"></span><br><span class="line">&lt;data&gt;</span><br><span class="line">    &lt;import type="com.ppjun.android.databinding.User"/&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;variable</span><br><span class="line">        name="user"</span><br><span class="line">        type="User"/&gt;</span><br><span class="line">    </span><br><span class="line">&lt;/data&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;RelativeLayout</span><br><span class="line"></span><br><span class="line">    android:id="@+id/activity_main"</span><br><span class="line">    android:layout_width="match_parent"</span><br><span class="line">    android:layout_height="match_parent"&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   &lt;TextView</span><br><span class="line">        android:layout_below="@+id/toolbar"</span><br><span class="line">        android:id="@+id/name"</span><br><span class="line">        android:layout_width="wrap_content"</span><br><span class="line">        android:layout_height="wrap_content"</span><br><span class="line">        android:text="@&#123;user.name&#125;"</span><br><span class="line">       /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView</span><br><span class="line">        android:id="@+id/age"</span><br><span class="line">        android:layout_below="@+id/name"</span><br><span class="line">        android:layout_width="wrap_content"</span><br><span class="line">        android:layout_height="wrap_content"</span><br><span class="line">        android:text="@&#123;user.age&#125;"/&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/RelativeLayout&gt;</span><br><span class="line">&lt;/layout&gt;</span><br></pre></td></tr></table></figure>
-<p>###Connect to the data</p>
-<p><strong>Final</strong> ,  gradle sync to generate the AcrivityMainBingding .</p>
+<h3 id="Connect_to_the_data"><a href="#Connect_to_the_data" class="headerlink" title="Connect to the data"></a>Connect to the data</h3><p><strong>Final</strong> ,  gradle sync to generate the AcrivityMainBingding .</p>
 <p>In the MainActivity ‘onCreate method , create the AcrivityMainBingding  binding  by Using the method   DataBindingUtil.setCotnentView(this,R.layout.activity_main);</p>
 <p>new the User variable by it’s constroctor.</p>
 <p>user binding.setUser(user); to binding the xml.</p>
@@ -401,10 +395,10 @@ First , open your file which is in app/build.gradle , and you can see the androi
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
+            文章目錄
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
+            本站概覽
           </li>
         </ul>
       
@@ -421,7 +415,7 @@ First , open your file which is in app/build.gradle , and you can see the androi
           <div class="site-state-item site-state-posts">
             <a href="/archives">
               <span class="site-state-item-count">34</span>
-              <span class="site-state-item-name">日志</span>
+              <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
@@ -431,7 +425,7 @@ First , open your file which is in app/build.gradle , and you can see the androi
             <div class="site-state-item site-state-tags">
               
                 <span class="site-state-item-count">26</span>
-                <span class="site-state-item-name">标签</span>
+                <span class="site-state-item-name">標籤</span>
               
             </div>
           
@@ -482,7 +476,7 @@ First , open your file which is in app/build.gradle , and you can see the androi
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Modify_the_xml"><span class="nav-number">1.</span> <span class="nav-text">Modify the xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Summary"><span class="nav-number">2.</span> <span class="nav-text">Summary</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Open_setting"><span class="nav-number">1.</span> <span class="nav-text">Open setting</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Create_a_bean"><span class="nav-number">2.</span> <span class="nav-text">Create a bean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Modify_the_xml"><span class="nav-number">3.</span> <span class="nav-text">Modify the xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Connect_to_the_data"><span class="nav-number">4.</span> <span class="nav-text">Connect to the data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Summary"><span class="nav-number">5.</span> <span class="nav-text">Summary</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
@@ -512,11 +506,11 @@ First , open your file which is in app/build.gradle , and you can see the androi
 </div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
 </div>
 
 <div class="theme-info">
-  主题 -
+  主題 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Pisces
   </a>
